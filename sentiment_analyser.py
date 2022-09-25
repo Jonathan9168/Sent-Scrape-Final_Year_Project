@@ -87,8 +87,7 @@ def vader_analyze_sentiment(comment):
 
 
 def chunkify(lst, n):
-    """Yield successive n-sized chunks from lst.
-    https://stackoverflow.com/questions/312443/how-do-i-split-a-list-into-equally-sized-chunks"""
+    """Yield successive n-sized chunks from lst."""
     for i in range(0, len(lst), n):
         yield lst[i:i + n]
 

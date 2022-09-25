@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html style="overflow: hidden !important">
+  <head>
+    <script src="eel.js"></script>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+
+  <body onload="check_headings()">
+    <a href="menu.html" id="back">➜</a>
+    <div id="wrapper">
+      <table id="data-table" class="sortable">
+        <thead>
+          <tr id="table-header-row">
+            <th>Comment</th>
+            <th>Neg</th>
+            <th>Neu</th>
+            <th>Pos</th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+    </div>
+    <a onclick="save_to_csv()"><p class="save">SAVE DATASET TO CSV</p></a>
+  </body>
+
+  <script>
+    async function check_headings() {
+      no_columns = await eel.get_columns()();
+      console.log(no_columns);
+      if (no_columns == 4) {
+        row = document.getElementById("table-header-row");
+        compound_col = document.createElement("th");
+        compound_col.innerHTML = "Compound";
+        row.appendChild(compound_col);
+      }
+      get_data();
+    }
+
+    async function get_data() {
+      data_dict = await eel.get_dict()();
+      data_dict = JSON.parse(data_dict);
+      console.log(data_dict);
+      table_body = document.getElementById("data-body");
+
+      for (const key in data_dict) {
+        row = document.createElement("tr");
+        comment_data = document.createElement("td");
+        comment_data.classList.add("text-class");
+        comment_data.innerHTML = `${key}`;
+        table_body.appendChild(row);
+        row.appendChild(comment_data);
+        for (const score in data_dict[key]) {
+          rating = document.createElement("td");
+          rating.innerHTML = `${data_dict[key][score].toFixed(3)}`;
+          row.appendChild(rating);
+        }
+      }
+    }
+  </script>
+
+  <script>
+    async function save_to_csv() {
+      await eel.save_to_csv()();
+      alert("Saved to SentScrape/CSV's");
+    }
+  </script>
+</html>

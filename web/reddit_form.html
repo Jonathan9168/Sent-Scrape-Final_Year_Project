@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html style="overflow: hidden !important">
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="eel.js"></script>
+  </head>
+  <body>
+    <div class="load-block">
+      <span class="loader"><span class="loader-inner"></span></span>
+      <p class="load-text">LOADING</p>
+    </div>
+
+    <div class="content">
+      <a href="menu.html" id="back">➜</a>
+      <form id="r-form" action="test">
+        <h1 style="padding-top: 7%">Reddit Search Configuration</h1>
+        <div class="search-term">
+          <label for="term">Search Term</label>
+          <input placeholder="'RTX 3070'" type="text" name="term" id="term" />
+        </div>
+
+        <div class="sentiment-box">
+          <div class="tooltip">
+            <label for="text-all">Comment Mode</label>
+            <span class="tooltiptext"
+              > Filtered mode will only allow comments that have traces of the search term, otherwise all comments will be analyzed.
+          </div>
+          <div class="radio-container">
+            <input
+              checked=""
+              id="text-all"
+              name="filter"
+              type="radio"
+              value="all"
+            />
+            <label for="text-all">ALL</label>
+            <input
+              id="text-filtered"
+              name="filter"
+              type="radio"
+              value="filtered"
+            />
+            <label for="text-filtered">FILTERED</label>
+          </div>
+        </div>
+
+        <div class="sentiment-box">
+          <div class="tooltip">
+            <label for="sent-vader">Sentiment Analysis Model</label>
+            <span class="tooltiptext"
+              >Vader uses a simpler rules based approach so is less accurate. roBERTa uses pretrianed AI. A CUDA enabled Nvidia GPU with at least 4GB of VRAM is preferable for faster processing
+              otherwise processing will be done on the CPU resulting In longer processing time.
+            </span>
+          </div>
+          <div class="radio-container">
+            <input
+              checked=""
+              id="sent-vader"
+              name="model"
+              type="radio"
+              value="vader"
+            />
+            <label for="sent-vader">Vader</label>
+            <input
+              id="sent-roberta"
+              name="model"
+              type="radio"
+              value="roberta"
+            />
+            <label for="sent-roberta">roBERTa</label>
+          </div>
+        </div>
+
+        <div class="category-box">
+          <div class="tooltip">
+            <label for="cpu">Hardware Segment</label>
+
+            <span class="tooltiptext">
+              Choose Hardware catergory so scraper looks into relevant
+              subreddits.
+            </span>
+          </div>
+          <div class="radio-container">
+            <input
+              checked=""
+              id="cpu"
+              name="category"
+              type="radio"
+              value="cpu"
+            />
+            <label for="cpu">CPU</label>
+            <input id="gpu" name="category" type="radio" value="gpu" />
+            <label for="gpu">GPU</label>
+            <input id="ram" name="category" type="radio" value="ram" />
+            <label for="ram">RAM</label>
+            <input id="storage" name="category" type="radio" value="storage" />
+            <label for="storage">STORAGE</label>
+            <input id="psu" name="category" type="radio" value="psu" />
+            <label for="psu">PSU</label>
+            <input id="monitor" name="category" type="radio" value="monitor" />
+            <label for="monitor">MONITOR</label>
+          </div>
+        </div>
+
+        <div class="comment-depth">
+          <div class="tooltip">
+            <label for="quantity">Thread Limit</label>
+            <span class="tooltiptext"
+              >Refers to how many threads from predefined subreddits that
+              comments should be taken from. The more threads, the longer the
+              runtime. Min = 1 Max = 5 
+            </span>
+          </div>
+          <input
+            type="number"
+            id="quantity"
+            step="1"
+            name="quantity"
+            min="1"
+            max="5"
+            value="3"
+          />
+        </div>
+        <a onclick="process()"><p class="run">RUN</p></a>
+      </form>
+    </div>
+  </body>
+
+  <script>
+    async function process() {
+      content_arr = document.getElementsByClassName("content");
+      content_arr[0].style.display = "none";
+      loader = document.getElementsByClassName("load-block");
+      loader[0].style.visibility = "visible";
+      search_term = document.getElementById("term").value;
+      comment_mode = document.querySelector('input[name="filter"]:checked').value;
+      model = document.querySelector('input[name="model"]:checked').value;
+      segment = document.querySelector('input[name="category"]:checked').value;
+      limit = document.querySelector('input[name="quantity"]').value;
+      await eel.set_reddit_vars(search_term, comment_mode ,model, segment, limit)();
+      await eel.run_reddit()();
+
+      if (model == "vader") {
+        window.location.href = "vader_summary.html";
+      } else {
+        window.location.href = "roberta_summary.html";
+      }
+    }
+
+    eel.expose(update_text);
+    function update_text(text) {
+      x = document.getElementsByClassName("load-text");
+      x[0].innerHTML = text;
+    }
+  </script>
+</html>

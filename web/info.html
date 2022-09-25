@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="eel.js"></script>
+  </head>
+  <a href="index.html" id="back">➜</a>
+  <div class="Notes">
+    <h1>IMPORTANT NOTES</h1>
+    <h2>Interpreting Vader Graph</h2>
+    <p>
+      Vader Is 'A Parsimonious Rule-based Model for Sentiment Analysis of Social
+      Media Text' made available through NLTK's Python library. <br />
+      <br />
+      Vader's scoring comprises of four values (<span style="color: lightgreen"
+        >pos</span
+      >, <span style="color: #f98686">neg</span>, neu,
+      <span style="color: lightblue">compound</span>) with values ranging from
+      -1 ➜ 1.
+      <br />
+      <br />
+      <span style="color: lightgreen">pos</span> - Refers to the positivity of a
+      comment. Ranges from 0 - 1. The closer the positivity score to one, the
+      more positive the opinion. <br />
+      <br />
+      <span style="color: #f98686">neg</span> - Refers to the negativity of a
+      comment. Ranges from 0 - 1. The closer the negativity score to one, the
+      harsher the opinion. <br /><br />
+      <span style="color: white">neu</span> - Refers to the neutrality of a
+      comment. Ranges from 0 - 1. The closer the neutrality score to one, the
+      greater the inconclusiveness. <br /><br />
+      <span style="color: lightblue">compound</span> - Refers to the overall
+      mood of a comment. Ranges from -1 ➜ 1. The closer the compound score to
+      one, the more a comment was overall deemed positive. Therefore greater
+      noise on the LHS of a graph versus the RHS indicates a skew toward overall
+      negativity. See Firgure 1.0<br /><br />
+      Figure 1.0<br />
+
+      <img src="bad example.png" alt="model graph" />
+    </p>
+    <h2>Interpreting roBERTa Graph</h2>
+    <p>
+      'This is a roBERTa-base model trained on ~124M tweets from January 2018 to
+      December 2021 and finetuned for sentiment analysis with the TweetEval
+      benchmark.'
+    </p>
+    roBERTa's scoring comprises of three values (<span style="color: lightgreen"
+      >pos</span
+    >, <span style="color: red">neg</span>, neu) with values ranging from 0 ➜ 1.
+    <br /><br />
+    <span style="color: lightgreen">pos</span> - Refers to the positivity of a
+    comment. Ranges from 0 - 1. The closer the positivity score to one, the more
+    positive the opinion. <br />
+    <br />
+    <span style="color: red">neg</span> - Refers to the negativity of a comment.
+    Ranges from 0 - 1. The closer the negativity score to one, the harsher the
+    opinion. <br /><br />
+    <span style="color: white">neu</span> - Refers to the neutrality of a
+    comment. Ranges from 0 - 1. The closer the neutrality score to one, the
+    greater the inconclusiveness.<br /><br />
+    Figure 1.1 shows significant noise on the RHS for the negativity scores
+    indicating mostly negative comments. The noise on the LHS for low scoring
+    positivity scores reinforces this. <br /><br />
+    Figure 1.1<br />
+    <img src="bad example 2.png" alt="model graph" />
+  </div>
+</html>

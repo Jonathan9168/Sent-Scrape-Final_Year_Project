@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <!-- style="overflow: hidden !important" -->
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="eel.js"></script>
+  </head>
+
+  <body onload="get_scores()">
+    <a href="menu.html" id="back">➜</a>
+    <h1 id="summary-title">SUMMARY</h1>
+    <div id="scores">
+      <div id="neg">
+        <p class="value">0.000</p>
+        <p>neg</p>
+      </div>
+      <div id="neu">
+        <p class="value">0.000</p>
+        <p>neu</p>
+      </div>
+      <div id="pos">
+        <p class="value">0.000</p>
+        <p>pos</p>
+      </div>
+      <div id="compound">
+        <p class="value">0.000</p>
+        <p>compound</p>
+      </div>
+    </div>
+    <div id="summary_text">
+      <h2 id="recommendation_title">Recommendation - [Compound Score]</h2>
+      <p id="recommendation_text">Analysis text goes here.</p>
+    </div>
+    <a href="snippet.html"><p class="save">VIEW DATASET SNAPSHOT</p></a>
+  </body>
+
+  <script>
+    async function get_scores() {
+      results = await eel.get_vader_scores()();
+      value_text = document.getElementsByClassName("value");
+
+      for (let i = 0; i < results.length; i++) {
+        value_text[i].innerHTML = results[i];
+      }
+
+      final = await eel.get_final_score()();
+      search_term = await eel.get_search_term()();
+
+      verdict_title = document.getElementById("recommendation_title");
+      verdict_text = document.getElementById("recommendation_text");
+
+      if (final >= -0.1 && final <= 0.1) {
+        verdict_title.innerHTML = `Inconclusive - [${final}]`;
+        verdict_text.innerHTML = `The compound score doesnt overly sway toward one direction, perhaps try and see how the scoring of '${search_term}' fairs on the other platforms.`;
+      } else if (final >= -0.4 && final <= -0.1) {
+        verdict_title.innerHTML = `<span style="color: #f98686">Not Recommended</span> - [${final}]`;
+        verdict_text.innerHTML =
+          "The compound score reflects noticable negativity.";
+      } else if (final >= -1 && final <= -0.4) {
+        verdict_title.innerHTML = `<span style="color: red">Highly Unrecommended</span> - [${final}]`;
+        verdict_text.innerHTML = `The compound score reflects a very high amount of negativity around '${search_term}'.`;
+      } else if (final >= 0.1 && final <= 0.4) {
+        verdict_title.innerHTML = `<span style="color: lightgreen">Recommended</span> - [${final}]`;
+        verdict_text.innerHTML =
+          "The compound score reflects noticable positivity.";
+      } else if (final >= 0.4 && final <= 1) {
+        verdict_title.innerHTML = `<span style="color: green">Highly Recommended</span> - [${final}]`;
+        verdict_text.innerHTML = `The compound score reflects an overwhelming amount of positivity around '${search_term}'.`;
+      }
+    }
+  </script>
+</html>

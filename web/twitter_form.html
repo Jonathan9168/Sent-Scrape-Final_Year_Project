@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html style="overflow: hidden !important">
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="eel.js"></script>
+  </head>
+  <body>
+    <div class="load-block">
+      <span class="loader"><span class="loader-inner"></span></span>
+      <p class="load-text">LOADING</p>
+    </div>
+
+    <div class="content">
+      <a href="menu.html" id="back">➜</a>
+      <form id="t-form" action="test">
+        <h1 style="padding-top: 7%">Twitter Search Configuration</h1>
+        <div class="search-term">
+          <div class="tooltip">
+            <label for="term">Search Term</label>
+            <span class="tooltiptext"
+              >Twitter can be used for more general opinion gathering I.e.
+              people. Youtube and Reddit are more tailored toward PC hardware.
+            </span>
+          </div>
+
+          <input placeholder="'RTX 3070'" type="text" name="term" id="term" />
+        </div>
+        <div class="sentiment-box">
+          <div class="tooltip">
+            <label for="sent-vader">Sentiment Analysis Model</label>
+            <span class="tooltiptext">
+              Vader uses a simpler rules based approach so is less accurate.
+              roBERTa uses pretrianed AI. A CUDA enabled Nvidia GPU with at
+              least 4GB of VRAM is preferable for faster processing otherwise
+              processing will be done on the CPU resulting In longer processing
+              time.
+            </span>
+          </div>
+
+          <div class="radio-container">
+            <input
+              checked=""
+              id="sent-vader"
+              name="model"
+              type="radio"
+              value="vader"
+            />
+            <label for="sent-vader">Vader</label>
+            <input
+              id="sent-roberta"
+              name="model"
+              type="radio"
+              value="roberta"
+            />
+            <label for="sent-roberta">roBERTa</label>
+          </div>
+        </div>
+
+        <div class="comment-depth">
+          <div class="tooltip">
+            <label for="quantity">Comment Depth</label>
+            <span class="tooltiptext"
+              >Refers to how deep into a search pool the scraper will go. The
+              higher the value the more comments will be gathered at the expense
+              of run time.
+            </span>
+          </div>
+          <input
+            type="number"
+            id="quantity"
+            step="1"
+            name="quantity"
+            min="1"
+            max="50"
+            value="20"
+          />
+        </div>
+        <a onclick="process()"><p class="run">RUN</p></a>
+      </form>
+    </div>
+  </body>
+
+  <script>
+    async function process() {
+      content_arr = document.getElementsByClassName("content");
+      content_arr[0].style.display = "none";
+      loader = document.getElementsByClassName("load-block");
+      loader[0].style.visibility = "visible";
+      search_term = document.getElementById("term").value;
+      model = document.querySelector('input[name="model"]:checked').value;
+      depth = document.querySelector('input[name="quantity"]').value;
+      await eel.set_twitter_vars(search_term, model, depth)();
+      await eel.run_twitter()();
+
+      if (model == "vader") {
+        window.location.href = "vader_summary.html";
+      } else {
+        window.location.href = "roberta_summary.html";
+      }
+    }
+
+    eel.expose(update_text);
+    function update_text(text) {
+      x = document.getElementsByClassName("load-text");
+      x[0].innerHTML = text;
+    }
+  </script>
+</html>

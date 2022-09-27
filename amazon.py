@@ -68,7 +68,6 @@ def title_filtering(title):
 
 def get_product_info(driver):
     # click one star and up button to show reviews that have a review number count
-    # driver.find_element(By.XPATH, '//*[@id="p_72/419156031"]/span/a').click()
     driver.find_element(By.CSS_SELECTOR, "section[aria-label='1 Star & Up']").click()
     time.sleep(2)
 

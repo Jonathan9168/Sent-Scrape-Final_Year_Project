@@ -29,11 +29,12 @@
       no_columns = await eel.get_columns()();
       console.log(no_columns);
       if (no_columns == 4) {
-        row = document.getElementById("table-header-row");
+        row = document.getElementById("data-table").tHead.children[0];
         compound_col = document.createElement("th");
         compound_col.innerHTML = "Compound";
         row.appendChild(compound_col);
       }
+      sorttable.makeSortable(document.getElementById('data-table'));
       get_data();
     }
 

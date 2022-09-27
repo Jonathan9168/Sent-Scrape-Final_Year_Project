@@ -15,7 +15,8 @@ def get_comments(reddit):
 
     for i, subreddit in enumerate(reddit_config.sub_reddit[reddit_config.category]):
         start = time.perf_counter()
-        eel.update_text(f'CHECKING SUBREDDIT {i + 1} ({len(reddit_config.sub_reddit[reddit_config.category]) - i - 1} LEFT)')
+        eel.update_text(
+            f'SCRAPING SUBREDDIT {i + 1} ({len(reddit_config.sub_reddit[reddit_config.category]) - i - 1} LEFT)')
         print(
             f'Checking subreddit: {i + 1}, {len(reddit_config.sub_reddit[reddit_config.category]) - i - 1} more to go...')
         current = reddit.subreddit(subreddit)

@@ -12,6 +12,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 st = time.perf_counter()
+roberta = []
+query = f'{config.search_term} "{config.search_term}" until:2022-12-12 since:2016-01-01 lang:en -filter:links -filter:retweets'
 
 
 def generate_search_url():
@@ -110,7 +112,3 @@ def run_twitter():
 
     print(f'\nTime Taken In Seconds: {str(round(time.perf_counter() - st, 2))}\n')
     config.generate_report(twitter_config.sentiment_mode, config.sanitised_twitter, "Twitter")
-
-
-roberta = []
-query = f'{config.search_term} "{config.search_term}" until:2022-12-12 since:2016-01-01 lang:en -filter:links -filter:retweets'

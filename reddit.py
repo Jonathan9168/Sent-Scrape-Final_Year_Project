@@ -23,7 +23,7 @@ def get_comments(reddit):
         submissions = current.search(config.search_term, sort='top', limit=int(reddit_config.thread_limit),
                                      time_filter="year")
         for sub in submissions:
-            sub.comments.replace_more(limit=0, threshold=4)
+            sub.comments.replace_more(limit=0, threshold=2)
             for comment in sub.comments.list():
                 sanitised_comment = sentiment_analyser.pre_process(comment.body)
                 total_comments += 1

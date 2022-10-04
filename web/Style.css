@@ -61,12 +61,13 @@ a {
 
 .logos {
   display: flex;
-  margin-top: 1%;
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 95vh;
   overflow: hidden;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .logos a {
@@ -81,72 +82,55 @@ a {
   filter: drop-shadow(5px 5px 5px #222);
   transition: filter 1s;
   color: white;
-}
-
-.ytlogo,
-.rlogo,
-.tlogo,
-.alogo {
-  height: 110px;
-  width: 110px;
-}
-
-.ytlogo,
-.rlogo,
-.tlogo,
-.alogo {
-  animation: fadein 2s;
-  filter: drop-shadow(5px 5px 5px #222);
-  transition: filter 1s;
+  font-size: 1.2em;
 }
 .logo-text-yt,
 .logo-text-r,
 .logo-text-t,
 .logo-text-a {
   transition: color 1s;
+  margin-left: 2%;
+}
+.ytlogo,
+.rlogo,
+.tlogo,
+.alogo {
+  height: 60px;
+  width: 60px;
 }
 
-.logo-text-yt:hover {
-  color: rgba(182, 13, 13, 0.938);
+.ytlogo,
+.rlogo,
+.tlogo,
+.alogo {
+  float: left;
+  animation: fadein 2s;
+  filter: drop-shadow(5px 5px 5px #222);
+  transition: filter 1s;
 }
 
-.logo-text-r:hover {
-  color: rgba(243, 71, 3, 0.938);
-}
-
-.logo-text-t:hover {
-  color: rgba(18, 206, 240, 0.938);
-}
-
-.logo-text-a:hover {
-  color: rgba(255, 255, 255, 0.938);
-}
-
-.ytlogo:hover,
-.logo-text-yt:hover {
+.ytlogo:hover {
   filter: drop-shadow(0 0 11px rgba(182, 13, 13, 0.938));
   transition: filter 1s;
 }
 
-.rlogo:hover,
-.logo-text-r:hover {
+.rlogo:hover {
   filter: drop-shadow(0 0 11px rgba(243, 71, 3, 0.938));
   transition: filter 1s;
 }
 
-.tlogo:hover,
-.logo-text-t:hover {
+.tlogo:hover {
   transition: box-shadow 1s;
   filter: drop-shadow(0 0 11px rgba(18, 206, 240, 0.938));
   transition: filter 1s;
 }
 
-.alogo:hover,
-.logo-text-a:hover {
+.alogo:hover {
   transition: box-shadow 1s;
-  filter: drop-shadow(0 0 11px rgba(255, 255, 255, 0.938));
+  filter: drop-shadow(0 0 11px rgba(206, 153, 56, 0.938));
   transition: filter 1s;
 }
+
 @keyframes fadein {
   from {
     opacity: 0;
@@ -504,4 +488,16 @@ td {
 
 ::-webkit-scrollbar-thumb {
   background: silver;
+}
+
+.l-box {
+  border: #222 2px;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+  border-radius: 2em;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin: 2%;
+  justify-content: center;
 }

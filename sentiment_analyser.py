@@ -144,28 +144,31 @@ def generate_sentiment_report_vader(sent_dict, platform_name):
     config.current_dataframe = df
 
     draw_df(df)
+    config.data_title = f"'{config.search_term.upper()}' on {platform_name} analyzed using NLTK's Vader"
 
-    fig, axis = plt.subplots(figsize=(10, 5))
-    axis.set_title(f"'{config.search_term.upper()}' {platform_name} using NLTK's Vader")
-    axis.set_xlabel("Score")
-    axis.set_ylabel("Frequency")
-
-    compound_line, = axis.plot(df['compound'].value_counts().sort_index(), label="Compound", color="grey")
-    neg_line, = axis.plot(df['neg'].value_counts().sort_index(), label="Negative", color="#f98686")
-    neu_line, = axis.plot(df['neu'].value_counts().sort_index(), label="Neutral", color="#204578")
-    pos_line, = axis.plot(df['pos'].value_counts().sort_index(), label="Positive", color="#86f9ae")
-    legend = plt.legend(loc='best')
-
-    line_dict = {}
-    compound, neg, neu, pos = legend.get_lines()
-    graph_lines = [compound_line, neg_line, neu_line, pos_line]
-    legend_lines = [compound, neg, neu, pos]
-
-    map_legend_to_graph(line_dict, legend_lines, graph_lines)
-
-    plt.connect('pick_event', lambda event: toggle_plot(event, line_dict, fig))
-    eel.update_text("EXIT GRAPH WINDOW TO CONTINUE")
-    plt.show()
+    # fig, axis = plt.subplots(figsize=(10, 5))
+    #
+    # axis.set_title(f"'{config.search_term.upper()}' on {platform_name} analyzed using NLTK's Vader")
+    # axis.set_xlabel("Score")
+    # axis.set_ylabel("Frequency")
+    #
+    # compound_line, = axis.plot(df['compound'].value_counts().sort_index(), label="Compound", color="grey")
+    # neg_line, = axis.plot(df['neg'].value_counts().sort_index(), label="Negative", color="#f98686")
+    # neu_line, = axis.plot(df['neu'].value_counts().sort_index(), label="Neutral", color="#204578")
+    # pos_line, = axis.plot(df['pos'].value_counts().sort_index(), label="Positive", color="#86f9ae")
+    # legend = plt.legend(loc='best')
+    #
+    # line_dict = {}
+    #
+    # compound, neg, neu, pos = legend.get_lines()
+    # graph_lines = [compound_line, neg_line, neu_line, pos_line]
+    # legend_lines = [compound, neg, neu, pos]
+    #
+    # map_legend_to_graph(line_dict, legend_lines, graph_lines)
+    #
+    # plt.connect('pick_event', lambda event: toggle_plot(event, line_dict, fig))
+    # eel.update_text("EXIT GRAPH WINDOW TO CONTINUE")
+    # plt.show()
 
 
 def generate_sentiment_report_roberta(sent_dict, platform_name):
@@ -177,27 +180,28 @@ def generate_sentiment_report_roberta(sent_dict, platform_name):
     config.current_dataframe = df
 
     draw_df(df)
+    config.data_title = f'"{config.search_term.upper()}" on {platform_name} analyzed using roBERTa'
 
-    fig, axis = plt.subplots(figsize=(10, 5))
-    axis.set_title(f'"{config.search_term.upper()}" {platform_name} using roBERTa')
-    axis.set_xlabel("Score")
-    axis.set_ylabel("Frequency")
-
-    neg_line, = axis.plot(df['neg'].value_counts().sort_index(), label="Negative", color="#f98686")
-    neu_line, = axis.plot(df['neu'].value_counts().sort_index(), label="Neutral", color="#204578")
-    pos_line, = axis.plot(df['pos'].value_counts().sort_index(), label="Positive", color="#86f9ae")
-    legend = plt.legend(loc='best')
-
-    line_dict = {}
-    neg, neu, pos = legend.get_lines()
-    graph_lines = [neg_line, neu_line, pos_line]
-    legend_lines = [neg, neu, pos]
-
-    map_legend_to_graph(line_dict, legend_lines, graph_lines)
-
-    plt.connect('pick_event', lambda event: toggle_plot(event, line_dict, fig))
-    eel.update_text("EXIT GRAPH WINDOW TO CONTINUE")
-    plt.show()
+    # fig, axis = plt.subplots(figsize=(10, 5))
+    # axis.set_title(f'"{config.search_term.upper()}" {platform_name} using roBERTa')
+    # axis.set_xlabel("Score")
+    # axis.set_ylabel("Frequency")
+    #
+    # neg_line, = axis.plot(df['neg'].value_counts().sort_index(), label="Negative", color="#f98686")
+    # neu_line, = axis.plot(df['neu'].value_counts().sort_index(), label="Neutral", color="#204578")
+    # pos_line, = axis.plot(df['pos'].value_counts().sort_index(), label="Positive", color="#86f9ae")
+    # legend = plt.legend(loc='best')
+    #
+    # line_dict = {}
+    # neg, neu, pos = legend.get_lines()
+    # graph_lines = [neg_line, neu_line, pos_line]
+    # legend_lines = [neg, neu, pos]
+    #
+    # map_legend_to_graph(line_dict, legend_lines, graph_lines)
+    #
+    # plt.connect('pick_event', lambda event: toggle_plot(event, line_dict, fig))
+    # eel.update_text("EXIT GRAPH WINDOW TO CONTINUE")
+    # plt.show()
 
 
 def draw_df(df):

@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <!-- style="overflow: hidden !important" -->
   <head>
     <link rel="stylesheet" href="Style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="eel.js"></script>
   </head>
 
   <body onload="get_scores()">
     <a href="menu.html" id="back">➜</a>
     <h1 id="summary-title">SUMMARY</h1>
+    <div>
+      <canvas
+        id="histogram"
+        width="1000"
+        height="600"
+        style="margin-left: auto; margin-right: auto; margin-top: 12%"
+      ></canvas>
+    </div>
     <div id="scores">
       <div id="neg">
-        <p class="value">0.000</p>
+        <p class="value" style="color: #f98686">0.000</p>
         <p>neg</p>
       </div>
       <div id="neu">
-        <p class="value">0.000</p>
+        <p class="value" style="color: #fcba03">0.000</p>
         <p>neu</p>
       </div>
       <div id="pos">
-        <p class="value">0.000</p>
+        <p class="value" style="color: lightgreen">0.000</p>
         <p>pos</p>
       </div>
       <div id="compound">
-        <p class="value">0.000</p>
+        <p class="value" style="color: lightblue">0.000</p>
         <p>compound</p>
       </div>
     </div>
@@ -33,6 +41,108 @@
     </div>
     <a href="snippet.html"><p class="save">VIEW DATASET SNAPSHOT</p></a>
   </body>
+
+  <script>
+    async function build_graph() {
+      const ctx = document.getElementById("histogram").getContext("2d");
+
+      data_dicts = await eel.get_vader_dicts()();
+      title = await eel.get_title()();
+
+      d0 = JSON.parse(data_dicts[0]);
+      d1 = JSON.parse(data_dicts[1]);
+      d2 = JSON.parse(data_dicts[2]);
+      d3 = JSON.parse(data_dicts[3]);
+
+      const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          datasets: [
+            {
+              label: "Negative",
+              data: d0,
+              backgroundColor: "#f98686",
+              borderColor: "#f98686",
+              fill: false,
+            },
+            {
+              label: "Neutral",
+              data: d1,
+              backgroundColor: "#fcba03",
+              borderColor: "#fcba03",
+              fill: false,
+            },
+            {
+              label: "Positive",
+              data: d2,
+              backgroundColor: "#86f9ae",
+              borderColor: "#86f9ae",
+              fill: false,
+            },
+            {
+              label: "Compound",
+              data: d3,
+              backgroundColor: "lightblue",
+              borderColor: "lightblue",
+              fill: false,
+            },
+          ],
+        },
+        options: {
+          responsive: false,
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Score",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Frequency",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 30,
+              },
+            },
+          },
+        },
+      });
+    }
+    build_graph();
+  </script>
 
   <script>
     async function get_scores() {
@@ -53,18 +163,18 @@
         verdict_title.innerHTML = `Inconclusive - [${final}]`;
         verdict_text.innerHTML = `The compound score doesnt overly sway toward one direction, perhaps try and see how the scoring of '${search_term}' fairs on the other platforms.`;
       } else if (final >= -0.4 && final <= -0.1) {
-        verdict_title.innerHTML = `<span style="color: #f98686">Not Recommended</span> - [${final}]`;
+        verdict_title.innerHTML = `<span style="color: #f98686">Relatively Unpopular</span> - [${final}]`;
         verdict_text.innerHTML =
           "The compound score reflects noticable negativity.";
       } else if (final >= -1 && final <= -0.4) {
-        verdict_title.innerHTML = `<span style="color: red">Highly Unrecommended</span> - [${final}]`;
+        verdict_title.innerHTML = `<span style="color: red">Highly Unpopular</span> - [${final}]`;
         verdict_text.innerHTML = `The compound score reflects a very high amount of negativity around '${search_term}'.`;
       } else if (final >= 0.1 && final <= 0.4) {
-        verdict_title.innerHTML = `<span style="color: lightgreen">Recommended</span> - [${final}]`;
+        verdict_title.innerHTML = `<span style="color: lightgreen">Relatively Popular</span> - [${final}]`;
         verdict_text.innerHTML =
           "The compound score reflects noticable positivity.";
       } else if (final >= 0.4 && final <= 1) {
-        verdict_title.innerHTML = `<span style="color: green">Highly Recommended</span> - [${final}]`;
+        verdict_title.innerHTML = `<span style="color: lightgreen">Highly Popular</span> - [${final}]`;
         verdict_text.innerHTML = `The compound score reflects an overwhelming amount of positivity around '${search_term}'.`;
       }
     }

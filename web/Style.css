@@ -368,6 +368,20 @@ input[type="number"] {
   font-weight: 100;
   transition: 1s;
   font-size: 1em;
+  margin-top: -5%;
+}
+
+.save_data {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.3em;
+  color: white;
+  animation: fadein 3s;
+  font-weight: 100;
+  transition: 1s;
+  font-size: 1em;
+  margin-top: 1%;
 }
 
 .tooltip {
@@ -397,7 +411,7 @@ input[type="number"] {
   justify-content: center;
   text-align: center;
   align-items: center;
-  margin-top: -5%;
+  margin-top: -22%;
   height: 100vh;
 }
 
@@ -420,7 +434,7 @@ input[type="number"] {
   right: 0;
   text-decoration: underline;
   text-align: center;
-  margin-top: 10%;
+  margin-top: -7%;
 }
 
 input::-webkit-outer-spin-button,
@@ -431,7 +445,7 @@ input::-webkit-inner-spin-button {
 
 #summary_text {
   text-align: center;
-  margin-top: -15%;
+  margin-top: -20%;
   margin-bottom: 8%;
   animation: fadein 3s;
   width: 70%;

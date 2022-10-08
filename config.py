@@ -21,6 +21,13 @@ rob_neg, rob_neu, rob_pos = 0, 0, 0
 
 final_score = 0
 
+data_title = ""
+
+
+@eel.expose
+def get_title():
+    return data_title
+
 
 def set_vader_scores():
     global vad_neg, vad_neu, vad_pos, vad_comp, final_score
@@ -42,6 +49,21 @@ def set_roberta_scores():
 @eel.expose
 def get_vader_scores():
     return vad_neg, vad_neu, vad_pos, vad_comp
+
+
+@eel.expose
+def get_vader_dicts():
+    return json.dumps(current_dataframe["neg"].value_counts().sort_index().to_dict()), \
+           json.dumps(current_dataframe["neu"].value_counts().sort_index().to_dict()), \
+           json.dumps(current_dataframe["pos"].value_counts().sort_index().to_dict()), \
+           json.dumps(current_dataframe["compound"].value_counts().sort_index().to_dict())
+
+
+@eel.expose
+def get_roberta_dicts():
+    return json.dumps(current_dataframe["neg"].value_counts().sort_index().to_dict()), \
+           json.dumps(current_dataframe["neu"].value_counts().sort_index().to_dict()), \
+           json.dumps(current_dataframe["pos"].value_counts().sort_index().to_dict())
 
 
 @eel.expose

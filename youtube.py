@@ -24,7 +24,6 @@ def accept_cookies(driver):
                 (By.XPATH, '//*[@id="content"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/a'))).click()
         time.sleep(1.5)
     except TimeoutException:
-        eel.update_text("SOMETHING WENT WRONG")
         print("Comment section is probably private.")
         driver.quit()
 

@@ -165,7 +165,7 @@ def scrape_reviews(link):
             break
         else:
             scroll_bottom(driver)
-            driver.find_element(By.XPATH, '//*[@id="cm_cr-pagination_bar"]/ul/li[2]/a').click()
+            driver.find_element(By.CLASS_NAME, 'a-last').click()
             time.sleep(1)
     driver.quit()
 
@@ -226,6 +226,7 @@ def run_amazon():
     eel.update_text("SCRAPING REVIEWS")
 
     try:
+        time.sleep(1)
         scrape_reviews(list(link_list.values())[0])  # Passes link of listing with most reviews for scraping
     except IndexError:
         eel.update_text("INVALID ITEM. PRESS F5 TO RETURN TO FORM")

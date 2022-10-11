@@ -112,7 +112,6 @@
             // zoom: {
             //   pan: {
             //     enabled: true,
-
             //   },
             //   zoom: {
             //     wheel: {
@@ -160,7 +159,7 @@
 
       if (final >= -0.1 && final <= 0.1) {
         verdict_title.innerHTML = `Inconclusive - [${final}]`;
-        verdict_text.innerHTML = `The compound score doesnt overly sway toward one direction, perhaps try and see how the scoring of '${search_term}' fairs on the other platforms.`;
+        verdict_text.innerHTML = `The final score "${final}" of doesnt overly sway toward one direction, perhaps try and see how the scoring of '${search_term}' fairs on the other platforms.`;
       } else if (final >= -0.4 && final <= -0.1) {
         verdict_title.innerHTML = `<span style="color: #f98686">Relatively Unpopular</span> - [${final}]`;
         verdict_text.innerHTML = `A score of ${final} reflects noticable negativity around ${search_term}, see if this trend follows on other platforms.`;

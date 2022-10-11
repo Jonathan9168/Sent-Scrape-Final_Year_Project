@@ -83,6 +83,7 @@ def scroll(scrolls, driver):
     print(f'Scraping Twitter for: {query}')
 
     for _ in range(int(scrolls)):
+        print(f'scrape loop [{_+1}]')
         get_comments(driver)
         scroll_height = 1600
         document_height_before = driver.execute_script("return document.documentElement.scrollHeight")

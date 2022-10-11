@@ -26,6 +26,7 @@ a {
   margin-top: 10%;
   font-size: 3em;
   animation: fadein 1s;
+  font-weight: 100;
 }
 
 .Title {
@@ -309,6 +310,7 @@ a {
 input[type="number"] {
   width: 15%;
 }
+
 #quantity,
 #term {
   text-align: center;
@@ -439,7 +441,7 @@ input[type="number"] {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
@@ -498,6 +500,7 @@ td {
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-thumb {

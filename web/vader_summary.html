@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" href="Style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/countUp.umd.js" type="module"></script>
     <script src="eel.js"></script>
   </head>
 
@@ -19,19 +20,19 @@
     </div>
     <div id="scores">
       <div id="neg">
-        <p class="value" style="color: #f98686">0.000</p>
+        <p class="value" id="nv" style="color: #f98686">0.000</p>
         <p>neg</p>
       </div>
       <div id="neu">
-        <p class="value" style="color: #fcba03">0.000</p>
+        <p class="value" id="neuv" style="color: #fcba03">0.000</p>
         <p>neu</p>
       </div>
       <div id="pos">
-        <p class="value" style="color: lightgreen">0.000</p>
+        <p class="value" id="pv" style="color: lightgreen">0.000</p>
         <p>pos</p>
       </div>
       <div id="compound">
-        <p class="value" style="color: lightblue">0.000</p>
+        <p class="value" id="cv" style="color: lightblue">0.000</p>
         <p>compound</p>
       </div>
     </div>
@@ -149,8 +150,24 @@
       results = await eel.get_vader_scores()();
       value_text = document.getElementsByClassName("value");
 
+      const options = {
+        decimalPlaces: 3,
+      };
+
       for (let i = 0; i < results.length; i++) {
-        value_text[i].innerHTML = results[i];
+        if (i == 0) {
+          var numAnim = new countUp.CountUp("nv", results[i], options);
+          numAnim.start();
+        } else if (i == 1) {
+          var numAnim = new countUp.CountUp("neuv", results[i], options);
+          numAnim.start();
+        } else if (i == 2) {
+          var numAnim = new countUp.CountUp("pv", results[i], options);
+          numAnim.start();
+        } else {
+          var numAnim = new countUp.CountUp("cv", results[i], options);
+          numAnim.start();
+        }
       }
 
       final = await eel.get_final_score()();

@@ -3,7 +3,7 @@
   <head>
     <link rel="stylesheet" href="Style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js"></script>
+    <script src="/countUp.umd.js" type="module"></script>
     <script src="eel.js"></script>
   </head>
 
@@ -20,15 +20,15 @@
     </div>
     <div id="scores">
       <div id="neg">
-        <p class="value" style="color: #f98686">0.000</p>
+        <p class="value" id="nv" style="color: #f98686">0.000</p>
         <p>neg</p>
       </div>
       <div id="neu">
-        <p class="value" style="color: #fcba03">0.000</p>
+        <p class="value" id="neuv" style="color: #fcba03">0.000</p>
         <p>neu</p>
       </div>
       <div id="pos">
-        <p class="value" style="color: lightgreen">0.000</p>
+        <p class="value" id="pv" style="color: lightgreen">0.000</p>
         <p>pos</p>
       </div>
     </div>
@@ -109,16 +109,6 @@
             },
           },
           plugins: {
-            // zoom: {
-            //   pan: {
-            //     enabled: true,
-            //   },
-            //   zoom: {
-            //     wheel: {
-            //       enabled: true,
-            //     },
-            //   },
-            // },
             legend: {
               labels: {
                 color: "white",
@@ -146,9 +136,24 @@
   <script>
     async function get_scores() {
       results = await eel.get_roberta_scores()();
+      
+      const options = {
+        decimalPlaces: 3,
+      };
+
       value_text = document.getElementsByClassName("value");
+
       for (let i = 0; i < results.length; i++) {
-        value_text[i].innerHTML = results[i];
+        if (i == 0) {
+          var numAnim = new countUp.CountUp("nv", results[i], options);
+          numAnim.start();
+        } else if (i == 1) {
+          var numAnim = new countUp.CountUp("neuv", results[i], options);
+          numAnim.start();
+        } else {
+          var numAnim = new countUp.CountUp("pv", results[i], options);
+          numAnim.start();
+        }
       }
 
       final = await eel.get_final_score()();

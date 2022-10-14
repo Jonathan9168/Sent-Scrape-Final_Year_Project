@@ -3,6 +3,7 @@ import eel
 import json
 import pandas as pd
 import sentiment_analyser
+from datetime import datetime
 
 search_term = ""
 term_substrings_by_delimiters = re.split(r'\s|-', search_term)
@@ -22,6 +23,10 @@ rob_neg, rob_neu, rob_pos = 0, 0, 0
 final_score = 0
 
 data_title = ""
+
+platform_name = ""
+
+sent_mode = ""
 
 
 @eel.expose
@@ -93,12 +98,14 @@ def reset_scores():
 
 
 def generate_report(sentiment_mode, sent_dict, platform):
+    global platform_name
     if sentiment_mode == "vader":
         sentiment_analyser.generate_sentiment_report_vader(sent_dict, platform)
         set_vader_scores()
     elif sentiment_mode == "roberta":
         sentiment_analyser.generate_sentiment_report_roberta(sent_dict, platform)
         set_roberta_scores()
+    platform_name = platform
 
 
 def check_filter(comment):
@@ -117,4 +124,10 @@ def get_dict():
 
 @eel.expose
 def save_to_csv():
-    current_dataframe.to_csv(f"CSVs/{search_term}.csv", encoding='utf-8')
+    date_time = datetime.now().strftime("%d/%m/%Y,%H:%M:%S").split(',')
+    destination_folder = "Rob Searches" if sent_mode == "rob" else "Vad Searches"
+    current_dataframe.to_csv(f"CSVs/{destination_folder}/{search_term},{platform_name},{date_time[0].replace('/','.')},\
+    {date_time[1].replace(':','.')}.csv", encoding='utf-8')
+
+
+

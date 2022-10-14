@@ -7,7 +7,6 @@ import cpuinfo
 import pandas as pd
 from operator import getitem
 from string import punctuation
-import matplotlib.pyplot as plt
 from scipy.special import softmax
 from collections import OrderedDict
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -96,7 +95,7 @@ def roberta_analyze_sentiment(comments, sent_dict):
     """Adapted: https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
     using RoBERTa pretrained model to make AI predictions much more accurate than vader but can be time-consuming if gpu hardware
     leverage isn't present must use CPU instead"""
-
+    config.sent_mode = "rob"
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     # MODEL = f"cardiffnlp/twitter-roberta-base-sentiment"
     MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
@@ -136,6 +135,7 @@ def roberta_analyze_sentiment(comments, sent_dict):
 
 
 def generate_sentiment_report_vader(sent_dict, platform_name):
+    config.sent_mode = "vad"
     eel.update_text("GENERATING REPORT")
     """Generate Pandas DataFrame where df headers = comment, neg, neu, pos, compound"""
     sent_dict = OrderedDict(sorted(sent_dict.items(), key=lambda x: getitem(x[1], 'compound'), reverse=True))
@@ -212,18 +212,18 @@ def draw_df(df):
         print(df.shape)
 
 
-def map_legend_to_graph(line_dict, legend_lines, graph_lines):
-    for legend_line, graph_line in zip(legend_lines, graph_lines):
-        legend_line.set_picker(True)
-        legend_line.set_pickradius(7)
-        line_dict[legend_line] = graph_line
-
-
-def toggle_plot(event, line_dict, fig):
-    legend_line = event.artist
-    graph_line = line_dict[legend_line]
-
-    state = graph_line.get_visible()
-    graph_line.set_visible(not state)
-
-    fig.canvas.draw()
+# def map_legend_to_graph(line_dict, legend_lines, graph_lines):
+#     for legend_line, graph_line in zip(legend_lines, graph_lines):
+#         legend_line.set_picker(True)
+#         legend_line.set_pickradius(7)
+#         line_dict[legend_line] = graph_line
+#
+#
+# def toggle_plot(event, line_dict, fig):
+#     legend_line = event.artist
+#     graph_line = line_dict[legend_line]
+#
+#     state = graph_line.get_visible()
+#     graph_line.set_visible(not state)
+#
+#     fig.canvas.draw()

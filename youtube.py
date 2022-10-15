@@ -46,6 +46,7 @@ def generate_driver():
     chromeOption.add_argument("--mute-audio")
     chromeOption.add_argument("--log-level=3")
     chromeOption.add_argument("--silent")
+    chromeOption.add_argument("--disable-blink-features=AutomationControlled")
     driver = webdriver.Chrome(options=chromeOption)
     return driver
 
@@ -65,7 +66,7 @@ def generate_threads():
     eel.update_text("BUILDING THREAD INSTANCES")
     threads = []
 
-    for i, v in enumerate(videoLinks):
+    for i, v in enumerate(video_links):
         print(f'Starting Thread Instance [{str(i + 1)}]')
         eel.update_text(f"STARTING THREAD INSTANCES")
         thread = threading.Thread(target=scrape_comments, args=(v,))
@@ -85,7 +86,7 @@ def scroll(scrolls, threadBrowser, link):
     link --> Link of video being scraped on current thread"""
     for _ in range(int(scrolls)):
         with lock:
-            print(f'Scraping comments for "{config.search_term.upper()}" video [{str(videoLinks.index(link) + 1)}]...')
+            print(f'Scraping comments for "{config.search_term.upper()}" video [{str(video_links.index(link) + 1)}]...')
 
         scroll_height = 2000
         document_height_before = threadBrowser.execute_script("return document.documentElement.scrollHeight")
@@ -130,21 +131,21 @@ def handle_options(sanitised_comment):
 def scrape_comments(link):
     """Procedure each worker thread follows when scraping comments
     New Chrome instance per thread --> Get relevant URL --> Concurrently scrape comments"""
-    threadBrowser = generate_driver()
-    threadBrowser.get(link)
-    accept_cookies(threadBrowser)
+    thread_browser = generate_driver()
+    thread_browser.get(link)
+    accept_cookies(thread_browser)
 
-    scroll(youtube_config.comment_depth, threadBrowser, link)
-    click_more(threadBrowser)
+    scroll(youtube_config.comment_depth, thread_browser, link)
+    click_more(thread_browser)
 
     time.sleep(2)
-    get_comments(threadBrowser)
-    threadBrowser.quit()
+    get_comments(thread_browser)
+    thread_browser.quit()
 
 
 @eel.expose
 def run_youtube():
-    global videoLinks, roberta
+    global video_links, roberta
 
     roberta = []
     print("\nInitialising Key Variables....")
@@ -167,7 +168,7 @@ def run_youtube():
     browser.refresh()
     eel.update_text("FETCHING VIDEO LINKS")
     print("Fetching Video Links...")
-    videoLinks = get_video_links(browser)
+    video_links = get_video_links(browser)
     browser.quit()
     generate_threads()
 
@@ -183,4 +184,4 @@ def run_youtube():
 roberta = []
 lock = threading.Lock()
 total_comments = 0
-videoLinks = []
+video_links = []

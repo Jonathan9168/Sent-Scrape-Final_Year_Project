@@ -21,7 +21,6 @@
         <tbody id="data-body"></tbody>
       </table>
     </div>
-    <a onclick="save_to_csv()"><p class="save_data">SAVE DATASET TO CSV</p></a>
   </body>
 
   <script>
@@ -57,13 +56,6 @@
           row.appendChild(rating);
         }
       }
-    }
-  </script>
-
-  <script>
-    async function save_to_csv() {
-      await eel.save_to_csv()();
-      alert("Saved to SentScrape/CSV's");
     }
   </script>
 </html>

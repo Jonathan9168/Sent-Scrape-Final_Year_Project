@@ -106,6 +106,7 @@ def generate_report(sentiment_mode, sent_dict, platform):
         sentiment_analyser.generate_sentiment_report_roberta(sent_dict, platform)
         set_roberta_scores()
     platform_name = platform
+    save_to_csv()
 
 
 def check_filter(comment):
@@ -122,12 +123,7 @@ def get_dict():
     return json.dumps(json.loads(current_dataframe.to_json(orient="index")))
 
 
-@eel.expose
 def save_to_csv():
     date_time = datetime.now().strftime("%d/%m/%Y,%H:%M:%S").split(',')
     destination_folder = "Rob Searches" if sent_mode == "rob" else "Vad Searches"
-    current_dataframe.to_csv(f"CSVs/{destination_folder}/{search_term},{platform_name},{date_time[0].replace('/','.')},\
-    {date_time[1].replace(':','.')}.csv", encoding='utf-8')
-
-
-
+    current_dataframe.to_csv(f"CSVs/{destination_folder}/{search_term},{platform_name},{date_time[0].replace('/', '.')},{date_time[1].replace(':', '.')}.csv", encoding='utf-8')

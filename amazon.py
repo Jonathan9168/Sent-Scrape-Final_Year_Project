@@ -21,6 +21,7 @@ def generate_driver():
     chromeOption.add_argument("--mute-audio")
     chromeOption.add_argument("--log-level=3")
     chromeOption.add_argument("--silent")
+    chromeOption.add_argument("--disable-blink-features=AutomationControlled")
     driver = webdriver.Chrome(options=chromeOption)
     return driver
 
@@ -150,6 +151,7 @@ def scrape_reviews(link):
                 scraped_reviews.append(review.text)
             except selenium.common.exceptions.StaleElementReferenceException:
                 print("stale here")
+                driver.refresh()
                 time.sleep(1.5)
                 scraped_reviews.append(review.text)
 

@@ -2,10 +2,113 @@
 <html>
   <head>
     <link rel="stylesheet" href="Style.css" />
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
     <script src="eel.js"></script>
   </head>
 
-  <body>
-    <p>TBC</p>
+  <body onload="get_data_rob()">
+    <div id="wrapper">
+      <table ind="1" id="data-table" class="sortable">
+        <thead>
+          <tr id="table-header-row">
+            <th>Search Term</th>
+            <th>Platform</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+    </div>
+    <div id="wrapper">
+      <table id="data-table" class="sortable">
+        <thead>
+          <tr id="table-header-row">
+            <th>Search Term</th>
+            <th>Platform</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="data-body2"></tbody>
+      </table>
+    </div>
   </body>
+
+  <script>
+    function get_row(x) {
+      index = x.parentNode.parentNode.rowIndex;
+      console.log(index);
+      table = document.querySelectorAll('table[ind="1"]')[0];
+      console.log(table);
+      row = table.getElementsByTagName("tr")[index];
+      console.log(row.cells[0].innerHTML, row.cells[3].innerHTML);
+    }
+
+    async function get_data_rob() {
+      data = await eel.get_files()();
+      table_body = document.getElementById("data-body");
+
+      for (const key of data[0]) {
+        file = key.split(",");
+        row = document.createElement("tr");
+        table_body.appendChild(row);
+
+        for (let i = 0; i < file.length + 1; i++) {
+          info = document.createElement("td");
+          if (i == 3) {
+            info.innerHTML = `${file[i].slice(0, -4)}`;
+          } else if (i == 4) {
+            info.innerHTML = `<button class = "view-btn" onclick="get_row(this)">VIEW</button>`;
+          } else if (i == 1) {
+            if (file[i] == "Youtube") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Reddit") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-r-logo" src="reddit.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Twitter") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-t-logo" src="twitter.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Amazon") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-a-logo" src="amazon.png" alt="" />${file[i]}</div>`;
+            }
+          } else {
+            info.innerHTML = `${file[i]}`;
+          }
+          row.appendChild(info);
+        }
+      }
+      get_data_vad();
+    }
+
+    async function get_data_vad() {
+      data = await eel.get_files()();
+      table_body = document.getElementById("data-body2");
+
+      for (const key of data[1]) {
+        file = key.split(",");
+        row = document.createElement("tr");
+        table_body.appendChild(row);
+
+        for (let i = 0; i < file.length; i++) {
+          info = document.createElement("td");
+          if (i == 3) {
+            info.innerHTML = `${file[i].slice(0, -4)}`;
+          } else if (i == 1) {
+            if (file[i] == "Youtube") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Reddit") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-r-logo" src="reddit.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Twitter") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-t-logo" src="twitter.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Amazon") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-a-logo" src="amazon.png" alt="" />${file[i]}</div>`;
+            }
+          } else {
+            info.innerHTML = `${file[i]}`;
+          }
+          row.appendChild(info);
+        }
+      }
+    }
+  </script>
 </html>

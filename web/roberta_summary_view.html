@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/countUp.umd.js" type="module"></script>
+    <script src="eel.js"></script>
+  </head>
+
+  <body onload="get_scores()">
+    <a href="compare.html" id="back">➜</a>
+    <h1 id="summary-title">SUMMARY</h1>
+    <div>
+      <canvas
+        id="histogram"
+        width="1000"
+        height="600"
+        style="margin-left: auto; margin-right: auto; margin-top: 12%"
+      ></canvas>
+    </div>
+    <div id="scores">
+      <div id="neg">
+        <p class="value" id="nv" style="color: #f98686">0.000</p>
+        <p>neg</p>
+      </div>
+      <div id="neu">
+        <p class="value" id="neuv" style="color: #fcba03">0.000</p>
+        <p>neu</p>
+      </div>
+      <div id="pos">
+        <p class="value" id="pv" style="color: lightgreen">0.000</p>
+        <p>pos</p>
+      </div>
+    </div>
+    <div id="summary_text">
+      <h2 id="recommendation_title">Recommendation - [Score Here]</h2>
+      <p id="recommendation_text">Analysis text goes here.</p>
+    </div>
+    <!-- <a href="snippet.html"><p class="save">VIEW DATASET SNAPSHOT</p></a> -->
+  </body>
+
+  <script>
+    async function build_graph() {
+      const ctx = document.getElementById("histogram").getContext("2d");
+
+      data_dicts = await eel.get_roberta_dicts_view()();
+      title = await eel.get_title_view()();
+
+      d0 = JSON.parse(data_dicts[0]);
+      d1 = JSON.parse(data_dicts[1]);
+      d2 = JSON.parse(data_dicts[2]);
+
+      const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          datasets: [
+            {
+              label: "Negative",
+              data: d0,
+              backgroundColor: "#f98686",
+              borderColor: "#f98686",
+              fill: false,
+            },
+            {
+              label: "Neutral",
+              data: d1,
+              backgroundColor: "#fcba03",
+              borderColor: "#fcba03",
+              fill: false,
+            },
+            {
+              label: "Positive",
+              data: d2,
+              backgroundColor: "#86f9ae",
+              borderColor: "#86f9ae",
+              fill: false,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Score",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Frequency",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 30,
+              },
+            },
+          },
+        },
+      });
+    }
+    build_graph();
+  </script>
+
+  <script>
+    async function get_scores() {
+      results = await eel.get_roberta_scores_view()();
+      value_text = document.getElementsByClassName("value");
+
+      const options = {
+        decimalPlaces: 3,
+      };
+
+      for (let i = 0; i < results.length - 1; i++) {
+        if (i == 0) {
+          var numAnim = new countUp.CountUp("nv", results[i], options);
+          numAnim.start();
+        } else if (i == 1) {
+          var numAnim = new countUp.CountUp("neuv", results[i], options);
+          numAnim.start();
+        } else {
+          var numAnim = new countUp.CountUp("pv", results[i], options);
+          numAnim.start();
+        }
+      }
+
+      final = results[3];
+      search_term = await eel.get_search_term_view()();
+
+      verdict_title = document.getElementById("recommendation_title");
+      verdict_text = document.getElementById("recommendation_text");
+
+      if (final >= -0.1 && final <= 0.1) {
+        verdict_title.innerHTML = `Inconclusive - [${final}]`;
+        verdict_text.innerHTML = `The final score "${final}" of doesnt overly sway toward one direction, perhaps try and see how the scoring of '${search_term}' fairs on the other platforms.`;
+      } else if (final >= -0.4 && final <= -0.1) {
+        verdict_title.innerHTML = `<span style="color: #f98686">Relatively Unpopular</span> - [${final}]`;
+        verdict_text.innerHTML = `A score of ${final} reflects noticable negativity around ${search_term}, see if this trend follows on other platforms.`;
+      } else if (final >= -1 && final <= -0.4) {
+        verdict_title.innerHTML = `<span style="color: #f98686">Highly Unpopular</span> - [${final}]`;
+        verdict_text.innerHTML = `A score of ${final} reflects an overwhelming amount of negativity around '${search_term}'.`;
+      } else if (final >= 0.1 && final <= 0.4) {
+        verdict_title.innerHTML = `<span style="color: lightgreen">Relatively Popular</span> - [${final}]`;
+        verdict_text.innerHTML = `A score of ${final} reflects noticable positivity, see if this trend follows on other platforms.`;
+      } else if (final >= 0.4 && final <= 1) {
+        verdict_title.innerHTML = `<span style="color: lightgreen">Highly Popular</span> - [${final}]`;
+        verdict_text.innerHTML = `A score of ${final} reflects an overwhelming amount of positivity around '${search_term}'.`;
+      }
+    }
+  </script>
+</html>

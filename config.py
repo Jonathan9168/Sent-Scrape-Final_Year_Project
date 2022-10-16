@@ -6,7 +6,7 @@ import pandas as pd
 import sentiment_analyser
 from datetime import datetime
 
-search_term = ""
+search_term_view, search_term = "", ""
 term_substrings_by_delimiters = re.split(r'\s|-', search_term)
 term_substrings_spaced = search_term.split(" ")
 
@@ -14,30 +14,40 @@ term_substrings_spaced = search_term.split(" ")
 sanitised_youtube, sanitised_reddit, sanitised_twitter, sanitised_amazon = {}, {}, {}, {}
 
 current_dataframe = pd.DataFrame.from_dict({})
+view_df = pd.DataFrame.from_dict({})
+
+sent_mode = ""
+platform_name = ""
 
 # score variables for vader
-vad_neg, vad_neu, vad_pos, vad_comp = 0, 0, 0, 0
-
+vad_neg, vad_neu, vad_pos, vad_comp = 0, 0, 0, 0,
 # score variables for roberta
 rob_neg, rob_neu, rob_pos = 0, 0, 0
 
 final_score = 0
 
-data_title = ""
+data_title, view_title = "", ""
+rob_files, vad_files = [], []
 
-platform_name = ""
 
-sent_mode = ""
+@eel.expose
+def get_search_term():
+    return search_term
 
-rob_files = []
-vad_files = []
 
-view_df = pd.DataFrame.from_dict({})
+@eel.expose
+def get_search_term_view():
+    return search_term_view
 
 
 @eel.expose
 def get_title():
     return data_title
+
+
+@eel.expose
+def get_title_view():
+    return view_title
 
 
 def set_vader_scores():
@@ -58,8 +68,36 @@ def set_roberta_scores():
 
 
 @eel.expose
+def get_roberta_scores_view():
+    return round(view_df['neg'].mean(), 3), round(view_df['neu'].mean(), 3), round(view_df['pos'].mean(), 3), round(
+        sum([round(view_df['neg'].mean(), 3) * -1, round(view_df['pos'].mean(), 3)]), 3)
+
+
+@eel.expose
+def get_vader_scores_view():
+    return round(view_df['neg'].mean(), 3), round(view_df['neu'].mean(), 3), round(view_df['pos'].mean(), 3), round(
+        view_df['compound'].mean(), 3)
+
+
+@eel.expose
+def get_roberta_scores():
+    return rob_neg, rob_neu, rob_pos
+
+
+@eel.expose
 def get_vader_scores():
     return vad_neg, vad_neu, vad_pos, vad_comp
+
+
+@eel.expose
+def get_final_score():
+    return final_score
+
+
+def reset_scores():
+    global vad_neg, vad_neu, vad_pos, vad_comp, rob_neg, rob_neu, rob_pos, final_score
+    vad_neg, vad_neu, vad_pos, vad_comp = 0, 0, 0, 0
+    rob_neg, rob_neu, rob_pos, final_score = 0, 0, 0, 0
 
 
 @eel.expose
@@ -78,29 +116,8 @@ def get_roberta_dicts():
 
 
 @eel.expose
-def get_roberta_scores():
-    return rob_neg, rob_neu, rob_pos
-
-
-@eel.expose
-def get_final_score():
-    return final_score
-
-
-@eel.expose
-def get_search_term():
-    return search_term
-
-
-@eel.expose
 def get_columns():
     return current_dataframe.shape[1]
-
-
-def reset_scores():
-    global vad_neg, vad_neu, vad_pos, vad_comp, rob_neg, rob_neu, rob_pos, final_score
-    vad_neg, vad_neu, vad_pos, vad_comp = 0, 0, 0, 0
-    rob_neg, rob_neu, rob_pos, final_score = 0, 0, 0, 0
 
 
 def generate_report(sentiment_mode, sent_dict, platform):
@@ -132,6 +149,42 @@ def get_dict():
 @eel.expose
 def get_files():
     return os.listdir("CSVs/Rob Searches/"), os.listdir("CSVs/Vad Searches/")
+
+
+@eel.expose
+def apply_view_data_rob(search, platform, date, time):
+    global view_df, view_title, search_term_view
+    search_term_view = search
+    view_df = pd.read_csv(f"CSVs/Rob Searches/{search},{platform},{date},{time}.csv")
+    view_title = f'"{search.title()}" on {platform} analyzed using roBERTa'
+
+
+@eel.expose
+def apply_view_data_vad(search, platform, date, time):
+    global view_df, view_title, search_term_view
+    search_term_view = search
+    view_df = pd.read_csv(f"CSVs/Vad Searches/{search},{platform},{date},{time}.csv")
+    view_title = f"'{search.title()}' on {platform} analyzed using NLTK's Vader"
+
+
+@eel.expose
+def get_vader_dicts_view():
+    return json.dumps(view_df["neg"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_df["neu"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_df["pos"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_df["compound"].value_counts().sort_index().to_dict())
+
+
+@eel.expose
+def get_roberta_dicts_view():
+    return json.dumps(view_df["neg"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_df["neu"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_df["pos"].value_counts().sort_index().to_dict())
+
+
+@eel.expose
+def get_view_title():
+    return view_title
 
 
 def save_to_csv():

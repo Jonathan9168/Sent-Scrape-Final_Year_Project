@@ -545,4 +545,22 @@ td {
   font-family: Montserrat;
   height: 100%;
   width: 100%;
+  background-color: hsl(227, 10%, 10%);
+  color: white;
+  cursor: pointer;
+  animation: fadein 2s;
+  transition: 1.5s;
+}
+
+
+
+.view-btn:hover {
+  background-color: grey;
+  animation: fadein 2s;
+  transition: 1.5s;
+}
+
+.comp-table-heading
+{
+  text-align: center;
 }

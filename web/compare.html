@@ -7,8 +7,27 @@
   </head>
 
   <body onload="get_data_rob()">
+    <a href="index.html" id="back">➜</a>
     <div id="wrapper">
+      <h1 class="comp-table-heading">roBERTa analyzed searches</h1>
       <table ind="1" id="data-table" class="sortable">
+        <thead>
+          <tr id="table-header-row">
+            <th>Search Term</th>
+            <th>Platform</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+    </div>
+
+    <div id="wrapper">
+      <h1 class="comp-table-heading">Vader analyzed searches</h1>
+      <table ind="2" id="data-table" class="sortable">
         <thead>
           <tr id="table-header-row">
             <th>Search Term</th>
@@ -18,32 +37,52 @@
             <th></th>
           </tr>
         </thead>
-        <tbody id="data-body"></tbody>
-      </table>
-    </div>
-    <div id="wrapper">
-      <table id="data-table" class="sortable">
-        <thead>
-          <tr id="table-header-row">
-            <th>Search Term</th>
-            <th>Platform</th>
-            <th>Date</th>
-            <th>Time</th>
-          </tr>
-        </thead>
         <tbody id="data-body2"></tbody>
       </table>
     </div>
   </body>
 
   <script>
-    function get_row(x) {
+    async function get_row_rob(x) {
       index = x.parentNode.parentNode.rowIndex;
       console.log(index);
       table = document.querySelectorAll('table[ind="1"]')[0];
       console.log(table);
       row = table.getElementsByTagName("tr")[index];
-      console.log(row.cells[0].innerHTML, row.cells[3].innerHTML);
+      console.log(
+        row.cells[0].innerHTML,
+        row.cells[1].textContent,
+        row.cells[2].innerHTML,
+        row.cells[3].innerHTML
+      );
+      await eel.apply_view_data_rob(
+        row.cells[0].innerHTML,
+        row.cells[1].textContent,
+        row.cells[2].innerHTML,
+        row.cells[3].innerHTML
+      )();
+      window.location.href = "roberta_summary_view.html";
+    }
+
+    async function get_row_vad(x) {
+      index = x.parentNode.parentNode.rowIndex;
+      console.log(index);
+      table = document.querySelectorAll('table[ind="2"]')[0];
+      console.log(table);
+      row = table.getElementsByTagName("tr")[index];
+      console.log(
+        row.cells[0].innerHTML,
+        row.cells[1].textContent,
+        row.cells[2].innerHTML,
+        row.cells[3].innerHTML
+      );
+      await eel.apply_view_data_vad(
+        row.cells[0].innerHTML,
+        row.cells[1].textContent,
+        row.cells[2].innerHTML,
+        row.cells[3].innerHTML
+      )();
+      window.location.href = "vader_summary_view.html";
     }
 
     async function get_data_rob() {
@@ -55,12 +94,14 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length + 1; i++) {
+        for (let i = 0; i < file.length + 2; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4)}`;
+          } else if (i == 5) {
+            info.innerHTML = `<button class = "view-btn">DELETE</button>`;
           } else if (i == 4) {
-            info.innerHTML = `<button class = "view-btn" onclick="get_row(this)">VIEW</button>`;
+            info.innerHTML = `<button class = "view-btn" onclick="get_row_rob(this)">VIEW</button>`;
           } else if (i == 1) {
             if (file[i] == "Youtube") {
               info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
@@ -89,10 +130,12 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length; i++) {
+        for (let i = 0; i < file.length + 1; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4)}`;
+          } else if (i == 4) {
+            info.innerHTML = `<button class = "view-btn" onclick="get_row_vad(this)">VIEW</button>`;
           } else if (i == 1) {
             if (file[i] == "Youtube") {
               info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;

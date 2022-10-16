@@ -64,6 +64,22 @@
       window.location.href = "roberta_summary_view.html";
     }
 
+    async function delete_row_rob(x) {
+      index = x.parentNode.parentNode.rowIndex;
+      table = document.querySelectorAll('table[ind="1"]')[0];
+      row = table.getElementsByTagName("tr")[index];
+      if (confirm("Are you sure?")) {
+        await eel.delete_row(
+          row.cells[0].innerHTML,
+          row.cells[1].textContent,
+          row.cells[2].innerHTML,
+          row.cells[3].innerHTML,
+          "rob"
+        )();
+        window.location.reload();
+      }
+    }
+
     async function get_row_vad(x) {
       index = x.parentNode.parentNode.rowIndex;
       console.log(index);
@@ -85,6 +101,21 @@
       window.location.href = "vader_summary_view.html";
     }
 
+    async function delete_row_vad(x) {
+      index = x.parentNode.parentNode.rowIndex;
+      table = document.querySelectorAll('table[ind="2"]')[0];
+      row = table.getElementsByTagName("tr")[index];
+      if (confirm("Are you sure?")) {
+        await eel.delete_row(
+          row.cells[0].innerHTML,
+          row.cells[1].textContent,
+          row.cells[2].innerHTML,
+          row.cells[3].innerHTML,
+          "vad"
+        )();
+        window.location.reload();
+      }
+    }
     async function get_data_rob() {
       data = await eel.get_files()();
       table_body = document.getElementById("data-body");
@@ -99,7 +130,7 @@
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4)}`;
           } else if (i == 5) {
-            info.innerHTML = `<button class = "view-btn">DELETE</button>`;
+            info.innerHTML = `<button class = "view-btn" onclick="delete_row_rob(this)">DELETE</button>`;
           } else if (i == 4) {
             info.innerHTML = `<button class = "view-btn" onclick="get_row_rob(this)">VIEW</button>`;
           } else if (i == 1) {
@@ -130,10 +161,12 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length + 1; i++) {
+        for (let i = 0; i < file.length + 2; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4)}`;
+          } else if (i == 5) {
+            info.innerHTML = `<button class = "view-btn" onclick="delete_row_vad(this)">DELETE</button>`;
           } else if (i == 4) {
             info.innerHTML = `<button class = "view-btn" onclick="get_row_vad(this)">VIEW</button>`;
           } else if (i == 1) {

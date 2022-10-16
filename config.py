@@ -187,6 +187,11 @@ def get_view_title():
     return view_title
 
 
+@eel.expose
+def delete_row(search, platform, date, time, mode):
+    os.remove(f"CSVs/{'Rob Searches' if mode == 'rob' else 'Vad Searches'}/{search},{platform},{date},{time}.csv")
+
+
 def save_to_csv():
     date_time = datetime.now().strftime("%d/%m/%Y,%H:%M:%S").split(',')
     destination_folder = "Rob Searches" if sent_mode == "rob" else "Vad Searches"

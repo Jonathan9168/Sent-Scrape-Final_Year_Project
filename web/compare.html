@@ -9,7 +9,7 @@
   <body onload="get_data_rob()">
     <a href="index.html" id="back">➜</a>
     <div id="wrapper">
-      <h1 class="comp-table-heading">roBERTa analyzed searches</h1>
+      <p class="comp-table-heading">BERT Searches</p>
       <table ind="1" id="data-table" class="sortable">
         <thead>
           <tr id="table-header-row">
@@ -17,8 +17,8 @@
             <th>Platform</th>
             <th>Date</th>
             <th>Time</th>
-            <th></th>
-            <th></th>
+            <th>View Report</th>
+            <th>Delete Search</th>
           </tr>
         </thead>
         <tbody id="data-body"></tbody>
@@ -26,7 +26,7 @@
     </div>
 
     <div id="wrapper">
-      <h1 class="comp-table-heading">Vader analyzed searches</h1>
+      <p class="comp-table-heading">VADER Searches</p>
       <table ind="2" id="data-table" class="sortable">
         <thead>
           <tr id="table-header-row">
@@ -34,9 +34,11 @@
             <th>Platform</th>
             <th>Date</th>
             <th>Time</th>
-            <th></th>
+            <th>View Report</th>
+            <th>Delete Search</th>
           </tr>
         </thead>
+
         <tbody id="data-body2"></tbody>
       </table>
     </div>
@@ -128,9 +130,11 @@
         for (let i = 0; i < file.length + 2; i++) {
           info = document.createElement("td");
           if (i == 3) {
-            info.innerHTML = `${file[i].slice(0, -4)}`;
+            info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
+          } else if (i == 2) {
+            info.innerHTML = `${file[i].replaceAll(".", "/")}`;
           } else if (i == 5) {
-            info.innerHTML = `<button class = "view-btn" onclick="delete_row_rob(this)">DELETE</button>`;
+            info.innerHTML = `<button class = "del-btn" onclick="delete_row_rob(this)">DELETE</button>`;
           } else if (i == 4) {
             info.innerHTML = `<button class = "view-btn" onclick="get_row_rob(this)">VIEW</button>`;
           } else if (i == 1) {
@@ -164,9 +168,11 @@
         for (let i = 0; i < file.length + 2; i++) {
           info = document.createElement("td");
           if (i == 3) {
-            info.innerHTML = `${file[i].slice(0, -4)}`;
+            info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
+          } else if (i == 2) {
+            info.innerHTML = `${file[i].replaceAll(".", "/")}`;
           } else if (i == 5) {
-            info.innerHTML = `<button class = "view-btn" onclick="delete_row_vad(this)">DELETE</button>`;
+            info.innerHTML = `<button class = "del-btn" onclick="delete_row_vad(this)">DELETE</button>`;
           } else if (i == 4) {
             info.innerHTML = `<button class = "view-btn" onclick="get_row_vad(this)">VIEW</button>`;
           } else if (i == 1) {

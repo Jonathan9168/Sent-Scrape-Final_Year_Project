@@ -25,7 +25,7 @@
 
   <script>
     async function check_headings() {
-      no_columns = await eel.get_columns()();
+      no_columns = await eel.get_columns_view()();
       console.log(no_columns);
       if (no_columns == 4) {
         row = document.getElementById("data-table").tHead.children[0];
@@ -38,7 +38,7 @@
     }
 
     async function get_data() {
-      data_dict = await eel.get_dict()();
+      data_dict = await eel.get_dict_view()();
       data_dict = JSON.parse(data_dict);
       console.log(data_dict);
       table_body = document.getElementById("data-body");

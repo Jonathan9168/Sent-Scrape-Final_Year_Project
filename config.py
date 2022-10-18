@@ -14,7 +14,7 @@ term_substrings_spaced = search_term.split(" ")
 sanitised_youtube, sanitised_reddit, sanitised_twitter, sanitised_amazon = {}, {}, {}, {}
 
 current_dataframe = pd.DataFrame.from_dict({})
-view_df = pd.DataFrame.from_dict({})
+view_dataframe = pd.DataFrame.from_dict({})
 
 sent_mode = ""
 platform_name = ""
@@ -69,14 +69,14 @@ def set_roberta_scores():
 
 @eel.expose
 def get_roberta_scores_view():
-    return round(view_df['neg'].mean(), 3), round(view_df['neu'].mean(), 3), round(view_df['pos'].mean(), 3), round(
-        sum([round(view_df['neg'].mean(), 3) * -1, round(view_df['pos'].mean(), 3)]), 3)
+    return round(view_dataframe['neg'].mean(), 3), round(view_dataframe['neu'].mean(), 3), round(view_dataframe['pos'].mean(), 3), round(
+        sum([round(view_dataframe['neg'].mean(), 3) * -1, round(view_dataframe['pos'].mean(), 3)]), 3)
 
 
 @eel.expose
 def get_vader_scores_view():
-    return round(view_df['neg'].mean(), 3), round(view_df['neu'].mean(), 3), round(view_df['pos'].mean(), 3), round(
-        view_df['compound'].mean(), 3)
+    return round(view_dataframe['neg'].mean(), 3), round(view_dataframe['neu'].mean(), 3), round(view_dataframe['pos'].mean(), 3), round(
+        view_dataframe['compound'].mean(), 3)
 
 
 @eel.expose
@@ -120,6 +120,11 @@ def get_columns():
     return current_dataframe.shape[1]
 
 
+@eel.expose
+def get_columns_view():
+    return view_dataframe.shape[1]
+
+
 def generate_report(sentiment_mode, sent_dict, platform):
     global platform_name
     if sentiment_mode == "vader":
@@ -147,39 +152,44 @@ def get_dict():
 
 
 @eel.expose
+def get_dict_view():
+    return json.dumps(json.loads(view_dataframe.to_json(orient="index")))
+
+
+@eel.expose
 def get_files():
     return os.listdir("CSVs/Rob Searches/"), os.listdir("CSVs/Vad Searches/")
 
 
 @eel.expose
 def apply_view_data_rob(search, platform, date, time):
-    global view_df, view_title, search_term_view
+    global view_dataframe, view_title, search_term_view
     search_term_view = search
-    view_df = pd.read_csv(f"CSVs/Rob Searches/{search},{platform},{date},{time}.csv")
+    view_dataframe = pd.read_csv(f"CSVs/Rob Searches/{search},{platform},{date.replace('/','.')},{time.replace(':','.')}.csv", index_col=0)
     view_title = f'"{search.title()}" on {platform} analyzed using roBERTa'
 
 
 @eel.expose
 def apply_view_data_vad(search, platform, date, time):
-    global view_df, view_title, search_term_view
+    global view_dataframe, view_title, search_term_view
     search_term_view = search
-    view_df = pd.read_csv(f"CSVs/Vad Searches/{search},{platform},{date},{time}.csv")
+    view_dataframe = pd.read_csv(f"CSVs/Vad Searches/{search},{platform},{date.replace('/','.')},{time.replace(':','.')}.csv", index_col=0)
     view_title = f"'{search.title()}' on {platform} analyzed using NLTK's Vader"
 
 
 @eel.expose
 def get_vader_dicts_view():
-    return json.dumps(view_df["neg"].value_counts().sort_index().to_dict()), \
-           json.dumps(view_df["neu"].value_counts().sort_index().to_dict()), \
-           json.dumps(view_df["pos"].value_counts().sort_index().to_dict()), \
-           json.dumps(view_df["compound"].value_counts().sort_index().to_dict())
+    return json.dumps(view_dataframe["neg"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_dataframe["neu"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_dataframe["pos"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_dataframe["compound"].value_counts().sort_index().to_dict())
 
 
 @eel.expose
 def get_roberta_dicts_view():
-    return json.dumps(view_df["neg"].value_counts().sort_index().to_dict()), \
-           json.dumps(view_df["neu"].value_counts().sort_index().to_dict()), \
-           json.dumps(view_df["pos"].value_counts().sort_index().to_dict())
+    return json.dumps(view_dataframe["neg"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_dataframe["neu"].value_counts().sort_index().to_dict()), \
+           json.dumps(view_dataframe["pos"].value_counts().sort_index().to_dict())
 
 
 @eel.expose
@@ -189,7 +199,7 @@ def get_view_title():
 
 @eel.expose
 def delete_row(search, platform, date, time, mode):
-    os.remove(f"CSVs/{'Rob Searches' if mode == 'rob' else 'Vad Searches'}/{search},{platform},{date},{time}.csv")
+    os.remove(f"CSVs/{'Rob Searches' if mode == 'rob' else 'Vad Searches'}/{search},{platform},{date.replace('/','.')},{time.replace(':','.')}.csv")
 
 
 def save_to_csv():

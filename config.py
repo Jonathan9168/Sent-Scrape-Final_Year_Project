@@ -29,6 +29,8 @@ final_score = 0
 data_title, view_title = "", ""
 rob_files, vad_files = [], []
 
+rob_compare, rob_compare_vc = [], []
+
 
 @eel.expose
 def get_search_term():
@@ -69,13 +71,15 @@ def set_roberta_scores():
 
 @eel.expose
 def get_roberta_scores_view():
-    return round(view_dataframe['neg'].mean(), 3), round(view_dataframe['neu'].mean(), 3), round(view_dataframe['pos'].mean(), 3), round(
+    return round(view_dataframe['neg'].mean(), 3), round(view_dataframe['neu'].mean(), 3), round(
+        view_dataframe['pos'].mean(), 3), round(
         sum([round(view_dataframe['neg'].mean(), 3) * -1, round(view_dataframe['pos'].mean(), 3)]), 3)
 
 
 @eel.expose
 def get_vader_scores_view():
-    return round(view_dataframe['neg'].mean(), 3), round(view_dataframe['neu'].mean(), 3), round(view_dataframe['pos'].mean(), 3), round(
+    return round(view_dataframe['neg'].mean(), 3), round(view_dataframe['neu'].mean(), 3), round(
+        view_dataframe['pos'].mean(), 3), round(
         view_dataframe['compound'].mean(), 3)
 
 
@@ -165,15 +169,46 @@ def get_files():
 def apply_view_data_rob(search, platform, date, time):
     global view_dataframe, view_title, search_term_view
     search_term_view = search
-    view_dataframe = pd.read_csv(f"CSVs/Rob Searches/{search},{platform},{date.replace('/','.')},{time.replace(':','.')}.csv", index_col=0)
+    view_dataframe = pd.read_csv(
+        f"CSVs/Rob Searches/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv", index_col=0)
     view_title = f'"{search.title()}" on {platform} analyzed using roBERTa'
+
+names = ""
+@eel.expose
+def comparison_2D(selected_searches):
+    global rob_compare, rob_compare_vc,names
+    print(selected_searches)
+    rob_compare, rob_compare_vc = [], []
+
+    for i, v in enumerate(selected_searches):
+        rob_compare.append(pd.read_csv(
+            f"CSVs/Rob Searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
+            index_col=0))
+    names = selected_searches
+
+    for df in rob_compare:
+        neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())
+        neu_dict = json.dumps(df["neu"].value_counts().sort_index().to_dict())
+        pos_dict = json.dumps(df["pos"].value_counts().sort_index().to_dict())
+        rob_compare_vc.append((neu_dict, neg_dict, pos_dict))
+
+
+@eel.expose
+def get_comp():
+    return names
+
+
+@eel.expose
+def get_comp_vc():
+    return rob_compare_vc
 
 
 @eel.expose
 def apply_view_data_vad(search, platform, date, time):
     global view_dataframe, view_title, search_term_view
     search_term_view = search
-    view_dataframe = pd.read_csv(f"CSVs/Vad Searches/{search},{platform},{date.replace('/','.')},{time.replace(':','.')}.csv", index_col=0)
+    view_dataframe = pd.read_csv(
+        f"CSVs/Vad Searches/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv", index_col=0)
     view_title = f"'{search.title()}' on {platform} analyzed using NLTK's Vader"
 
 
@@ -199,7 +234,8 @@ def get_view_title():
 
 @eel.expose
 def delete_row(search, platform, date, time, mode):
-    os.remove(f"CSVs/{'Rob Searches' if mode == 'rob' else 'Vad Searches'}/{search},{platform},{date.replace('/','.')},{time.replace(':','.')}.csv")
+    os.remove(
+        f"CSVs/{'Rob Searches' if mode == 'rob' else 'Vad Searches'}/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv")
 
 
 def save_to_csv():

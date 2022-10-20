@@ -165,7 +165,8 @@ a {
   box-shadow: 0 0 40px rgb(0 0 0 / 70%);
 }
 
-.btn-group button:hover {
+.btn-group button:hover,
+.comp-btn:hover {
   background-color: rgb(36, 36, 36);
 }
 
@@ -580,4 +581,24 @@ td {
   margin: 0;
   padding: 2%;
   background-color: rgb(36, 36, 36);
+}
+
+.comp-btn {
+  overflow: hidden;
+  font-family: Montserrat;
+  white-space: nowrap;
+  background-color: hsl(227, 10%, 10%);
+  border-width: 1px;
+  color: lightgray;
+  padding: 12px 26px;
+  cursor: pointer;
+  animation: fadein 6s;
+  transition: 1.5s;
+  text-align: center;
+  border: none;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+  width: 20%;
+  margin-left: 40%;
+  margin-right: 30%;
+  margin-top: 2%;
 }

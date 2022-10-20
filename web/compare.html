@@ -26,6 +26,10 @@
       </table>
     </div>
 
+    <button class="comp-btn" onclick="get_selected()">
+      Compare BERT searches
+    </button>
+
     <div id="wrapper">
       <p class="comp-table-heading">VADER Searches</p>
       <table ind="2" id="data-table" class="sortable">
@@ -40,13 +44,39 @@
             <th>Compare</th>
           </tr>
         </thead>
-
         <tbody id="data-body2"></tbody>
       </table>
     </div>
   </body>
 
   <script>
+    async function get_selected() {
+      var arr = [];
+      table = document.getElementById("data-body");
+      rows = table.getElementsByTagName("tr");
+      console.log("------------------");
+      for (const x of rows) {
+        if (x.cells[6].getElementsByTagName("input")[0].checked) {
+          arr.push([
+            x.cells[0].innerHTML,
+            x.cells[1].textContent,
+            x.cells[2].innerHTML,
+            x.cells[3].innerHTML,
+          ]);
+          console.log(
+            x.cells[0].innerHTML,
+            x.cells[1].textContent,
+            x.cells[2].innerHTML,
+            x.cells[3].innerHTML
+          );
+        }
+      }
+      await eel.comparison_2D(arr)();
+      console.log(arr);
+      console.log("------------------");
+      window.location.href = "roberta_compare.html";
+    }
+
     async function get_row_rob(x) {
       index = x.parentNode.parentNode.rowIndex;
       console.log(index);
@@ -136,7 +166,7 @@
           } else if (i == 2) {
             info.innerHTML = `${file[i].replaceAll(".", "/")}`;
           } else if (i == 6) {
-            info.innerHTML = `  <input type="checkbox" name="test" value="Bike">`;
+            info.innerHTML = `<input onclick="" type="checkbox" name="test" value="">`;
           } else if (i == 5) {
             info.innerHTML = `<button class = "del-btn" onclick="delete_row_rob(this)">DELETE</button>`;
           } else if (i == 4) {
@@ -176,7 +206,7 @@
           } else if (i == 2) {
             info.innerHTML = `${file[i].replaceAll(".", "/")}`;
           } else if (i == 6) {
-            info.innerHTML = `  <input type="checkbox" name="test" value="Bike">`;
+            info.innerHTML = `<input type="checkbox" name="test" value="">`;
           } else if (i == 5) {
             info.innerHTML = `<button class = "del-btn" onclick="delete_row_vad(this)">DELETE</button>`;
           } else if (i == 4) {

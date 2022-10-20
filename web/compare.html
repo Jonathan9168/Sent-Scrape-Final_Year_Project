@@ -19,6 +19,7 @@
             <th>Time</th>
             <th>View Report</th>
             <th>Delete Search</th>
+            <th>Compare</th>
           </tr>
         </thead>
         <tbody id="data-body"></tbody>
@@ -36,6 +37,7 @@
             <th>Time</th>
             <th>View Report</th>
             <th>Delete Search</th>
+            <th>Compare</th>
           </tr>
         </thead>
 
@@ -127,12 +129,14 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length + 2; i++) {
+        for (let i = 0; i < file.length + 3; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
           } else if (i == 2) {
             info.innerHTML = `${file[i].replaceAll(".", "/")}`;
+          } else if (i == 6) {
+            info.innerHTML = `  <input type="checkbox" name="test" value="Bike">`;
           } else if (i == 5) {
             info.innerHTML = `<button class = "del-btn" onclick="delete_row_rob(this)">DELETE</button>`;
           } else if (i == 4) {
@@ -165,12 +169,14 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length + 2; i++) {
+        for (let i = 0; i < file.length + 3; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
           } else if (i == 2) {
             info.innerHTML = `${file[i].replaceAll(".", "/")}`;
+          } else if (i == 6) {
+            info.innerHTML = `  <input type="checkbox" name="test" value="Bike">`;
           } else if (i == 5) {
             info.innerHTML = `<button class = "del-btn" onclick="delete_row_vad(this)">DELETE</button>`;
           } else if (i == 4) {

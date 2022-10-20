@@ -12,6 +12,7 @@
 
     <div class="content">
       <a href="menu.html" id="back">➜</a>
+
       <form id="r-form" action="test">
         <h1 style="padding-top: 5%">YouTube Search Configuration</h1>
         <div class="search-term">
@@ -22,9 +23,12 @@
         <div class="sentiment-box">
           <div class="tooltip">
             <label for="text-all">Comment Mode</label>
-            <span class="tooltiptext"
-              > Filtered mode will only allow comments that have traces of the search term, otherwise all comments will be analyzed.
+            <span class="tooltiptext">
+              Filtered mode will only allow comments that have traces of the
+              search term, otherwise all comments will be analyzed.
+            </span>
           </div>
+
           <div class="radio-container">
             <input
               checked=""
@@ -48,8 +52,10 @@
           <div class="tooltip">
             <label for="sent-vader">Sentiment Analysis Model</label>
             <span class="tooltiptext">
-              Vader uses a simpler rules based approach so is less accurate. roBERTa uses pretrianed AI. A CUDA enabled Nvidia GPU with at least 4GB of VRAM is preferable for faster processing
-              otherwise processing will be done on the CPU resulting In longer processing time.
+              Vader uses a simpler rules based approach so is less accurate.
+              roBERTa uses pretrianed AI. A CUDA enabled Nvidia GPU is
+              preferable for faster processing otherwise processing will be done
+              on the CPU resulting In longer waiting time.
             </span>
           </div>
           <div class="radio-container">
@@ -70,7 +76,6 @@
             <label for="sent-roberta">roBERTa</label>
           </div>
         </div>
-
 
         <div class="comment-depth">
           <div class="tooltip">
@@ -103,10 +108,12 @@
       loader = document.getElementsByClassName("load-block");
       loader[0].style.visibility = "visible";
       search_term = document.getElementById("term").value;
-      comment_mode = document.querySelector('input[name="filter"]:checked').value;
+      comment_mode = document.querySelector(
+        'input[name="filter"]:checked'
+      ).value;
       model = document.querySelector('input[name="model"]:checked').value;
       depth = document.querySelector('input[name="quantity"]').value;
-      await eel.set_youtube_vars(search_term, comment_mode ,model, depth)();
+      await eel.set_youtube_vars(search_term, comment_mode, model, depth)();
       await eel.run_youtube()();
 
       if (model == "vader") {

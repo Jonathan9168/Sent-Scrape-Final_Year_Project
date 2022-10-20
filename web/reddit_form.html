@@ -22,8 +22,10 @@
         <div class="sentiment-box">
           <div class="tooltip">
             <label for="text-all">Comment Mode</label>
-            <span class="tooltiptext"
-              > Filtered mode will only allow comments that have traces of the search term, otherwise all comments will be analyzed.
+            <span class="tooltiptext">
+              Filtered mode will only allow comments that have traces of the
+              search term, otherwise all comments will be analyzed.
+            </span>
           </div>
           <div class="radio-container">
             <input
@@ -48,8 +50,10 @@
           <div class="tooltip">
             <label for="sent-vader">Sentiment Analysis Model</label>
             <span class="tooltiptext"
-              >Vader uses a simpler rules based approach so is less accurate. roBERTa uses pretrianed AI. A CUDA enabled Nvidia GPU with at least 4GB of VRAM is preferable for faster processing
-              otherwise processing will be done on the CPU resulting In longer processing time.
+              >Vader uses a simpler rules based approach so is less accurate.
+              roBERTa uses pretrianed AI. A CUDA enabled Nvidia GPU is
+              preferable for faster processing otherwise processing will be done
+              on the CPU resulting In longer waiting time.
             </span>
           </div>
           <div class="radio-container">
@@ -108,7 +112,7 @@
             <span class="tooltiptext"
               >Refers to how many threads from predefined subreddits that
               comments should be taken from. The more threads, the longer the
-              runtime. Min = 1 Max = 5 
+              runtime. Min = 1 Max = 5
             </span>
           </div>
           <input
@@ -133,11 +137,19 @@
       loader = document.getElementsByClassName("load-block");
       loader[0].style.visibility = "visible";
       search_term = document.getElementById("term").value;
-      comment_mode = document.querySelector('input[name="filter"]:checked').value;
+      comment_mode = document.querySelector(
+        'input[name="filter"]:checked'
+      ).value;
       model = document.querySelector('input[name="model"]:checked').value;
       segment = document.querySelector('input[name="category"]:checked').value;
       limit = document.querySelector('input[name="quantity"]').value;
-      await eel.set_reddit_vars(search_term, comment_mode ,model, segment, limit)();
+      await eel.set_reddit_vars(
+        search_term,
+        comment_mode,
+        model,
+        segment,
+        limit
+      )();
       await eel.run_reddit()();
 
       if (model == "vader") {

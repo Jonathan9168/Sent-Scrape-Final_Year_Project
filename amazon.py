@@ -99,9 +99,12 @@ def get_product_info(driver):
 
     # synchronize lists by removing items that correspond to a title that doesn't contain search term
     for index in sorted(indexes, reverse=True):
-        del titles[index]
-        del number_of_reviews[index]
-        del links[index]
+        try:
+            del titles[index]
+            del number_of_reviews[index]
+            del links[index]
+        except IndexError:
+            eel.update_text("NO LISTINGS FOUND")
 
     print(f'\nFiltered - {len(titles)} : {len(number_of_reviews)} : {len(links)}')
 
@@ -164,6 +167,8 @@ def scrape_reviews(link):
 
         # If last page of pagination has been reached, stop looping else keep scraping till pagination depth
         if len(driver.find_elements(By.CLASS_NAME, generate_class("a-disabled a-last"))) > 0:
+            break
+        elif len(driver.find_elements(By.CLASS_NAME, 'a-last')) == 0:
             break
         else:
             scroll_bottom(driver)

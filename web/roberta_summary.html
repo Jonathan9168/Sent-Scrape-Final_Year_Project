@@ -95,6 +95,7 @@
               },
             },
             y: {
+              max: 25,
               title: {
                 display: true,
                 text: "Frequency",
@@ -136,7 +137,7 @@
   <script>
     async function get_scores() {
       results = await eel.get_roberta_scores()();
-      
+
       const options = {
         decimalPlaces: 3,
       };

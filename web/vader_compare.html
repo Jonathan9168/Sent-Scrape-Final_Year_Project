@@ -33,6 +33,14 @@
         style="margin-left: auto; margin-right: auto; margin-top: 5%"
       ></canvas>
     </div>
+    <div>
+      <canvas
+        id="histogram3"
+        width="1000"
+        height="600"
+        style="margin-left: auto; margin-right: auto; margin-top: 5%"
+      ></canvas>
+    </div>
   </body>
 
   <script>
@@ -44,19 +52,21 @@
         "#58508d",
         "#6495ed",
         "#ff69b4",
-        "#40e0d0",
         "#ba55d3",
         "#cd5c5c",
         "#ffa500",
+        "#40e0d0",
       ];
-      
       var sets = [];
       var sets1 = [];
       var sets2 = [];
+      var sets3 = [];
 
       title = "Negative Scoring Comparison";
       title1 = "Neutral Scoring Comparison";
       title2 = "Positive Scoring Comparison";
+      title3 = "Compound Scoring Comparison";
+
 
       data_dicts = await eel.get_comparision_value_counts()();
       names = await eel.get_dataset_names()();
@@ -96,9 +106,21 @@
         sets2.push(line);
       }
 
+      for (let i = 0; i < data_dicts.length; i++) {
+        var line = {
+          label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
+          data: JSON.parse(data_dicts[i][3]),
+          backgroundColor: `${colour_list[i]}`,
+          borderColor: `${colour_list[i]}`,
+          fill: false,
+        };
+        sets3.push(line);
+      }
+
       const ctx = document.getElementById("histogram").getContext("2d");
       const ctx1 = document.getElementById("histogram1").getContext("2d");
       const ctx2 = document.getElementById("histogram2").getContext("2d");
+      const ctx3 = document.getElementById("histogram3").getContext("2d");
 
       const chart = new Chart(ctx, {
         type: "line",
@@ -268,6 +290,64 @@
             title: {
               display: true,
               text: `${title2}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 30,
+              },
+            },
+          },
+        },
+      });
+      const chart3 = new Chart(ctx3, {
+        type: "line",
+        data: {
+          datasets: sets3,
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Score",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+            y: {
+              max: 25,
+              title: {
+                display: true,
+                text: "Frequency",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title3}`,
               color: "white",
               font: {
                 family: "Montserrat",

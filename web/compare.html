@@ -26,7 +26,7 @@
       </table>
     </div>
 
-    <button class="comp-btn" onclick="get_selected()">
+    <button class="comp-btn" onclick="get_selected_rob()">
       Compare BERT searches
     </button>
 
@@ -47,17 +47,60 @@
         <tbody id="data-body2"></tbody>
       </table>
     </div>
+    <button class="comp-btn" onclick="get_selected_vad()">
+      Compare VADER searches
+    </button>
   </body>
 
   <script>
-    async function get_selected() {
-      var arr = [];
+    async function get_data_rob() {
+      data = await eel.get_files()();
+      table_body = document.getElementById("data-body");
+
+      for (const key of data[0]) {
+        file = key.split(",");
+        row = document.createElement("tr");
+        table_body.appendChild(row);
+
+        for (let i = 0; i < file.length + 3; i++) {
+          info = document.createElement("td");
+          if (i == 3) {
+            info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
+          } else if (i == 2) {
+            info.innerHTML = `${file[i].replaceAll(".", "/")}`;
+          } else if (i == 6) {
+            info.innerHTML = `<input onclick="" type="checkbox" name="test" value="">`;
+          } else if (i == 5) {
+            info.innerHTML = `<button class = "del-btn" onclick="delete_row_rob(this)">DELETE</button>`;
+          } else if (i == 4) {
+            info.innerHTML = `<button class = "view-btn" onclick="get_row_rob(this)">VIEW</button>`;
+          } else if (i == 1) {
+            if (file[i] == "Youtube") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Reddit") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-r-logo" src="reddit.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Twitter") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-t-logo" src="twitter.png" alt="" />${file[i]}</div>`;
+            } else if (file[i] == "Amazon") {
+              info.innerHTML = `<div class="s-logo-box"><img class="s-a-logo" src="amazon.png" alt="" />${file[i]}</div>`;
+            }
+          } else {
+            info.innerHTML = `${file[i]}`;
+          }
+          row.appendChild(info);
+        }
+      }
+      get_data_vad();
+    }
+
+    async function get_selected_rob() {
+      var datasets_to_fetch = [];
       table = document.getElementById("data-body");
       rows = table.getElementsByTagName("tr");
       console.log("------------------");
       for (const x of rows) {
         if (x.cells[6].getElementsByTagName("input")[0].checked) {
-          arr.push([
+          datasets_to_fetch.push([
             x.cells[0].innerHTML,
             x.cells[1].textContent,
             x.cells[2].innerHTML,
@@ -71,8 +114,8 @@
           );
         }
       }
-      await eel.comparison_2D(arr)();
-      console.log(arr);
+      await eel.apply_comparisons_rob(datasets_to_fetch)();
+      console.log(datasets_to_fetch);
       console.log("------------------");
       window.location.href = "roberta_compare.html";
     }
@@ -114,82 +157,6 @@
       }
     }
 
-    async function get_row_vad(x) {
-      index = x.parentNode.parentNode.rowIndex;
-      console.log(index);
-      table = document.querySelectorAll('table[ind="2"]')[0];
-      console.log(table);
-      row = table.getElementsByTagName("tr")[index];
-      console.log(
-        row.cells[0].innerHTML,
-        row.cells[1].textContent,
-        row.cells[2].innerHTML,
-        row.cells[3].innerHTML
-      );
-      await eel.apply_view_data_vad(
-        row.cells[0].innerHTML,
-        row.cells[1].textContent,
-        row.cells[2].innerHTML,
-        row.cells[3].innerHTML
-      )();
-      window.location.href = "vader_summary_view.html";
-    }
-
-    async function delete_row_vad(x) {
-      index = x.parentNode.parentNode.rowIndex;
-      table = document.querySelectorAll('table[ind="2"]')[0];
-      row = table.getElementsByTagName("tr")[index];
-      if (confirm("Are you sure?")) {
-        await eel.delete_row(
-          row.cells[0].innerHTML,
-          row.cells[1].textContent,
-          row.cells[2].innerHTML,
-          row.cells[3].innerHTML,
-          "vad"
-        )();
-        window.location.reload();
-      }
-    }
-    async function get_data_rob() {
-      data = await eel.get_files()();
-      table_body = document.getElementById("data-body");
-
-      for (const key of data[0]) {
-        file = key.split(",");
-        row = document.createElement("tr");
-        table_body.appendChild(row);
-
-        for (let i = 0; i < file.length + 3; i++) {
-          info = document.createElement("td");
-          if (i == 3) {
-            info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
-          } else if (i == 2) {
-            info.innerHTML = `${file[i].replaceAll(".", "/")}`;
-          } else if (i == 6) {
-            info.innerHTML = `<input onclick="" type="checkbox" name="test" value="">`;
-          } else if (i == 5) {
-            info.innerHTML = `<button class = "del-btn" onclick="delete_row_rob(this)">DELETE</button>`;
-          } else if (i == 4) {
-            info.innerHTML = `<button class = "view-btn" onclick="get_row_rob(this)">VIEW</button>`;
-          } else if (i == 1) {
-            if (file[i] == "Youtube") {
-              info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
-            } else if (file[i] == "Reddit") {
-              info.innerHTML = `<div class="s-logo-box"><img class="s-r-logo" src="reddit.png" alt="" />${file[i]}</div>`;
-            } else if (file[i] == "Twitter") {
-              info.innerHTML = `<div class="s-logo-box"><img class="s-t-logo" src="twitter.png" alt="" />${file[i]}</div>`;
-            } else if (file[i] == "Amazon") {
-              info.innerHTML = `<div class="s-logo-box"><img class="s-a-logo" src="amazon.png" alt="" />${file[i]}</div>`;
-            }
-          } else {
-            info.innerHTML = `${file[i]}`;
-          }
-          row.appendChild(info);
-        }
-      }
-      get_data_vad();
-    }
-
     async function get_data_vad() {
       data = await eel.get_files()();
       table_body = document.getElementById("data-body2");
@@ -226,6 +193,69 @@
           }
           row.appendChild(info);
         }
+      }
+    }
+    async function get_selected_vad() {
+      var datasets_to_fetch = [];
+      table = document.getElementById("data-body2");
+      rows = table.getElementsByTagName("tr");
+      console.log("------------------");
+      for (const x of rows) {
+        if (x.cells[6].getElementsByTagName("input")[0].checked) {
+          datasets_to_fetch.push([
+            x.cells[0].innerHTML,
+            x.cells[1].textContent,
+            x.cells[2].innerHTML,
+            x.cells[3].innerHTML,
+          ]);
+          console.log(
+            x.cells[0].innerHTML,
+            x.cells[1].textContent,
+            x.cells[2].innerHTML,
+            x.cells[3].innerHTML
+          );
+        }
+      }
+      await eel.apply_comparisons_vad(datasets_to_fetch)();
+      console.log(datasets_to_fetch);
+      console.log("------------------");
+      window.location.href = "vader_compare.html";
+    }
+
+    async function get_row_vad(x) {
+      index = x.parentNode.parentNode.rowIndex;
+      console.log(index);
+      table = document.querySelectorAll('table[ind="2"]')[0];
+      console.log(table);
+      row = table.getElementsByTagName("tr")[index];
+      console.log(
+        row.cells[0].innerHTML,
+        row.cells[1].textContent,
+        row.cells[2].innerHTML,
+        row.cells[3].innerHTML
+      );
+      await eel.apply_view_data_vad(
+        row.cells[0].innerHTML,
+        row.cells[1].textContent,
+        row.cells[2].innerHTML,
+        row.cells[3].innerHTML
+      )();
+      window.location.href = "vader_summary_view.html";
+    }
+
+    async function delete_row_vad(x) {
+      index = x.parentNode.parentNode.rowIndex;
+      table = document.querySelectorAll('table[ind="2"]')[0];
+      row = table.getElementsByTagName("tr")[index];
+      if (confirm("Are you sure?")) {
+        await eel.delete_row(
+          row.cells[0].innerHTML,
+          row.cells[1].textContent,
+          row.cells[2].innerHTML,
+          row.cells[3].innerHTML,
+          "vad"
+        )();
+        window.location.reload();
       }
     }
   </script>

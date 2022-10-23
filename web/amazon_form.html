@@ -20,7 +20,13 @@
             <span class="tooltiptext">Enter a product to search for.</span>
           </div>
 
-          <input placeholder="'RTX 3070'" type="text" name="term" id="term" />
+          <input
+            required
+            placeholder="'RTX 3070'"
+            type="text"
+            name="term"
+            id="term"
+          />
         </div>
         <div class="sentiment-box">
           <div class="tooltip">
@@ -62,6 +68,7 @@
             </span>
           </div>
           <input
+            required
             type="number"
             id="quantity"
             step="1"
@@ -78,21 +85,25 @@
 
   <script>
     async function process() {
-      content_arr = document.getElementsByClassName("content");
-      content_arr[0].style.display = "none";
-      loader = document.getElementsByClassName("load-block");
-      loader[0].style.visibility = "visible";
-      search_term = document.getElementById("term").value;
-      model = document.querySelector('input[name="model"]:checked').value;
-      depth = document.querySelector('input[name="quantity"]').value;
-      await eel.set_amazon_vars(search_term, model, depth)();
-      await eel.run_amazon()();
+      if (document.getElementsByTagName("form")[0].checkValidity()) {
+        model = document.querySelector('input[name="model"]:checked').value;
+        depth = document.querySelector('input[name="quantity"]').value;
+        content_arr = document.getElementsByClassName("content");
+        content_arr[0].style.display = "none";
+        loader = document.getElementsByClassName("load-block");
+        loader[0].style.visibility = "visible";
+        search_term = document.getElementById("term").value;
 
-      if (model == "vader") {
-        window.location.href = "vader_summary.html";
-      } else {
-        window.location.href = "roberta_summary.html";
+        await eel.set_amazon_vars(search_term, model, depth)();
+        await eel.run_amazon()();
+
+        if (model == "vader") {
+          window.location.href = "vader_summary.html";
+        } else {
+          window.location.href = "roberta_summary.html";
+        }
       }
+      alert("Populate all fields");
     }
 
     eel.expose(update_text);

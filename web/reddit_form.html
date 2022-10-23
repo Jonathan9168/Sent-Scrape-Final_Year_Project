@@ -16,7 +16,13 @@
         <h1 style="padding-top: 5%">Reddit Search Configuration</h1>
         <div class="search-term">
           <label for="term">Search Term</label>
-          <input placeholder="'RTX 3070'" type="text" name="term" id="term" />
+          <input
+            required
+            placeholder="'RTX 3070'"
+            type="text"
+            name="term"
+            id="term"
+          />
         </div>
 
         <div class="sentiment-box">
@@ -116,6 +122,7 @@
             </span>
           </div>
           <input
+            required
             type="number"
             id="quantity"
             step="1"
@@ -132,31 +139,36 @@
 
   <script>
     async function process() {
-      content_arr = document.getElementsByClassName("content");
-      content_arr[0].style.display = "none";
-      loader = document.getElementsByClassName("load-block");
-      loader[0].style.visibility = "visible";
-      search_term = document.getElementById("term").value;
-      comment_mode = document.querySelector(
-        'input[name="filter"]:checked'
-      ).value;
-      model = document.querySelector('input[name="model"]:checked').value;
-      segment = document.querySelector('input[name="category"]:checked').value;
-      limit = document.querySelector('input[name="quantity"]').value;
-      await eel.set_reddit_vars(
-        search_term,
-        comment_mode,
-        model,
-        segment,
-        limit
-      )();
-      await eel.run_reddit()();
+      if (document.getElementsByTagName("form")[0].checkValidity()) {
+        content_arr = document.getElementsByClassName("content");
+        content_arr[0].style.display = "none";
+        loader = document.getElementsByClassName("load-block");
+        loader[0].style.visibility = "visible";
+        search_term = document.getElementById("term").value;
+        comment_mode = document.querySelector(
+          'input[name="filter"]:checked'
+        ).value;
+        model = document.querySelector('input[name="model"]:checked').value;
+        segment = document.querySelector(
+          'input[name="category"]:checked'
+        ).value;
+        limit = document.querySelector('input[name="quantity"]').value;
+        await eel.set_reddit_vars(
+          search_term,
+          comment_mode,
+          model,
+          segment,
+          limit
+        )();
+        await eel.run_reddit()();
 
-      if (model == "vader") {
-        window.location.href = "vader_summary.html";
-      } else {
-        window.location.href = "roberta_summary.html";
+        if (model == "vader") {
+          window.location.href = "vader_summary.html";
+        } else {
+          window.location.href = "roberta_summary.html";
+        }
       }
+      alert("Populate all fields");
     }
 
     eel.expose(update_text);

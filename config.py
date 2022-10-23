@@ -190,16 +190,16 @@ def apply_view_data_vad(search, platform, date, time):
 
 
 @eel.expose
-def apply_comparisons_rob(selected_searches):
+def apply_comparisons_rob(selected_searches_2D):
     global comparison_dataframes, comparison_value_counts, dataset_names
-    print(selected_searches)
+    print(selected_searches_2D)
     comparison_dataframes, comparison_value_counts, dataset_names = [], [], []
 
-    for i, v in enumerate(selected_searches):
+    for i, v in enumerate(selected_searches_2D):
         comparison_dataframes.append(pd.read_csv(
             f"CSVs/rob_searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
             index_col=0))
-    dataset_names = selected_searches
+    dataset_names = selected_searches_2D
 
     for df in comparison_dataframes:
         neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())
@@ -209,16 +209,16 @@ def apply_comparisons_rob(selected_searches):
 
 
 @eel.expose
-def apply_comparisons_vad(selected_searches):
+def apply_comparisons_vad(selected_searches_2D):
     global comparison_dataframes, comparison_value_counts, dataset_names
-    print(selected_searches)
+    print(selected_searches_2D)
     comparison_dataframes, comparison_value_counts, dataset_names = [], [], []
 
-    for i, v in enumerate(selected_searches):
+    for i, v in enumerate(selected_searches_2D):
         comparison_dataframes.append(pd.read_csv(
             f"CSVs/vad_searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
             index_col=0))
-    dataset_names = selected_searches
+    dataset_names = selected_searches_2D
 
     for df in comparison_dataframes:
         neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())

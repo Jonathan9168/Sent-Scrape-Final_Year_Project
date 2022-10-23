@@ -111,7 +111,6 @@
   <script>
     async function process() {
       if (document.getElementsByTagName("form")[0].checkValidity()) {
-        alert("Populate all fields");
         content_arr = document.getElementsByClassName("content");
         content_arr[0].style.display = "none";
         loader = document.getElementsByClassName("load-block");
@@ -131,6 +130,7 @@
           window.location.href = "roberta_summary.html";
         }
       }
+      alert("Populate all fields");
     }
 
     eel.expose(update_text);

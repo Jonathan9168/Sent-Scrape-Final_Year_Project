@@ -67,7 +67,6 @@
       title2 = "Positive Scoring Comparison";
       title3 = "Compound Scoring Comparison";
 
-
       data_dicts = await eel.get_comparision_value_counts()();
       names = await eel.get_dataset_names()();
       console.log(data_dicts);
@@ -145,7 +144,7 @@
               },
             },
             y: {
-              max:25,
+              suggestedMax: 25,
               title: {
                 display: true,
                 text: "Frequency",
@@ -204,8 +203,7 @@
               },
             },
             y: {
-              max: 25,
-
+              suggestedMax: 25,
               title: {
                 display: true,
                 text: "Frequency",
@@ -263,8 +261,7 @@
               },
             },
             y: {
-              max: 25,
-
+              suggestedMax: 25,
               title: {
                 display: true,
                 text: "Frequency",
@@ -322,7 +319,7 @@
               },
             },
             y: {
-              max: 25,
+              suggestedMax: 25,
               title: {
                 display: true,
                 text: "Frequency",

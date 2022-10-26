@@ -95,7 +95,6 @@
               },
             },
             y: {
-              max: 25,
               title: {
                 display: true,
                 text: "Frequency",
@@ -107,8 +106,12 @@
               ticks: {
                 color: "white",
               },
+              afterDataLimits(scale) {
+                scale.max *= 4;
+              },
             },
           },
+
           plugins: {
             legend: {
               labels: {

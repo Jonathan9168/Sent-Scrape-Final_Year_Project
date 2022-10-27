@@ -3,8 +3,8 @@
 # Sent Scrape
 
 A tool made for primarily quantifying user opinions on PC hardware to help aid purchasing decisions  
-Two Sentiment Analysis approaches are used (Lexicon-Based And Pretrained Model)
-There are currently 4 platforms available for opinion retrieval each with their own parameters that a user can tweak, implemeneted via Webscraping and API(s) 
+Two Sentiment Analysis approaches are used (Lexicon-Based And Pretrained Model)  
+There are currently 4 platforms available for opinion retrieval each with their own tweakable parameters, implemeneted via Webscraping and APIs  
 
 ![image](https://user-images.githubusercontent.com/77795437/198416850-d4e41cf2-feaa-4e04-8aa3-01b79f45fa7c.png)
 

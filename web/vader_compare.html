@@ -17,6 +17,7 @@
         style="margin-left: auto; margin-right: auto; margin-top: 5%"
       ></canvas>
     </div>
+    <div class="comp-scores"></div>
     <div>
       <canvas
         id="histogram1"
@@ -25,6 +26,7 @@
         style="margin-left: auto; margin-right: auto; margin-top: 5%"
       ></canvas>
     </div>
+    <div class="comp-scores"></div>
     <div>
       <canvas
         id="histogram2"
@@ -33,6 +35,7 @@
         style="margin-left: auto; margin-right: auto; margin-top: 5%"
       ></canvas>
     </div>
+    <div class="comp-scores"></div>
     <div>
       <canvas
         id="histogram3"
@@ -41,6 +44,9 @@
         style="margin-left: auto; margin-right: auto; margin-top: 5%"
       ></canvas>
     </div>
+    <div class="comp-scores"></div>
+    <br />
+    <br />
   </body>
 
   <script>
@@ -354,6 +360,34 @@
           },
         },
       });
+
+      const options = {
+        decimalPlaces: 3,
+      };
+      scores_boxes = document.getElementsByClassName("comp-scores");
+      var count = 4;
+      for (box of scores_boxes) {
+        for (let i = 0; i < names.length; i++) {
+          new_div = document.createElement("div");
+          score_element = document.createElement("p");
+          score_element.classList.add("value");
+          score_element.id = `${names[i][3] + count}`;
+          score_element.style.color = `${colour_list[i]}`;
+          score_element.innerHTML = "0.000";
+          score_text = document.createElement("p");
+          score_text.innerHTML = `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`;
+          new_div.appendChild(score_element);
+          new_div.appendChild(score_text);
+          box.appendChild(new_div);
+          var numAnim = new countUp.CountUp(
+            `${names[i][3] + count}`,
+            `${names[i][count]}`,
+            options
+          );
+          numAnim.start();
+        }
+        count++;
+      }
     }
   </script>
 </html>

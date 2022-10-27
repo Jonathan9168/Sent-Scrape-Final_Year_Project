@@ -192,40 +192,49 @@ def apply_view_data_vad(search, platform, date, time):
 @eel.expose
 def apply_comparisons_rob(selected_searches_2D):
     global comparison_dataframes, comparison_value_counts, dataset_names
-    print(selected_searches_2D)
     comparison_dataframes, comparison_value_counts, dataset_names = [], [], []
 
     for i, v in enumerate(selected_searches_2D):
         comparison_dataframes.append(pd.read_csv(
             f"CSVs/rob_searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
             index_col=0))
-    dataset_names = selected_searches_2D
 
-    for df in comparison_dataframes:
+    for i, df in enumerate(comparison_dataframes):
         neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())
         neu_dict = json.dumps(df["neu"].value_counts().sort_index().to_dict())
         pos_dict = json.dumps(df["pos"].value_counts().sort_index().to_dict())
+
+        selected_searches_2D[i].extend(
+            [round(df['neg'].mean(), 3), round(df['neu'].mean(), 3), round(df['pos'].mean(), 3)])
         comparison_value_counts.append((neg_dict, neu_dict, pos_dict))
+
+    print(selected_searches_2D)
+    dataset_names = selected_searches_2D
 
 
 @eel.expose
 def apply_comparisons_vad(selected_searches_2D):
     global comparison_dataframes, comparison_value_counts, dataset_names
-    print(selected_searches_2D)
     comparison_dataframes, comparison_value_counts, dataset_names = [], [], []
 
     for i, v in enumerate(selected_searches_2D):
         comparison_dataframes.append(pd.read_csv(
             f"CSVs/vad_searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
             index_col=0))
-    dataset_names = selected_searches_2D
 
-    for df in comparison_dataframes:
+    for i, df in enumerate(comparison_dataframes):
         neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())
         neu_dict = json.dumps(df["neu"].value_counts().sort_index().to_dict())
         pos_dict = json.dumps(df["pos"].value_counts().sort_index().to_dict())
         compound_dict = json.dumps(df["compound"].value_counts().sort_index().to_dict())
         comparison_value_counts.append((neg_dict, neu_dict, pos_dict, compound_dict))
+
+        selected_searches_2D[i].extend(
+            [round(df['neg'].mean(), 3), round(df['neu'].mean(), 3), round(df['pos'].mean(), 3),
+             round(df['compound'].mean(), 3)])
+
+    print(selected_searches_2D)
+    dataset_names = selected_searches_2D
 
 
 @eel.expose

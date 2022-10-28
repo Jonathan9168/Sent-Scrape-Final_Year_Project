@@ -98,8 +98,10 @@
       table = document.getElementById("data-body");
       rows = table.getElementsByTagName("tr");
       console.log("------------------");
+      count = 0;
       for (const x of rows) {
         if (x.cells[6].getElementsByTagName("input")[0].checked) {
+          count++;
           datasets_to_fetch.push([
             x.cells[0].innerHTML,
             x.cells[1].textContent,
@@ -114,10 +116,15 @@
           );
         }
       }
-      await eel.apply_comparisons_rob(datasets_to_fetch)();
-      console.log(datasets_to_fetch);
-      console.log("------------------");
-      window.location.href = "roberta_compare.html";
+
+      if (count > 0) {
+        await eel.apply_comparisons_rob(datasets_to_fetch)();
+        console.log(datasets_to_fetch);
+        console.log("------------------");
+        window.location.href = "roberta_compare.html";
+      } else {
+        alert("Please select at least one dataset");
+      }
     }
 
     async function get_row_rob(x) {
@@ -200,8 +207,10 @@
       table = document.getElementById("data-body2");
       rows = table.getElementsByTagName("tr");
       console.log("------------------");
+      count = 0;
       for (const x of rows) {
         if (x.cells[6].getElementsByTagName("input")[0].checked) {
+          count++;
           datasets_to_fetch.push([
             x.cells[0].innerHTML,
             x.cells[1].textContent,
@@ -216,10 +225,14 @@
           );
         }
       }
-      await eel.apply_comparisons_vad(datasets_to_fetch)();
-      console.log(datasets_to_fetch);
-      console.log("------------------");
-      window.location.href = "vader_compare.html";
+      if (count > 0) {
+        await eel.apply_comparisons_vad(datasets_to_fetch)();
+        console.log(datasets_to_fetch);
+        console.log("------------------");
+        window.location.href = "vader_compare.html";
+      } else {
+        alert("Please select at least one dataset");
+      }
     }
 
     async function get_row_vad(x) {

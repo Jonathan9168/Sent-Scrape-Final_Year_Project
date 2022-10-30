@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/countUp.umd.js" type="module"></script>
+    <script src="eel.js"></script>
+  </head>
+
+  <body onload="build_graph()">
+    <a href="compare.html" id="back">➜</a>
+    <div>
+      <canvas
+        id="histogram"
+        width="800"
+        height="500"
+        style="margin-left: auto; margin-right: auto; margin-top: 5%"
+      ></canvas>
+    </div>
+  </body>
+
+  <script>
+    async function build_graph() {
+      var colour_list_light = [
+        "#003f5c20",
+        "#ff636120",
+        "#5c9c8420",
+        "#58508d20",
+        "#6495ed20",
+        "#ff69b420",
+        "#40e0d020",
+        "#ba55d320",
+        "#cd5c5c20",
+        "#ffa50020",
+      ];
+
+      var colour_list = [
+        "#003f5c",
+        "#ff6361",
+        "#5c9c84",
+        "#58508d",
+        "#6495ed",
+        "#ff69b4",
+        "#40e0d0",
+        "#ba55d3",
+        "#cd5c5c",
+        "#ffa500",
+      ];
+
+      var sets = [];
+      title = "RADAR Scoring Comparison";
+
+      names = await eel.get_dataset_names()();
+      console.log("Names:", names);
+
+      for (let i = 0; i < names.length; i++) {
+        var line = {
+          label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
+          data: [names[i][6], names[i][5], names[i][4]],
+          backgroundColor: `${colour_list_light[i]}`,
+          borderColor: `${colour_list[i]}`,
+          fill: true,
+        };
+        sets.push(line);
+      }
+
+      const ctx = document.getElementById("histogram").getContext("2d");
+
+      const chart = new Chart(ctx, {
+        type: "radar",
+        data: {
+          labels: ["Positive", "Neutral", "Negative"],
+          datasets: sets,
+        },
+        options: {
+          scales: {
+            r: {
+              pointLabels: {
+                color: "white",
+                font: {
+                  size: 15,
+                  family: "Montserrat",
+                },
+              },
+            },
+          },
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 25,
+              },
+            },
+          },
+        },
+      });
+    }
+  </script>
+</html>

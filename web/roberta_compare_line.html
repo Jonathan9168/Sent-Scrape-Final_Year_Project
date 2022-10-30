@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/countUp.umd.js" type="module"></script>
+    <script src="eel.js"></script>
+  </head>
+
+  <body onload="build_graph()">
+    <a href="compare.html" id="back">➜</a>
+    <div>
+      <canvas
+        id="histogram"
+        width="1000"
+        height="600"
+        style="margin-left: auto; margin-right: auto; margin-top: 5%"
+      ></canvas>
+    </div>
+    <div class="comp-scores"></div>
+    <div>
+      <canvas
+        id="histogram1"
+        width="1000"
+        height="600"
+        style="margin-left: auto; margin-right: auto; margin-top: 5%"
+      ></canvas>
+    </div>
+    <div class="comp-scores"></div>
+    <div>
+      <canvas
+        id="histogram2"
+        width="1000"
+        height="600"
+        style="margin-left: auto; margin-right: auto; margin-top: 5%"
+      ></canvas>
+    </div>
+    <div class="comp-scores"></div>
+    <br />
+    <br />
+  </body>
+
+  <script>
+    async function build_graph() {
+      var colour_list = [
+        "#003f5c",
+        "#ff6361",
+        "#5c9c84",
+        "#58508d",
+        "#6495ed",
+        "#ff69b4",
+        "#40e0d0",
+        "#ba55d3",
+        "#cd5c5c",
+        "#ffa500",
+      ];
+
+      var sets = [];
+      var sets1 = [];
+      var sets2 = [];
+
+      title = "Negative Scoring Comparison";
+      title1 = "Neutral Scoring Comparison";
+      title2 = "Positive Scoring Comparison";
+
+      data_dicts = await eel.get_comparision_value_counts()();
+      names = await eel.get_dataset_names()();
+      console.log(data_dicts);
+      console.log("Names:", names);
+
+      for (let i = 0; i < data_dicts.length; i++) {
+        var line = {
+          label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
+          data: JSON.parse(data_dicts[i][0]),
+          backgroundColor: `${colour_list[i]}`,
+          borderColor: `${colour_list[i]}`,
+          fill: false,
+        };
+        sets.push(line);
+      }
+
+      for (let i = 0; i < data_dicts.length; i++) {
+        var line = {
+          label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
+          data: JSON.parse(data_dicts[i][1]),
+          backgroundColor: `${colour_list[i]}`,
+          borderColor: `${colour_list[i]}`,
+          fill: false,
+        };
+        sets1.push(line);
+      }
+
+      for (let i = 0; i < data_dicts.length; i++) {
+        var line = {
+          label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
+          data: JSON.parse(data_dicts[i][2]),
+          backgroundColor: `${colour_list[i]}`,
+          borderColor: `${colour_list[i]}`,
+          fill: false,
+        };
+        sets2.push(line);
+      }
+
+      const ctx = document.getElementById("histogram").getContext("2d");
+      const ctx1 = document.getElementById("histogram1").getContext("2d");
+      const ctx2 = document.getElementById("histogram2").getContext("2d");
+
+      const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          datasets: sets,
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Score",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Frequency",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+              afterDataLimits(scale) {
+                scale.max *= 4;
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 25,
+              },
+            },
+          },
+        },
+      });
+
+      const chart1 = new Chart(ctx1, {
+        type: "line",
+        data: {
+          datasets: sets1,
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Score",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Frequency",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+                beginAtZero: true,
+              },
+              afterDataLimits(scale) {
+                scale.max *= 4;
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title1}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 30,
+              },
+            },
+          },
+        },
+      });
+      const chart2 = new Chart(ctx2, {
+        type: "line",
+        data: {
+          datasets: sets2,
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: "Score",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Frequency",
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+              ticks: {
+                color: "white",
+              },
+              afterDataLimits(scale) {
+                scale.max *= 3;
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white",
+                font: {
+                  family: "Montserrat",
+                },
+              },
+            },
+            title: {
+              display: true,
+              text: `${title2}`,
+              color: "white",
+              font: {
+                family: "Montserrat",
+                size: 30,
+              },
+            },
+          },
+        },
+      });
+
+      const options = {
+        decimalPlaces: 3,
+      };
+      scores_boxes = document.getElementsByClassName("comp-scores");
+      var count = 4;
+      for (box of scores_boxes) {
+        for (let i = 0; i < names.length; i++) {
+          new_div = document.createElement("div");
+          score_element = document.createElement("p");
+          score_element.classList.add("value");
+          score_element.id = `${names[i][3] + count}`;
+          score_element.style.color = `${colour_list[i]}`;
+          score_element.innerHTML = "0.000";
+          score_text = document.createElement("p");
+          score_text.innerHTML = `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`;
+          new_div.appendChild(score_element);
+          new_div.appendChild(score_text);
+          box.appendChild(new_div);
+          var numAnim = new countUp.CountUp(
+            `${names[i][3] + count}`,
+            `${names[i][count]}`,
+            options
+          );
+          numAnim.start();
+        }
+        count++;
+      }
+    }
+  </script>
+</html>

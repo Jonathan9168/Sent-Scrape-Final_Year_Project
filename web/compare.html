@@ -26,9 +26,14 @@
       </table>
     </div>
 
-    <button class="comp-btn" onclick="get_selected_rob()">
-      Compare BERT searches
-    </button>
+    <div class="btn-box">
+      <button class="comp-btn" onclick="get_selected_rob('line')">
+        Compare BERT searches [LINE]
+      </button>
+      <button class="comp-btn" onclick="get_selected_rob('radar')">
+        Compare BERT searches [RADAR]
+      </button>
+    </div>
 
     <div id="wrapper">
       <p class="comp-table-heading">VADER Searches</p>
@@ -47,9 +52,16 @@
         <tbody id="data-body2"></tbody>
       </table>
     </div>
-    <button class="comp-btn" onclick="get_selected_vad()">
-      Compare VADER searches
-    </button>
+    <div class="btn-box">
+      <button class="comp-btn" onclick="get_selected_vad('line')">
+        Compare VADER searches [LINE]
+      </button>
+      <button class="comp-btn" onclick="get_selected_vad('radar')">
+        Compare VADER searches [RADAR]
+      </button>
+    </div>
+    <br />
+    <br />
   </body>
 
   <script>
@@ -93,7 +105,7 @@
       get_data_vad();
     }
 
-    async function get_selected_rob() {
+    async function get_selected_rob(mode) {
       var datasets_to_fetch = [];
       table = document.getElementById("data-body");
       rows = table.getElementsByTagName("tr");
@@ -121,7 +133,11 @@
         await eel.apply_comparisons_rob(datasets_to_fetch)();
         console.log(datasets_to_fetch);
         console.log("------------------");
-        window.location.href = "roberta_compare.html";
+        if (mode == "line") {
+          window.location.href = "roberta_compare_line.html";
+        } else if (mode == "radar") {
+          window.location.href = "roberta_compare_radar.html";
+        }
       } else {
         alert("Please select at least one dataset");
       }
@@ -202,7 +218,7 @@
         }
       }
     }
-    async function get_selected_vad() {
+    async function get_selected_vad(mode) {
       var datasets_to_fetch = [];
       table = document.getElementById("data-body2");
       rows = table.getElementsByTagName("tr");
@@ -229,7 +245,11 @@
         await eel.apply_comparisons_vad(datasets_to_fetch)();
         console.log(datasets_to_fetch);
         console.log("------------------");
-        window.location.href = "vader_compare.html";
+        if (mode == "line") {
+          window.location.href = "vader_compare_line.html";
+        } else if (mode == "radar") {
+          window.location.href = "vader_compare_radar.html";
+        }
       } else {
         alert("Please select at least one dataset");
       }

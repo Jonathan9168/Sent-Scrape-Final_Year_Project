@@ -47,9 +47,9 @@ Post Search, the collected data sets are reviewable and are displayed via a full
 
 Here, user's can review an identical summary page for past searches and view their collected data sets. An option to delete a past searches is also available 
 
-![image](https://user-images.githubusercontent.com/77795437/198414713-b40d7290-9ead-4f9b-9a70-3ae5c8999bb3.png)
+![image](https://user-images.githubusercontent.com/77795437/198905697-cd929056-03ab-469b-bf46-ecf4a7b54d03.png)
 
-![image](https://user-images.githubusercontent.com/77795437/198414782-aa094b58-f625-4662-aba5-f8af40d7ed63.png)
+![image](https://user-images.githubusercontent.com/77795437/198905713-b03e0258-9a65-40c3-8a31-bffcfa3bc234.png)
 
 # Search Comparison
 
@@ -57,13 +57,25 @@ A user can compare the scoring of their searches by using available checkboxes f
 
 This in turn allows for the comparison of a single product on a paticular platform overtime; cross platform comparisons of the same or different products; or even a way to just individually see scoring for a search on seperate graphs
 
-## Example VADER Comparison
+## Example VADER Comparisons
+
+### Line
 
 ![image](https://user-images.githubusercontent.com/77795437/198415764-b59b1672-4b97-4c6f-ba41-73fb69ae5bbc.png)
 
+### Radar
+
+![image](https://user-images.githubusercontent.com/77795437/198905383-44118c29-0813-4ae7-8c87-9435268abbfa.png)
+
 ## Example ROBERT Comparison
 
+### Line
+
 ![image](https://user-images.githubusercontent.com/77795437/198416024-40cf9486-f89b-4c7b-b37a-6f7c99f6f211.png)
+
+### Radar
+
+![image](https://user-images.githubusercontent.com/77795437/198905603-df38fc7d-533c-4202-ae2a-86c146441fdb.png)
 
 # Built With
 

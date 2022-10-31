@@ -67,7 +67,7 @@ This in turn allows for the comparison of a single product on a paticular platfo
 
 ![image](https://user-images.githubusercontent.com/77795437/198905383-44118c29-0813-4ae7-8c87-9435268abbfa.png)
 
-## Example ROBERT Comparison
+## Example ROBERT Comparisons
 
 ### Line
 

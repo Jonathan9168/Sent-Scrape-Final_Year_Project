@@ -79,7 +79,7 @@ def get_product_info(driver):
     titles = driver.find_elements(By.CLASS_NAME, generate_class('a-size-medium a-color-base a-text-normal'))[:5]
     number_of_reviews = [item for item in
                          driver.find_elements(By.CLASS_NAME, generate_class('a-size-base s-underline-text')) if
-                         item.tag_name == "span"][:5]
+                         item.tag_name == "span"]
     links = [item.find_element(By.XPATH, './..') for item in titles][:5]
 
     # converting to raw forms
@@ -128,7 +128,6 @@ def scrape_reviews(link):
     scroll_bottom(driver)
     ActionChains(driver).move_to_element(
         driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
-    time.sleep(1)
 
     # focuses on region header so reviews are in DOM
     ActionChains(driver).move_to_element(
@@ -147,6 +146,7 @@ def scrape_reviews(link):
         if clicked_translate is False:
             clicked_translate = attempt_translation(driver)
 
+        time.sleep(2)
         # Extract reviews from page
         reviews = driver.find_elements(By.CSS_SELECTOR, "span[data-hook='review-body']")
         print(len(reviews))

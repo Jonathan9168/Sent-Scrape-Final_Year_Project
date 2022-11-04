@@ -21,7 +21,7 @@ def accept_cookies(driver):
     try:
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="content"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/a'))).click()
+                (By.XPATH, '//*[@id="content"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button'))).click()
         time.sleep(1.5)
     except TimeoutException:
         print("Comment section is probably private.")
@@ -53,9 +53,10 @@ def generate_driver():
 
 def get_video_links(browser):
     """Get the links to top 5 videos of product that appears on search"""
-    links = browser.find_elements(By.ID, value="thumbnail")
-    links = [links[x].get_attribute("href") for x in range(35) if
-             links[x].get_attribute("href") is not None][:5]
+    time.sleep(2)
+    links = browser.find_elements(By.ID, value="video-title")
+    links = [x.get_attribute("href") for x in links if
+             x.get_attribute("href") is not None][:5]
     print("Links:", links)
     return links
 

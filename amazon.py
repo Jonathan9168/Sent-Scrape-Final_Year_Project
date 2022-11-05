@@ -22,6 +22,8 @@ def generate_driver():
     chromeOption.add_argument("--log-level=3")
     chromeOption.add_argument("--silent")
     chromeOption.add_argument("--disable-blink-features=AutomationControlled")
+    chromeOption.add_experimental_option(
+        "excludeSwitches", ['enable-automation'])
     driver = webdriver.Chrome(options=chromeOption)
     return driver
 
@@ -71,14 +73,14 @@ def get_product_info(driver):
     # click one star and up button to show reviews that have a review number count
     time.sleep(0.8)
     driver.find_element(By.CSS_SELECTOR, "section[aria-label='1 Star & Up']").click()
-    time.sleep(2)
+    time.sleep(1)
 
     # get web elements of item listings titles
     # get web elements of review number counts
     # get parent element for each title listing element which will be the element that holds the listing link
     titles = driver.find_elements(By.CLASS_NAME, generate_class('a-size-medium a-color-base a-text-normal'))[:5]
     number_of_reviews = [item for item in
-                         driver.find_elements(By.CLASS_NAME, generate_class('a-size-base s-underline-text')) if
+                         driver.find_elements(By.CSS_SELECTOR, ".a-size-base.s-underline-text") if
                          item.tag_name == "span"]
     links = [item.find_element(By.XPATH, './..') for item in titles][:5]
 
@@ -87,10 +89,27 @@ def get_product_info(driver):
     number_of_reviews = [item.text for item in number_of_reviews]
     number_of_reviews = [int(value.replace(",", "")) if "," in value else int(value) for value in number_of_reviews]
     links = [item.get_attribute("href") for item in links]
+
     print(f'\nInitial - {len(titles)} : {len(number_of_reviews)} : {len(links)}')
 
     for a, b, c in zip(titles, number_of_reviews, links):
         print(f'{a:<150}:{b:<6}: {c}')
+
+    if len(number_of_reviews) == 0:
+        print("Retrying review numbers...")
+        for i in range(100):
+            print(f"Attempt {i + 1}")
+            driver.get(driver.current_url)
+            time.sleep(1)
+            number_of_reviews = [item for item in
+                                 driver.find_elements(By.CSS_SELECTOR, ".a-size-base.s-underline-text") if
+                                 item.tag_name == "span"]
+
+            number_of_reviews = [item.text for item in number_of_reviews]
+            number_of_reviews = [int(value.replace(",", "")) if "," in value else int(value) for value in
+                                 number_of_reviews]
+            if len(number_of_reviews) > 0:
+                break
 
     # find indexes of titles that don't contain search term
     indexes = []

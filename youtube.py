@@ -62,7 +62,7 @@ def get_video_links(browser):
 
 
 def generate_threads():
-    """Creating threads that will concurrently scrape n videos for comments"""
+    """Creating threads that will scrape n videos for comments in parallel"""
     print("Building Driver Thread Instances")
     eel.update_text("BUILDING THREAD INSTANCES")
     threads = []

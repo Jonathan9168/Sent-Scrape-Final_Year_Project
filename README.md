@@ -77,6 +77,10 @@ This in turn allows for the comparison of a single product on a paticular platfo
 
 ![image](https://user-images.githubusercontent.com/77795437/198905603-df38fc7d-533c-4202-ae2a-86c146441fdb.png)
 
+# Requirements
+- Google Chrome
+- Corresponding Chromedriver for your Google Chrome version from https://chromedriver.chromium.org/downloads
+
 # Built With
 
 - Python selenium/PRAW for scraping

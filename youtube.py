@@ -123,6 +123,7 @@ def get_comments(threadBrowser):
 
 
 def handle_options(sanitised_comment):
+    """Handles comment processing after data has been collected depending on user sentiment analysis method chosen"""
     if youtube_config.sentiment_mode == "vader":
         config.sanitised_youtube[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(sanitised_comment)
     elif youtube_config.sentiment_mode == "roberta":
@@ -146,6 +147,7 @@ def scrape_comments(link):
 
 @eel.expose
 def run_youtube():
+    """Method that begins scraping process"""
     global video_links, roberta
 
     roberta = []

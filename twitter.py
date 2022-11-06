@@ -61,8 +61,7 @@ def get_comments(driver):
         sanitised_comment = sentiment_analyser.pre_process_twitter(card.text)
         if check_conditions(sanitised_comment):
             if twitter_config.sentiment_mode == "vader":
-                config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(
-                    sanitised_comment)
+                config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(sanitised_comment)
             elif twitter_config.sentiment_mode == "roberta":
                 roberta.append(sanitised_comment)
 
@@ -83,12 +82,12 @@ def scroll(scrolls, driver):
     print(f'Scraping Twitter for: {query}')
 
     for _ in range(int(scrolls)):
-        print(f'scrape loop [{_+1}]')
+        print(f'PASS [{_+1}]')
         get_comments(driver)
         scroll_height = 1600
         document_height_before = driver.execute_script("return document.documentElement.scrollHeight")
         driver.execute_script(f"window.scrollTo(0, {document_height_before + scroll_height});")
-        time.sleep(1.0)
+        time.sleep(1)
 
 
 @eel.expose

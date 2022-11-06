@@ -49,10 +49,12 @@ def accept_cookies(driver):
 
 
 def generate_class(raw_class):
+    """Adds '.' to a give class string and returns it"""
     return raw_class.replace(' ', '.')
 
 
 def search_item(driver):
+    """Inserts search item into Amazon search bar"""
     search_box = driver.find_element(By.ID, 'twotabsearchtextbox')
     search_box.click()
     time.sleep(0.5)
@@ -69,6 +71,8 @@ def title_filtering(title):
 
 
 def get_product_info(driver):
+    """Retrieves product: listing title,number of reviews and product link"""
+
     # click one star and up button to show reviews that have a review number count
     time.sleep(0.8)
     driver.find_element(By.CSS_SELECTOR, "section[aria-label='1 Star & Up']").click()
@@ -78,23 +82,22 @@ def get_product_info(driver):
     # get web elements of review number counts
     # get parent element for each title listing element which will be the element that holds the listing link
     titles = driver.find_elements(By.CLASS_NAME, generate_class('a-size-medium a-color-base a-text-normal'))[:5]
-    number_of_reviews = [item for item in
-                         driver.find_elements(By.CSS_SELECTOR, ".a-size-base.s-underline-text") if
+    number_of_reviews = [item for item in driver.find_elements(By.CSS_SELECTOR, ".a-size-base.s-underline-text") if
                          item.tag_name == "span"][:5]
     links = [item.find_element(By.XPATH, './..') for item in titles][:5]
 
-    # converting to raw forms
+    # extracting raw text from elements
     titles = [item.text for item in titles]
     number_of_reviews = [item.text for item in number_of_reviews]
     number_of_reviews = [int(value.replace(",", "")) if "," in value else int(value) for value in number_of_reviews]
     links = [item.get_attribute("href") for item in links]
 
+    # prints initial state of elements
     print(f'\nInitial - {len(titles)} : {len(number_of_reviews)} : {len(links)}')
-
     for t, nr, l in zip(titles, number_of_reviews, links):
         print(f'{t:<150}:{nr:<6}: {l}')
 
-    # Initial method of obtaining review numbers known to be inconsistent but faster if it fails try longer but consistent approach
+    # method of obtaining review numbers above known to be inconsistent but faster if it fails try longer but consistent approach
     if len(number_of_reviews) == 0:
         print("\nFailed to obtain number of ratings. Trying alternative approach...")
         number_of_reviews = review_number_failsafe(number_of_reviews, links)
@@ -114,8 +117,8 @@ def get_product_info(driver):
         except IndexError:
             eel.update_text("NO LISTINGS FOUND")
 
+    # prints state of elements after filtering for irrelevant titles
     print(f'\nFiltered - {len(titles)} : {len(number_of_reviews)} : {len(links)}')
-
     for title, review_number, link in sorted(zip(titles, number_of_reviews, links), key=lambda x: x[1], reverse=True):
         print(f'{title:<150}:{review_number:<6}: {link}')
 
@@ -138,18 +141,17 @@ def review_number_failsafe(review_numbers, product_links):
 
 
 def scrape_reviews(link):
+    """Review page scraper. Starting from the product page will look for see all reviews button; check if a product has styles to filter reviews and store the comments"""
     global scraped_reviews
     clicked_translate = False
     driver = generate_driver()
     driver.get(link)
     accept_cookies(driver)
 
-    # ONLY ENABLE FOR FULL RUN, THIS CLICKS SEE ALL REVIEWS BUTTON ONLY PRESENT ON INITIAL PRODUCT PAGE
-    # Clicks "See all reviews at bottom of product page
+    # clicks See all reviews at bottom of product page
     scroll_bottom(driver)
     try:
-        ActionChains(driver).move_to_element(
-            driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
+        ActionChains(driver).move_to_element(driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
     except selenium.common.exceptions.NoSuchElementException:
         eel.update_text("NO REVIEWS FOR ITEM. PRESS F5 TO RETURN")
 
@@ -169,11 +171,11 @@ def scrape_reviews(link):
         # check if translation button has already been clicked if not, check if translation button is present
         if clicked_translate is False:
             clicked_translate = attempt_translation(driver)
+        time.sleep(1)
 
-        time.sleep(2)
         # Extract reviews from page
         reviews = driver.find_elements(By.CSS_SELECTOR, "span[data-hook='review-body']")
-        print(len(reviews))
+        print(f"PAGE [{_ + 1}]")
         for review in reviews:
             try:
                 scraped_reviews.append(review.text)
@@ -203,6 +205,7 @@ def scrape_reviews(link):
 
 
 def handle_mode(sanitised_comment):
+    """Handles comment processing after data has been collected depending on user sentiment analysis method chosen"""
     if amazon_config.sentiment_mode == "vader":
         config.sanitised_amazon[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(sanitised_comment)
     elif amazon_config.sentiment_mode == "roberta":
@@ -210,6 +213,7 @@ def handle_mode(sanitised_comment):
 
 
 def check_style(driver):
+    """Checks if product has style options and filters for relevant item"""
     try:
         handle_style = driver.find_element(By.ID, "format-type-dropdown")
         print("\nThis product uses style options...\n")
@@ -221,6 +225,7 @@ def check_style(driver):
 
 
 def attempt_translation(driver):
+    """Attempts to translate reviews if page has non english comments"""
     try:
         driver.find_element(By.CSS_SELECTOR, "a[data-hook='cr-translate-these-reviews-link']").click()
         print("\nReviews will now be translated to English after first encounter of Non-English review...")
@@ -234,17 +239,20 @@ def attempt_translation(driver):
 
 
 def scroll_custom(driver, height):
+    """Scroll a certain amount down on a page"""
     driver.execute_script(f"window.scrollTo(0, {height});")
     time.sleep(1)
 
 
 def scroll_bottom(driver):
+    """Scroll to the bottom of a page"""
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(2)
+    time.sleep(1)
 
 
 @eel.expose
 def run_amazon():
+    """Method that begins scraping process"""
     eel.update_text("GENERATING DRIVER")
     browser = generate_driver()
     browser.get("https://www.amazon.co.uk/")

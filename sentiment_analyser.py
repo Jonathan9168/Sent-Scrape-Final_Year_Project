@@ -14,7 +14,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 """Regular expression patterns to be applied to text for sanitising"""
 emotes_punctuation = re.compile("["
-                                u"\U0001F600-\U0001F64F"  # emoticons
+                                u"\U0001F600-\U0001F64F"  # emotes
                                 u"\U0001F300-\U0001F5FF"  # symbols & pictographs
                                 u"\U0001F680-\U0001F6FF"  # transport & map symbols
                                 u"\U0001F1E0-\U0001F1FF"
@@ -47,6 +47,7 @@ emotes_punctuation = re.compile("["
 
 
 def pre_process_twitter(comment):
+    """Text pre-processing for Twitter"""
     comment = comment.lower()
     comment = re.sub('https?://\S+|www\.\S+', ' ', comment)  # Remove links
     comment = re.sub(r'@[a-zA-Z0-9]+', ' ', comment)  # Remove @username
@@ -60,6 +61,7 @@ def pre_process_twitter(comment):
 
 
 def pre_process(comment):
+    """Text pre-processing for other platforms"""
     comment = comment.lower()
     comment = re.sub('https?://\S+|www\.\S+', ' ', comment)  # Remove links
     comment = re.sub('@[a-zA-Z0-9]+', ' ', comment)  # Remove @username
@@ -108,8 +110,7 @@ def roberta_analyze_sentiment(comments, sent_dict):
     device_model = torch.cuda.get_device_name(0) if torch.cuda.is_available() else cpuinfo.get_cpu_info()["brand_raw"]
 
     eel.update_text(f"ANALYSING SENTIMENT USING {device_model}")
-    print(
-        f'\nDevice: {device_model}')
+    print(f'\nDevice: {device_model}')
     print(f'No. Chunks [chunk_size = {chunk_size}]: {len(comment_chunks)}')
 
     with torch.inference_mode():
@@ -160,6 +161,7 @@ def generate_sentiment_report_roberta(sent_dict, platform_name):
 
 
 def draw_df(df):
+    """Draws current pandas dataframe"""
     with pd.option_context('display.max_rows', None, 'display.max_columns', None, 'display.max_colwidth', 153,
                            'expand_frame_repr', False, 'colheader_justify', 'center'):
         print("\n")

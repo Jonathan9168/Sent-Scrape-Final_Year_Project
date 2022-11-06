@@ -5,7 +5,6 @@ import config
 import selenium
 import amazon_config
 import sentiment_analyser
-from termcolor import colored
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common import TimeoutException
@@ -34,7 +33,7 @@ def accept_cookies(driver):
         time.sleep(1)
         ActionChains(driver).move_to_element(
             driver.find_element(By.CSS_SELECTOR, "input[id='sp-cc-accept']")).click().perform()
-        print('Cookies accepted')
+        print('\nCookies accepted')
         time.sleep(1)
     except selenium.common.exceptions.NoSuchElementException:
         try:
@@ -81,7 +80,7 @@ def get_product_info(driver):
     titles = driver.find_elements(By.CLASS_NAME, generate_class('a-size-medium a-color-base a-text-normal'))[:5]
     number_of_reviews = [item for item in
                          driver.find_elements(By.CSS_SELECTOR, ".a-size-base.s-underline-text") if
-                         item.tag_name == "span"]
+                         item.tag_name == "span"][:5]
     links = [item.find_element(By.XPATH, './..') for item in titles][:5]
 
     # converting to raw forms
@@ -92,24 +91,13 @@ def get_product_info(driver):
 
     print(f'\nInitial - {len(titles)} : {len(number_of_reviews)} : {len(links)}')
 
-    for a, b, c in zip(titles, number_of_reviews, links):
-        print(f'{a:<150}:{b:<6}: {c}')
+    for t, nr, l in zip(titles, number_of_reviews, links):
+        print(f'{t:<150}:{nr:<6}: {l}')
 
+    # Initial method of obtaining review numbers known to be inconsistent but faster if it fails try longer but consistent approach
     if len(number_of_reviews) == 0:
-        print("Retrying review numbers...")
-        for i in range(100):
-            print(f"Attempt {i + 1}")
-            driver.get(driver.current_url)
-            time.sleep(1)
-            number_of_reviews = [item for item in
-                                 driver.find_elements(By.CSS_SELECTOR, ".a-size-base.s-underline-text") if
-                                 item.tag_name == "span"]
-
-            number_of_reviews = [item.text for item in number_of_reviews]
-            number_of_reviews = [int(value.replace(",", "")) if "," in value else int(value) for value in
-                                 number_of_reviews]
-            if len(number_of_reviews) > 0:
-                break
+        print("\nFailed to obtain number of ratings. Trying alternative approach...")
+        number_of_reviews = review_number_failsafe(number_of_reviews, links)
 
     # find indexes of titles that don't contain search term
     indexes = []
@@ -135,6 +123,20 @@ def get_product_info(driver):
     return {k: v for k, v in sorted(dict(zip(number_of_reviews, links)).items(), reverse=True)}
 
 
+def review_number_failsafe(review_numbers, product_links):
+    """Alternative method of getting number of ratings if initial method fails. Will instead load each product page individually and scrape data from there rather than product results page."""
+    for link in product_links:
+        driver = generate_driver()
+        driver.get(link)
+        review_numbers.append(driver.find_element(By.ID, "acrCustomerReviewText").text.split(" ")[0].replace(",", ""))
+        driver.quit()
+    if len(review_numbers) > 0:
+        print("Alternate approach successful")
+    else:
+        print("Both approaches failed.")
+    return review_numbers
+
+
 def scrape_reviews(link):
     global scraped_reviews
     clicked_translate = False
@@ -145,8 +147,11 @@ def scrape_reviews(link):
     # ONLY ENABLE FOR FULL RUN, THIS CLICKS SEE ALL REVIEWS BUTTON ONLY PRESENT ON INITIAL PRODUCT PAGE
     # Clicks "See all reviews at bottom of product page
     scroll_bottom(driver)
-    ActionChains(driver).move_to_element(
-        driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
+    try:
+        ActionChains(driver).move_to_element(
+            driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
+    except selenium.common.exceptions.NoSuchElementException:
+        eel.update_text("NO REVIEWS FOR ITEM. PRESS F5 TO RETURN")
 
     # focuses on region header so reviews are in DOM
     ActionChains(driver).move_to_element(
@@ -218,12 +223,11 @@ def check_style(driver):
 def attempt_translation(driver):
     try:
         driver.find_element(By.CSS_SELECTOR, "a[data-hook='cr-translate-these-reviews-link']").click()
-        print(colored("\nReviews will now be translated to English after first encounter of Non-English review...",
-                      'red'))
+        print("\nReviews will now be translated to English after first encounter of Non-English review...")
         time.sleep(1)
         return True
     except selenium.common.exceptions.NoSuchElementException:
-        print(colored('\nNo comments need translating on this page...\n', 'green'))
+        print('\nNo comments need translating on this page...\n')
         return False
     except selenium.common.exceptions.StaleElementReferenceException:
         return False

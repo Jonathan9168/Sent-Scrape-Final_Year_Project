@@ -49,11 +49,6 @@ def get_title():
 
 
 @eel.expose
-def get_view_title():
-    return view_title
-
-
-@eel.expose
 def get_title_view():
     return view_title
 
@@ -181,7 +176,7 @@ def apply_view_data_rob(search, platform, date, time):
     search_term_view = search
     view_dataframe = pd.read_csv(
         f"CSVs/rob_searches/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv", index_col=0)
-    view_title = f'"{search.title()}" on {platform} analyzed using roBERTa'
+    view_title = f'"{search.upper()}" on {platform} analyzed using roBERTa'
 
 
 @eel.expose
@@ -190,7 +185,7 @@ def apply_view_data_vad(search, platform, date, time):
     search_term_view = search
     view_dataframe = pd.read_csv(
         f"CSVs/vad_searches/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv", index_col=0)
-    view_title = f"'{search.title()}' on {platform} analyzed using NLTK's Vader"
+    view_title = f"'{search.upper()}' on {platform} analyzed using NLTK's Vader"
 
 
 @eel.expose

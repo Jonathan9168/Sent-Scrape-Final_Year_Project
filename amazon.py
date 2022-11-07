@@ -200,7 +200,6 @@ def scrape_reviews(link):
         else:
             scroll_bottom(driver)
             driver.find_element(By.CLASS_NAME, 'a-last').click()
-            time.sleep(1)
     driver.quit()
 
 

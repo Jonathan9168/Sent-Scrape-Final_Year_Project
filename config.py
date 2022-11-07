@@ -168,7 +168,11 @@ def get_dict_view():
 
 @eel.expose
 def get_files():
-    return os.listdir("CSVs/rob_searches/"), os.listdir("CSVs/vad_searches/")
+    rob_filenames = os.listdir("CSVs/rob_searches/")
+    vad_filenames = os.listdir("CSVs/vad_searches/")
+    rob_filenames.sort(key=lambda x: os.path.getmtime(os.path.join("CSVs/rob_searches/", x)), reverse=True)
+    vad_filenames.sort(key=lambda x: os.path.getmtime(os.path.join("CSVs/vad_searches/", x)), reverse=True)
+    return rob_filenames, vad_filenames
 
 
 @eel.expose

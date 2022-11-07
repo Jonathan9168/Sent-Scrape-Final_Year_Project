@@ -150,8 +150,8 @@ def generate_report(sentiment_mode, sent_dict, platform):
 def check_filter(comment):
     """Conditions that a comment must meet to pass filtration"""
     a = re.search(search_term, comment, re.IGNORECASE)
-    b = any(substring.lower() in comment for substring in term_substrings_by_delimiters)
-    c = any(substring.lower() in comment for substring in term_substrings_spaced)
+    b = all(substring.lower() in comment for substring in term_substrings_by_delimiters)
+    c = all(substring.lower() in comment for substring in term_substrings_spaced)
     d = len(comment) <= 350
     return (a or b or c) and d
 

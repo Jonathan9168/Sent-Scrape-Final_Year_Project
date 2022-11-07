@@ -65,8 +65,8 @@ def search_item(driver):
 def title_filtering(title):
     """Conditions that a title must meet to pass filtration"""
     a = re.search(config.search_term, title, re.IGNORECASE)
-    b = any(substring.lower() in title.lower() for substring in config.term_substrings_by_delimiters)
-    c = any(substring.lower() in title.lower() for substring in config.term_substrings_spaced)
+    b = all(substring.lower() in title.lower() for substring in config.term_substrings_by_delimiters)
+    c = all(substring.lower() in title.lower() for substring in config.term_substrings_spaced)
     return a or b or c
 
 
@@ -89,7 +89,12 @@ def get_product_info(driver):
     # extracting raw text from elements
     titles = [item.text for item in titles]
     number_of_reviews = [item.text for item in number_of_reviews]
-    number_of_reviews = [int(value.replace(",", "")) if "," in value else int(value) for value in number_of_reviews]
+
+    try:
+        number_of_reviews = [int(value.replace(",", "")) if "," in value else int(value) for value in number_of_reviews]
+    except ValueError:
+        number_of_reviews = []
+
     links = [item.get_attribute("href") for item in links]
 
     # prints initial state of elements

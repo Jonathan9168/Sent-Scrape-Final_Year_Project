@@ -1,4 +1,3 @@
-import re
 import eel
 import time
 import config
@@ -59,19 +58,10 @@ def get_comments(driver):
     tweetCards = driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
     for card in tweetCards:
         sanitised_comment = sentiment_analyser.pre_process_twitter(card.text)
-        if check_conditions(sanitised_comment):
-            if twitter_config.sentiment_mode == "vader":
-                config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(sanitised_comment)
-            elif twitter_config.sentiment_mode == "roberta":
-                roberta.append(sanitised_comment)
-
-
-def check_conditions(comment):
-    """Conditions that a comment must meet to pass filtration"""
-    a = re.search(config.search_term, comment, re.IGNORECASE)
-    b = any(substring in comment for substring in config.term_substrings_by_delimiters)
-    c = any(substring in comment for substring in config.term_substrings_spaced)
-    return a or b or c
+        if twitter_config.sentiment_mode == "vader":
+            config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(sanitised_comment)
+        elif twitter_config.sentiment_mode == "roberta":
+            roberta.append(sanitised_comment)
 
 
 def scroll(scrolls, driver):
@@ -82,7 +72,8 @@ def scroll(scrolls, driver):
     print(f'Scraping Twitter for: {query}')
 
     for _ in range(int(scrolls)):
-        print(f'PASS [{_+1}]')
+        print(f'PASS [{_+1}/{twitter_config.comment_depth}]')
+        eel.update_text(f'PASS [{_+1}/{twitter_config.comment_depth}]')
         get_comments(driver)
         scroll_height = 1600
         document_height_before = driver.execute_script("return document.documentElement.scrollHeight")

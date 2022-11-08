@@ -181,6 +181,7 @@ def scrape_reviews(link):
         # Extract reviews from page
         reviews = driver.find_elements(By.CSS_SELECTOR, "span[data-hook='review-body']")
         print(f"PAGE [{_ + 1}]")
+        eel.update_text(f"SCRAPING PAGE {_ + 1}")
         for review in reviews:
             try:
                 scraped_reviews.append(review.text)
@@ -205,6 +206,7 @@ def scrape_reviews(link):
         else:
             scroll_bottom(driver)
             driver.find_element(By.CLASS_NAME, 'a-last').click()
+            time.sleep(1)
     driver.quit()
 
 

@@ -11,11 +11,11 @@ There are currently 4 platforms available for opinion retrieval each with their 
 # Understanding Scoring
 
 ## VADER (Lexicon-Based)
-![image](https://user-images.githubusercontent.com/77795437/198411969-c5efc622-964b-4fa6-84ae-cffe8309b33b.png)
+![image](https://user-images.githubusercontent.com/77795437/201168914-93dc8fc9-4c7a-4f17-a658-68ad3e83495f.png)
 ## ROBERTA (Pretrained Model)
 If an NVIDIA GPU Is present, the CUDA device will be used to speed up model inference
 
-![image](https://user-images.githubusercontent.com/77795437/198411999-e59aa531-8b30-4796-bd9c-fcacbbd5a4a0.png)
+![image](https://user-images.githubusercontent.com/77795437/201169078-3e8129cd-2471-4070-8d3d-069dc80e8edf.png)
 
 # Platforms 
 

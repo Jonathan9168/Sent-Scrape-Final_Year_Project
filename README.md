@@ -6,7 +6,7 @@ A tool made for primarily quantifying user opinions on PC hardware to help aid p
 Two Sentiment Analysis approaches are used (Lexicon-Based And Pretrained Model)  
 There are currently 4 platforms available for opinion retrieval each with their own tweakable parameters, implemeneted via Webscraping and APIs  
 
-![image](https://user-images.githubusercontent.com/77795437/198416850-d4e41cf2-feaa-4e04-8aa3-01b79f45fa7c.png)
+![image](https://user-images.githubusercontent.com/77795437/201180710-688bd3ae-bc17-4424-b624-1ed042fc6e7f.png)
 
 # Understanding Scoring
 
@@ -21,11 +21,16 @@ If an NVIDIA GPU Is present, the CUDA device will be used to speed up model infe
 
 Platforms implemented, are typical sites we may use to find opinions on a product before making a purchase
 
-![image](https://user-images.githubusercontent.com/77795437/198411318-c1740020-091f-47d6-8e1f-acb6beea739c.png)
+![image](https://user-images.githubusercontent.com/77795437/201179855-24270606-0b0b-4776-ab38-edb85d51061c.png)
 
-Reddit Form Example
+# Form examples
 
-![image](https://user-images.githubusercontent.com/77795437/198413769-c0ae72e7-1477-4ee2-a8ab-05540600294f.png)
+## Reddit 
+
+![image](https://user-images.githubusercontent.com/77795437/201180078-04338e03-0320-4c54-b8e5-b9ca826d1539.png)
+
+## Twitter
+![image](https://user-images.githubusercontent.com/77795437/201180418-67f4ad27-ec4c-4d5a-ac75-50191e90c8ce.png)
 
 # Assessment
 
@@ -39,17 +44,19 @@ On completion of analysis, the user will receive an assessment based on the coll
 
 ## Example Data Set Snapshot
 
-Post Search, the collected data sets are reviewable and are displayed via a fully ineractable table which allows sorting of comment scores based on column
+Post search, the collected data sets are reviewable and are displayed via a fully ineractable table which allows sorting of comment scores based on column
 
-![image](https://user-images.githubusercontent.com/77795437/198414439-546e751d-d3c8-44fc-a9d0-bff5599ac22e.png)
+![image](https://user-images.githubusercontent.com/77795437/201177609-8ddc76ce-3d57-420a-a473-c4ddf874a339.png)
+
+![image](https://user-images.githubusercontent.com/77795437/201179369-68d74e4a-a7b2-4e22-86a3-469a7d3010e0.png)
 
 # Search History 
 
 Here, user's can review an identical summary page for past searches and view their collected data sets. An option to delete a past searches is also available 
 
-![image](https://user-images.githubusercontent.com/77795437/198905697-cd929056-03ab-469b-bf46-ecf4a7b54d03.png)
+![image](https://user-images.githubusercontent.com/77795437/201176643-bfbea628-81d4-4a88-86d7-d541bd67659a.png)
 
-![image](https://user-images.githubusercontent.com/77795437/198905713-b03e0258-9a65-40c3-8a31-bffcfa3bc234.png)
+![image](https://user-images.githubusercontent.com/77795437/201176853-0159b3c9-b595-4d10-801b-cdc25b7a9e99.png)
 
 # Search Comparison
 

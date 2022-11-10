@@ -503,13 +503,16 @@ th {
 }
 
 tr {
-  border-bottom: thin solid black;
   width: 100%;
 }
 
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
 td {
-  background-color: rgb(36, 36, 36);
-  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2em;
 }
 
 .text-class {
@@ -519,7 +522,7 @@ td {
 #table-header-row {
   position: sticky;
   top: 0;
-  background-color: hsl(227, 10%, 10%);
+  background-color: hsl(227, 10%, 7%);
 }
 
 ::-webkit-scrollbar {
@@ -591,7 +594,6 @@ td {
   font-size: x-large;
   margin: 0;
   padding: 2%;
-  background-color: rgb(36, 36, 36);
 }
 
 .comp-btn {

@@ -18,9 +18,9 @@
         <thead>
           <tr id="table-header-row">
             <th>Comment</th>
-            <th>Neg</th>
-            <th>Neu</th>
-            <th>Pos</th>
+            <th style="color: #f98686">Neg</th>
+            <th style="color: #fcba03">Neu</th>
+            <th style="color: lightgreen">Pos</th>
           </tr>
         </thead>
         <tbody id="data-body"></tbody>
@@ -36,6 +36,7 @@
         row = document.getElementById("data-table").tHead.children[0];
         compound_col = document.createElement("th");
         compound_col.innerHTML = "Compound";
+        compound_col.style.color = style = "lightblue";
         row.appendChild(compound_col);
       }
       sorttable.makeSortable(document.getElementById("data-table"));

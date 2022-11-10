@@ -4,4 +4,4 @@ import twitter # noqa
 import reddit # noqa
 import youtube # noqa
 import amazon # noqa
-eel.start("index.html", size=(1200, 700), mode='chrome')
+eel.start("index.html", size=(1300, 700), mode='chrome')

@@ -74,7 +74,7 @@ def get_product_info(driver):
     """Retrieves product: listing title,number of reviews and product link"""
 
     # click one star and up button to show reviews that have a review number count
-    time.sleep(0.8)
+    time.sleep(1)
     driver.find_element(By.CSS_SELECTOR, "section[aria-label='1 Star & Up']").click()
     time.sleep(1)
 
@@ -132,12 +132,18 @@ def get_product_info(driver):
 
 
 def review_number_failsafe(review_numbers, product_links):
-    """Alternative method of getting number of ratings if initial method fails. Will instead load each product page individually and scrape data from there rather than product results page."""
+    """Alternative method of getting number of ratings if initial method fails.
+    Will instead load each product page individually and scrape number of ratings from there rather than product results page."""
     for link in product_links:
         driver = generate_driver()
-        driver.get(link)
-        review_numbers.append(driver.find_element(By.ID, "acrCustomerReviewText").text.split(" ")[0].replace(",", ""))
-        driver.quit()
+        try:
+            driver.get(link)
+            review_numbers.append(driver.find_element(By.ID, "acrCustomerReviewText").text.split(" ")[0].replace(",", ""))
+            driver.quit()
+        except (selenium.common.exceptions.InvalidArgumentException, selenium.common.exceptions.NoSuchElementException):
+            eel.update_text("INVALID ITEM. PRESS F5 TO RETURN")
+            driver.quit()
+
     if len(review_numbers) > 0:
         print("Alternate approach successful")
     else:
@@ -156,7 +162,8 @@ def scrape_reviews(link):
     # clicks See all reviews at bottom of product page
     scroll_bottom(driver)
     try:
-        ActionChains(driver).move_to_element(driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
+        ActionChains(driver).move_to_element(
+            driver.find_element(By.CSS_SELECTOR, "a[data-hook = 'see-all-reviews-link-foot']")).click().perform()
     except selenium.common.exceptions.NoSuchElementException:
         eel.update_text("NO REVIEWS FOR ITEM. PRESS F5 TO RETURN")
 
@@ -186,10 +193,7 @@ def scrape_reviews(link):
             try:
                 scraped_reviews.append(review.text)
             except selenium.common.exceptions.StaleElementReferenceException:
-                print("stale here")
-                driver.refresh()
-                time.sleep(1.5)
-                scraped_reviews.append(review.text)
+                pass
 
         # Process reviews
         for rev in scraped_reviews:
@@ -274,7 +278,7 @@ def run_amazon():
         time.sleep(1)
         scrape_reviews(list(link_list.values())[0])  # Passes link of listing with most reviews for scraping
     except IndexError:
-        eel.update_text("INVALID ITEM. PRESS F5 TO RETURN TO FORM")
+        eel.update_text("INVALID ITEM. PRESS F5 TO RETURN")
 
     if amazon_config.sentiment_mode == "roberta":
         sentiment_analyser.roberta_analyze_sentiment(roberta, config.sanitised_amazon)

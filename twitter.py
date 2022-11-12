@@ -1,6 +1,7 @@
 import eel
 import time
 import config
+import selenium
 import twitter_config
 import sentiment_analyser
 from selenium import webdriver
@@ -53,15 +54,19 @@ def accept_cookies(driver):
 
 
 def get_comments(driver):
-    """Gets Twitter cards in between scrolling as once scrolled past, tweets are lost
-    limit roberta comment threshold to lower batch size to stop cuda running out of memory"""
+    """Gets Twitter cards in between scrolling as once scrolled past, tweets are lost."""
+
     tweetCards = driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
     for card in tweetCards:
-        sanitised_comment = sentiment_analyser.pre_process_twitter(card.text)
-        if twitter_config.sentiment_mode == "vader":
-            config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(sanitised_comment)
-        elif twitter_config.sentiment_mode == "roberta":
-            roberta.append(sanitised_comment)
+        try:
+            sanitised_comment = sentiment_analyser.pre_process_twitter(card.text)
+            if twitter_config.sentiment_mode == "vader":
+                config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(
+                    sanitised_comment)
+            elif twitter_config.sentiment_mode == "roberta":
+                roberta.append(sanitised_comment)
+        except selenium.common.exceptions.StaleElementReferenceException:
+            pass
 
 
 def scroll(scrolls, driver):
@@ -72,8 +77,8 @@ def scroll(scrolls, driver):
     print(f'Scraping Twitter for: {query}')
 
     for _ in range(int(scrolls)):
-        print(f'PASS [{_+1}/{twitter_config.comment_depth}]')
-        eel.update_text(f'PASS [{_+1}/{twitter_config.comment_depth}]')
+        print(f'PASS [{_ + 1}/{twitter_config.comment_depth}]')
+        eel.update_text(f'PASS [{_ + 1}/{twitter_config.comment_depth}]')
         get_comments(driver)
         scroll_height = 1600
         document_height_before = driver.execute_script("return document.documentElement.scrollHeight")

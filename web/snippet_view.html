@@ -37,6 +37,7 @@
         compound_col = document.createElement("th");
         compound_col.innerHTML = "Compound";
         compound_col.style.color = style = "lightblue";
+        compound_col.classList.add("sorttable_numeric");
         row.appendChild(compound_col);
       }
       sorttable.makeSortable(document.getElementById("data-table"));

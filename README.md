@@ -57,7 +57,7 @@ Here, user's can review an identical summary page for past searches and view the
 
 ![image](https://user-images.githubusercontent.com/77795437/201176643-bfbea628-81d4-4a88-86d7-d541bd67659a.png)
 
-![image](https://user-images.githubusercontent.com/77795437/201176853-0159b3c9-b595-4d10-801b-cdc25b7a9e99.png)
+![image](https://user-images.githubusercontent.com/77795437/201763196-fc68879b-2747-4d8d-bf12-dd1fcca261cf.png)
 
 # Search Comparison
 

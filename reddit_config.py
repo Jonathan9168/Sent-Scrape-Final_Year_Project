@@ -11,8 +11,7 @@ sub_reddit = {
     'gpu': ["buildapc", "hardware", "nvidia", "amd", "intel"],
     'ram': ["buildapc", "pcgaming", "hardware"],
     'storage': ["buildapc", "hardware", "DataHoarder"],
-    'psu': ["buildapc", "hardware"],
-    'monitor': ["buildapc", "hardware", "buildapcmonitors", "Monitors"]
+    'other': ["all", "buildapc", "hardware", "pcgaming", "buildapcmonitors", "Monitors"],
 }
 
 # vader or roberta

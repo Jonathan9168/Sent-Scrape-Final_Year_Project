@@ -5,6 +5,9 @@ import json
 import pandas as pd
 import sentiment_analyser
 from datetime import datetime
+import chromedriver_autoinstaller
+
+chromedriver_autoinstaller.install()
 
 search_term_view, search_term = "", ""
 term_substrings_by_delimiters = re.split(r'\s|-', search_term)

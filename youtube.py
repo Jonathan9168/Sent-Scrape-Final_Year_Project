@@ -167,7 +167,7 @@ def run_youtube():
     print("Accepting Cookies...")
     accept_cookies(browser)
     print("Cookies Accepted...")
-    time.sleep(2.5)
+    time.sleep(2)
     browser.refresh()
     eel.update_text("FETCHING VIDEO LINKS")
     print("Fetching Video Links...")

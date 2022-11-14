@@ -27,10 +27,11 @@ Platforms implemented, are typical sites we may use to find opinions on a produc
 
 ## Reddit 
 
-![image](https://user-images.githubusercontent.com/77795437/201180078-04338e03-0320-4c54-b8e5-b9ca826d1539.png)
+![image](https://user-images.githubusercontent.com/77795437/201761781-26d767ea-7156-410f-ac49-ce2fa3102be2.png)
 
-## Twitter
-![image](https://user-images.githubusercontent.com/77795437/201180418-67f4ad27-ec4c-4d5a-ac75-50191e90c8ce.png)
+## YouTube
+
+![image](https://user-images.githubusercontent.com/77795437/201761977-de559c19-9985-42b1-bf6b-7a7b740a8fbe.png)
 
 # Assessment
 
@@ -86,7 +87,6 @@ This in turn allows for the comparison of a single product on a paticular platfo
 
 # Requirements
 - Google Chrome
-- Corresponding Chromedriver for your Google Chrome version from https://chromedriver.chromium.org/downloads
 
 # Built With
 

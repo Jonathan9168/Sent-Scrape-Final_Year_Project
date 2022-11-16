@@ -68,6 +68,8 @@ def pre_process(comment):
     comment = re.sub('#[a-zA-Z0-9]+', ' ', comment)  # Remove hashtag
     comment = comment.translate(str.maketrans('', '', string.punctuation))  # Remove Punctuation
     comment = re.sub('\n +', ' ', comment)  # Remove new lines
+    comment = comment.replace("\n", " ")
+    comment = re.sub("\s +", "", comment)
     comment = emotes_punctuation.sub('', comment)
     comment = re.sub(' \s+', ' ', comment)
     comment.strip()

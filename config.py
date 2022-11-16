@@ -273,6 +273,9 @@ def delete_row(search, platform, date, time, mode):
 def save_to_csv():
     date_time = datetime.now().strftime("%d/%m/%Y,%H:%M:%S").split(',')
     destination_folder = "rob_searches" if sent_mode == "rob" else "vad_searches"
-    current_dataframe.to_csv(
-        f"CSVs/{destination_folder}/{search_term},{platform_name},{date_time[0].replace('/', '.')},{date_time[1].replace(':', '.')}.csv",
-        encoding='utf-8')
+    try:
+        current_dataframe.to_csv(
+            f"CSVs/{destination_folder}/{search_term},{platform_name},{date_time[0].replace('/', '.')},{date_time[1].replace(':', '.')}.csv",
+            encoding='utf-8')
+    except OSError:
+        eel.update_text("INVALID CHARACTER IN FILENAME")

@@ -92,7 +92,7 @@ def scroll(scrolls, threadBrowser, link):
         scroll_height = 2000
         document_height_before = threadBrowser.execute_script("return document.documentElement.scrollHeight")
         threadBrowser.execute_script(f"window.scrollTo(0, {document_height_before + scroll_height});")
-        time.sleep(0.8)
+        time.sleep(1)
 
 
 def click_more(threadBrowser):
@@ -135,6 +135,7 @@ def scrape_comments(link):
     New Chrome instance per thread --> Get relevant URL --> Concurrently scrape comments"""
     thread_browser = generate_driver()
     thread_browser.get(link)
+    time.sleep(1)
     accept_cookies(thread_browser)
 
     scroll(youtube_config.comment_depth, thread_browser, link)

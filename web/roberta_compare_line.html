@@ -62,12 +62,14 @@
       title = "Negative Scoring Comparison";
       title1 = "Neutral Scoring Comparison";
       title2 = "Positive Scoring Comparison";
-
+      // names = [[<search_term>,<platform>,<date>,<time>,<neg_mean>,<neu_mean>,<pos_mean>]...,]
+      // data_dicts = [(neg_dict, neu_dict, pos_dict)...,]
       data_dicts = await eel.get_comparision_value_counts()();
       names = await eel.get_dataset_names()();
       console.log(data_dicts);
       console.log("Names:", names);
 
+      // negative line data set plots
       for (let i = 0; i < data_dicts.length; i++) {
         var line = {
           label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
@@ -111,7 +113,7 @@
           datasets: sets,
         },
         options: {
-          responsive: true,
+          responsive: false,
           scales: {
             x: {
               type: "linear",
@@ -172,7 +174,7 @@
           datasets: sets1,
         },
         options: {
-          responsive: true,
+          responsive: false,
           scales: {
             x: {
               type: "linear",
@@ -233,7 +235,7 @@
           datasets: sets2,
         },
         options: {
-          responsive: true,
+          responsive: false,
           scales: {
             x: {
               type: "linear",

@@ -39,7 +39,7 @@ def generate_link(link):
 
 
 def generate_driver():
-    """Generating driver instances"""
+    """Generating driver instance"""
     chromeOption = Options()
     chromeOption.add_argument("--headless")
     chromeOption.add_argument("--window-size=1600,1200")
@@ -104,10 +104,10 @@ def click_more(threadBrowser):
         threadBrowser.execute_script("arguments[0].click();", button)
 
 
-def get_comments(threadBrowser):
+def get_comments(thread_browser):
     """For a given Webdriver running on a thread, collate the comments"""
     global total_comments
-    comments = threadBrowser.find_elements(By.ID, value="content-text")
+    comments = thread_browser.find_elements(By.ID, value="content-text")
     with lock:
         total_comments += len(comments)
         print("Checking comments...")
@@ -154,16 +154,16 @@ def run_youtube():
     roberta = []
     print("\nInitialising Key Variables....")
 
-    searchLink = "https://www.youtube.com/results?search_query="
+    search_link = "https://www.youtube.com/results?search_query="
 
     print("Variables Initialised....")
     eel.update_text("GENERATING DRIVER")
     browser = generate_driver()
     eel.update_text("BUILDING SEARCH URL")
     print("Building Search Link...")
-    searchLink = generate_link(searchLink)
-    print("Search Link: ", searchLink)
-    browser.get(searchLink)
+    search_link = generate_link(search_link)
+    print("Search Link: ", search_link)
+    browser.get(search_link)
     eel.update_text("ACCEPTING COOKIES")
     print("Accepting Cookies...")
     accept_cookies(browser)

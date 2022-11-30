@@ -1,3 +1,4 @@
+import re
 import eel
 import time
 import config
@@ -42,12 +43,12 @@ def generate_driver():
 
 
 def accept_cookies(driver):
-    """Clicking Accept cookies box on Twitter search Page"""
+    """Clicking Accept cookies box on Twitter search page"""
     try:
-        cookieClass = 'css-18t94o4 css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-18kxxzh r-1q142lx r-eu3ka r-5oul0u r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr r-lif3th'
+        cookie_class = 'css-18t94o4 css-1dbjc4n r-42olwf r-sdzlij r-1phboty r-rs99b7 r-18kxxzh r-1q142lx r-eu3ka r-5oul0u r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr r-lif3th'
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable(
-                (By.CLASS_NAME, cookieClass.replace(' ', '.')))).click()
+                (By.CLASS_NAME, cookie_class.replace(' ', '.')))).click()
     except TimeoutException:
         print("Wasn't able to accept cookies...")
         driver.quit()
@@ -56,17 +57,26 @@ def accept_cookies(driver):
 def get_comments(driver):
     """Gets Twitter cards in between scrolling as once scrolled past, tweets are lost."""
 
-    tweetCards = driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
-    for card in tweetCards:
+    tweet_cards = driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+    for card in tweet_cards:
         try:
             sanitised_comment = sentiment_analyser.pre_process_twitter(card.text)
-            if twitter_config.sentiment_mode == "vader":
-                config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(
-                    sanitised_comment)
-            elif twitter_config.sentiment_mode == "roberta":
-                roberta.append(sanitised_comment)
+            if check_conditions(sanitised_comment):
+                if twitter_config.sentiment_mode == "vader":
+                    config.sanitised_twitter[sanitised_comment] = sentiment_analyser.vader_analyze_sentiment(
+                        sanitised_comment)
+                elif twitter_config.sentiment_mode == "roberta":
+                    roberta.append(sanitised_comment)
         except selenium.common.exceptions.StaleElementReferenceException:
             pass
+
+
+def check_conditions(comment):
+    """Conditions that a comment must meet to pass filtration"""
+    a = re.search(config.search_term, comment, re.IGNORECASE)
+    b = any(substring in comment for substring in config.term_substrings_by_delimiters)
+    c = any(substring in comment for substring in config.term_substrings_spaced)
+    return a or b or c
 
 
 def scroll(scrolls, driver):

@@ -12,8 +12,8 @@
     <div>
       <canvas
         id="histogram"
-        width="800"
-        height="500"
+        width="1000"
+        height="600"
         style="margin-left: auto; margin-right: auto; margin-top: 5%"
       ></canvas>
     </div>
@@ -49,10 +49,11 @@
 
       var sets = [];
       title = "RADAR Scoring Comparison";
-
+      // names = [[<search_term>,<platform>,<date>,<time>,<neg_mean>,<neu_mean>,<pos_mean>]...,]
       names = await eel.get_dataset_names()();
       console.log("Names:", names);
 
+      // radar data set plots
       for (let i = 0; i < names.length; i++) {
         var line = {
           label: `${names[i][0]} ${names[i][1]} ${names[i][2]} ${names[i][3]}`,
@@ -84,7 +85,7 @@
               },
             },
           },
-          responsive: true,
+          responsive: false,
           plugins: {
             legend: {
               labels: {

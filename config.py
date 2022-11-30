@@ -13,7 +13,7 @@ search_term_view, search_term = "", ""
 term_substrings_by_delimiters = re.split(r'\s|-', search_term)
 term_substrings_spaced = search_term.split(" ")
 
-# Final dictionaries that hold (comment : score) mapping for respective social media platforms
+# Final dictionaries that hold (comment : scores) mapping for respective social media platforms
 sanitised_youtube, sanitised_reddit, sanitised_twitter, sanitised_amazon = {}, {}, {}, {}
 
 current_dataframe = pd.DataFrame.from_dict({})
@@ -32,7 +32,7 @@ final_score = 0
 data_title, view_title = "", ""
 rob_files, vad_files = [], []
 
-comparison_dataframes, comparison_value_counts = [], []
+comparison_data_frames, comparison_value_counts = [], []
 dataset_names = []
 
 
@@ -166,6 +166,8 @@ def get_dict_view():
 
 @eel.expose
 def get_files():
+    """Returns file names of searches in each local search storage directory sorted by newest which allows the front end
+     history page to construct table with correct data"""
     rob_filenames = os.listdir("CSVs/rob_searches/")
     vad_filenames = os.listdir("CSVs/vad_searches/")
     rob_filenames.sort(key=lambda x: os.path.getmtime(os.path.join("CSVs/rob_searches/", x)), reverse=True)
@@ -193,15 +195,20 @@ def apply_view_data_vad(search, platform, date, time):
 
 @eel.expose
 def apply_comparisons_rob(selected_searches_2D):
-    global comparison_dataframes, comparison_value_counts, dataset_names
-    comparison_dataframes, comparison_value_counts, dataset_names = [], [], []
-
+    """Recieves data set names list from front end, reads data frames of these files into memory, extends name of files
+    with their overall scoring and store their full datasets in memory"""
+    global comparison_data_frames, comparison_value_counts, dataset_names
+    comparison_data_frames, comparison_value_counts, dataset_names = [], [], []
+    # selected_searches_2D = [[<search_term>,<platform>,<date>,<time>]]
+    # comparison_data_frames = [data_frame_0,...,data_frame_n]
     for i, v in enumerate(selected_searches_2D):
-        comparison_dataframes.append(pd.read_csv(
+        comparison_data_frames.append(pd.read_csv(
             f"CSVs/rob_searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
             index_col=0))
 
-    for i, df in enumerate(comparison_dataframes):
+    # selected_searches_2D = [[<search_term>,<platform>,<date>,<time>,<neg_mean>,<neu_mean>,<pos_mean>]...,]
+    # comparison_value_counts = [(neg_dict, neu_dict, pos_dict)...,]
+    for i, df in enumerate(comparison_data_frames):
         neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())
         neu_dict = json.dumps(df["neu"].value_counts().sort_index().to_dict())
         pos_dict = json.dumps(df["pos"].value_counts().sort_index().to_dict())
@@ -216,15 +223,20 @@ def apply_comparisons_rob(selected_searches_2D):
 
 @eel.expose
 def apply_comparisons_vad(selected_searches_2D):
-    global comparison_dataframes, comparison_value_counts, dataset_names
-    comparison_dataframes, comparison_value_counts, dataset_names = [], [], []
-
+    """Recieves data set names list from front end, reads data frames of these files into memory, extends name of files
+    with their overall scoring and store their full datasets in memory"""
+    global comparison_data_frames, comparison_value_counts, dataset_names
+    comparison_data_frames, comparison_value_counts, dataset_names = [], [], []
+    # selected_searches_2D = [[<search_term>,<platform>,<date>,<time>]]
+    # comparison_data_frames = [data_frame_0,...,data_frame_n]
     for i, v in enumerate(selected_searches_2D):
-        comparison_dataframes.append(pd.read_csv(
+        comparison_data_frames.append(pd.read_csv(
             f"CSVs/vad_searches/{v[0]},{v[1]},{v[2].replace('/', '.')},{v[3].replace(':', '.')}.csv",
             index_col=0))
 
-    for i, df in enumerate(comparison_dataframes):
+    # selected_searches_2D = [[<search_term>,<platform>,<date>,<time>,<neg_mean>,<neu_mean>,<pos_mean>,<compound_mean>]...,]
+    # comparison_value_counts = [(neg_dict, neu_dict, pos_dict, compound_dict)...,]
+    for i, df in enumerate(comparison_data_frames):
         neg_dict = json.dumps(df["neg"].value_counts().sort_index().to_dict())
         neu_dict = json.dumps(df["neu"].value_counts().sort_index().to_dict())
         pos_dict = json.dumps(df["pos"].value_counts().sort_index().to_dict())

@@ -46,21 +46,7 @@ emotes_punctuation = re.compile("["
                                 "]+", flags=re.UNICODE)
 
 
-def pre_process_twitter(comment):
-    """Text pre-processing for Twitter"""
-    comment = comment.lower()
-    comment = re.sub('https?://\S+|www\.\S+', ' ', comment)  # Remove links
-    comment = re.sub(r'@[a-zA-Z0-9]+', ' ', comment)  # Remove @username
-    comment = comment.translate(str.maketrans('', '', punctuation.replace("#", "")))  # Remove Punctuation
-    comment = re.sub('\n', ' ', comment)  # Remove new lines
-    comment = re.sub('\n ', ' ', comment)
-    comment = emotes_punctuation.sub('', comment)
-    comment = re.sub(' +', ' ', comment)
-    comment.strip()
-    return comment
-
-
-def pre_process(comment):
+def pre_process(comment: str) -> str:
     """Text pre-processing for other platforms"""
     comment = comment.lower()
     comment = re.sub('https?://\S+|www\.\S+', ' ', comment)  # Remove links
@@ -79,13 +65,25 @@ def pre_process(comment):
     return comment
 
 
+def pre_process_twitter(comment: str) -> str:
+    """Text pre-processing for Twitter"""
+    comment = comment.lower()
+    comment = re.sub('https?://\S+|www\.\S+', ' ', comment)  # Remove links
+    comment = re.sub(r'@[a-zA-Z0-9]+', ' ', comment)  # Remove @username
+    comment = comment.translate(str.maketrans('', '', punctuation.replace("#", "")))  # Remove Punctuation
+    comment = re.sub('\n', ' ', comment)  # Remove new lines
+    comment = re.sub('\n ', ' ', comment)
+    comment = emotes_punctuation.sub('', comment)
+    comment = re.sub(' +', ' ', comment)
+    comment.strip()
+    return comment
+
+
 def vader_analyze_sentiment(comment):
-    """Calculates sentiment of comment passed through and returns a dict {neg:val, neu:val, pos:val, compound:val} : -1 <= val <= 1
-    Using vader 'bag of words' approach
-    tokenizes and assigns ratings to each word individually
-    removes stop words (filler words like 'the')
-    doesn't consider relationships between words
-    ALL IN ALL VERY SIMPLE APPROACH"""
+    """Calculates sentiment of comment passed through and returns a dict {neg:val, neu:val, pos:val, compound:val} : compound(-1 <= val <= 1)
+    neg,neu,pos(0 <= val <= 1)
+    Using VADER 'bag of words' lexicon-based approach
+    tokenizes and assigns ratings to each word individually, aggregates neg,neu,pos to give a compound score"""
     return SentimentIntensityAnalyzer().polarity_scores(comment)
 
 
@@ -95,9 +93,9 @@ def chunkify(lst, n):
         yield lst[i:i + n]
 
 
-def roberta_analyze_sentiment(comments, sent_dict):
-    """Adapted: https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment
-    using RoBERTa pretrained model to make AI predictions much more accurate than vader but can be time-consuming if gpu hardware
+def roberta_analyze_sentiment(comments: list, sent_dict: dict):
+    """Adapted: https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest
+    using RoBERTa pretrained model to make predictions can be more accurate than vader but can be time-consuming if gpu hardware
     leverage isn't present must use CPU instead"""
     config.sent_mode = "rob"
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -138,6 +136,7 @@ def roberta_analyze_sentiment(comments, sent_dict):
 
 
 def generate_sentiment_report_vader(sent_dict, platform_name):
+    """Generate Pandas DataFrame where df headers = comment, neg, neu, pos, compounds"""
     config.sent_mode = "vad"
     eel.update_text("GENERATING REPORT")
     """Generate Pandas DataFrame where df headers = comment, neg, neu, pos, compound"""

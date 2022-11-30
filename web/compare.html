@@ -105,6 +105,7 @@
       get_data_vad();
     }
 
+    // Builds a list of data sets to fetch from file archive, does this by getting the data from checked rows to build file names
     async function get_selected_rob(mode) {
       var datasets_to_fetch = [];
       table = document.getElementById("data-body");
@@ -120,12 +121,6 @@
             x.cells[2].innerHTML,
             x.cells[3].innerHTML,
           ]);
-          console.log(
-            x.cells[0].innerHTML,
-            x.cells[1].textContent,
-            x.cells[2].innerHTML,
-            x.cells[3].innerHTML
-          );
         }
       }
 
@@ -149,12 +144,6 @@
       table = document.querySelectorAll('table[ind="1"]')[0];
       console.log(table);
       row = table.getElementsByTagName("tr")[index];
-      console.log(
-        row.cells[0].innerHTML,
-        row.cells[1].textContent,
-        row.cells[2].innerHTML,
-        row.cells[3].innerHTML
-      );
       await eel.apply_view_data_rob(
         row.cells[0].innerHTML,
         row.cells[1].textContent,
@@ -218,6 +207,8 @@
         }
       }
     }
+        // Builds a list of data sets to fetch from file archive, does this by getting the data from checked rows to build file names
+
     async function get_selected_vad(mode) {
       var datasets_to_fetch = [];
       table = document.getElementById("data-body2");

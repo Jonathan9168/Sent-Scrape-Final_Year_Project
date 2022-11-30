@@ -5,7 +5,7 @@ import config
 # vader or roberta
 sentiment_mode = ""
 
-# determines how deep into comment pool to scrape. Higher = Longer especially if there are not enough comment to fulfill
+# determines how deep into comment pool to scrape.
 comment_depth = 0
 
 # all or filtered

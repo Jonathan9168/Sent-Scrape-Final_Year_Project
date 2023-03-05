@@ -64,7 +64,8 @@
             <span class="tooltiptext"
               >Refers to how deep into a search pool (page wise) the scraper
               will go to look for reviews. The higher the value the more
-              comments will be gathered at the expense of run time.
+              comments will be gathered at the expense of run time. Min = 1, Max
+              = 100
             </span>
           </div>
           <input
@@ -103,7 +104,9 @@
           window.location.href = "roberta_summary.html";
         }
       } else {
-        alert("Populate all fields");
+        alert(
+          "Populate all fields and check pagination depth does not exceed limit."
+        );
       }
     }
 

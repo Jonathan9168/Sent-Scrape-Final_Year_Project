@@ -115,7 +115,7 @@
             <span class="tooltiptext"
               >Refers to how many threads from predefined subreddits that
               comments should be taken from. The more threads, the longer the
-              runtime. Min = 1 Max = 5
+              runtime. Min = 1, Max = 5
             </span>
           </div>
           <input
@@ -165,7 +165,9 @@
           window.location.href = "roberta_summary.html";
         }
       } else {
-        alert("Populate all fields");
+        alert(
+          "Populate all fields and check thread limit does not exceed threshold"
+        );
       }
     }
 

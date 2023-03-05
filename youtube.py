@@ -21,7 +21,8 @@ def accept_cookies(driver):
     try:
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="content"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button'))).click()
+                (By.XPATH,
+                 '//*[@id="content"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button'))).click()
         time.sleep(1.5)
     except TimeoutException:
         print("Comment section is probably private.")
@@ -55,8 +56,7 @@ def get_video_links(browser):
     """Get the links to top 5 videos of product that appears on search"""
     time.sleep(2)
     links = browser.find_elements(By.ID, value="video-title")
-    links = [x.get_attribute("href") for x in links if
-             x.get_attribute("href") is not None][:5]
+    links = [x.get_attribute("href") for x in links if x.get_attribute("href") is not None][:5]
     print("Links:", links)
     return links
 
@@ -80,7 +80,7 @@ def generate_threads():
         thread.join()
 
 
-def scroll(scrolls, threadBrowser, link):
+def scroll(scrolls, thread_browser, link):
     """Scrolls down a given amount of times for a webdriver to load comments
     Scrolls --> Number of scrolls to do (More scrolls = longer runtime)
     threadBrowser --> Webdriver instance associated with a thread
@@ -90,8 +90,8 @@ def scroll(scrolls, threadBrowser, link):
             print(f'Scraping comments for "{config.search_term.upper()}" video [{str(video_links.index(link) + 1)}]...')
 
         scroll_height = 2000
-        document_height_before = threadBrowser.execute_script("return document.documentElement.scrollHeight")
-        threadBrowser.execute_script(f"window.scrollTo(0, {document_height_before + scroll_height});")
+        document_height_before = thread_browser.execute_script("return document.documentElement.scrollHeight")
+        thread_browser.execute_script(f"window.scrollTo(0, {document_height_before + scroll_height});")
         time.sleep(1)
 
 

@@ -72,7 +72,6 @@ def title_filtering(title):
 
 def get_product_info(driver):
     """Retrieves product: listing title,number of reviews and product link"""
-
     # click one star and up button to show reviews that have a review number count
     time.sleep(1)
     driver.find_element(By.CSS_SELECTOR, "section[aria-label='1 Star & Up']").click()

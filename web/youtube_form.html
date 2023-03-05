@@ -89,7 +89,7 @@
             <span class="tooltiptext"
               >Refers to how deep into a search pool the scraper will go. The
               higher the value the more comments will be gathered at the expense
-              of run time.
+              of run time. Min = 1, Max = 100
             </span>
           </div>
           <input
@@ -130,7 +130,9 @@
           window.location.href = "roberta_summary.html";
         }
       } else {
-        alert("Populate all fields");
+        alert(
+          "Populate all fields and check comment depth does not exceed limit."
+        );
       }
     }
 

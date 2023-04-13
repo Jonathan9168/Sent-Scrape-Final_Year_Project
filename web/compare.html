@@ -28,7 +28,7 @@
 
     <div class="btn-box">
       <button class="comp-btn" onclick="get_selected_rob('line')">
-        Compare BERT searches [LINE]
+        Compare BERT searches [SCATTER]
       </button>
       <button class="comp-btn" onclick="get_selected_rob('radar')">
         Compare BERT searches [RADAR]
@@ -54,7 +54,7 @@
     </div>
     <div class="btn-box">
       <button class="comp-btn" onclick="get_selected_vad('line')">
-        Compare VADER searches [LINE]
+        Compare VADER searches [SCATTER]
       </button>
       <button class="comp-btn" onclick="get_selected_vad('radar')">
         Compare VADER searches [RADAR]
@@ -83,9 +83,9 @@
           } else if (i == 6) {
             info.innerHTML = `<input class="check" type="checkbox">`;
           } else if (i == 5) {
-            info.innerHTML = `<button class = "del-btn" onclick="delete_row_rob(this)">DELETE</button>`;
+            info.innerHTML = `<button class = "comp-btn-del" onclick="delete_row_rob(this)">DELETE</button>`;
           } else if (i == 4) {
-            info.innerHTML = `<button class = "view-btn" onclick="get_row_rob(this)">VIEW</button>`;
+            info.innerHTML = `<button class = "comp-btn-view" onclick="get_row_rob(this)">VIEW</button>`;
           } else if (i == 1) {
             if (file[i] == "Youtube") {
               info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
@@ -124,7 +124,7 @@
         }
       }
 
-      if (count > 0) {
+      if (count > 0 && count < 11) {
         await eel.apply_comparisons_rob(datasets_to_fetch)();
         console.log(datasets_to_fetch);
         console.log("------------------");
@@ -134,7 +134,7 @@
           window.location.href = "roberta_compare_radar.html";
         }
       } else {
-        alert("Please select at least one dataset");
+        alert("Please select 1 to 10 searches for comparison");
       }
     }
 
@@ -187,9 +187,9 @@
           } else if (i == 6) {
             info.innerHTML = `<input class="check" type="checkbox">`;
           } else if (i == 5) {
-            info.innerHTML = `<button class = "del-btn" onclick="delete_row_vad(this)">DELETE</button>`;
+            info.innerHTML = `<button class = "comp-btn-del" onclick="delete_row_vad(this)">DELETE</button>`;
           } else if (i == 4) {
-            info.innerHTML = `<button class = "view-btn" onclick="get_row_vad(this)">VIEW</button>`;
+            info.innerHTML = `<button class = "comp-btn-view" onclick="get_row_vad(this)">VIEW</button>`;
           } else if (i == 1) {
             if (file[i] == "Youtube") {
               info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
@@ -207,7 +207,7 @@
         }
       }
     }
-        // Builds a list of data sets to fetch from file archive, does this by getting the data from checked rows to build file names
+    // Builds a list of data sets to fetch from file archive, does this by getting the data from checked rows to build file names
 
     async function get_selected_vad(mode) {
       var datasets_to_fetch = [];
@@ -232,7 +232,7 @@
           );
         }
       }
-      if (count > 0) {
+      if (count > 0 && count < 11) {
         await eel.apply_comparisons_vad(datasets_to_fetch)();
         console.log(datasets_to_fetch);
         console.log("------------------");
@@ -242,7 +242,7 @@
           window.location.href = "vader_compare_radar.html";
         }
       } else {
-        alert("Please select at least one dataset");
+        alert("Please select 1 to 10 searches for comparison");
       }
     }
 

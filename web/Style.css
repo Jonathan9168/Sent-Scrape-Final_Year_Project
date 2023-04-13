@@ -53,7 +53,6 @@ a {
 }
 
 .start:hover,
-.run:hover,
 .save:hover {
   color: grey;
   transition: 1s;
@@ -166,7 +165,10 @@ a {
 }
 
 .btn-group button:hover,
-.comp-btn:hover {
+.comp-btn:hover,
+.comp-btn-del:hover,
+.comp-btn-view:hover,
+.run:hover {
   background-color: rgb(36, 36, 36);
 }
 
@@ -358,27 +360,39 @@ input[type="number"] {
 }
 
 .run {
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
+  font-family: Montserrat;
+  white-space: nowrap;
+  background-color: hsl(227, 10%, 10%);
+  border-width: 1px;
+  color: lightgray;
+  padding: 12px 26px;
+  cursor: pointer;
+  animation: fadein 6s;
+  transition: 1.5s;
   text-align: center;
-  font-size: 1.3em;
-  color: white;
-  animation: fadein 3s;
-  font-weight: 100;
-  transition: 1s;
-  margin-top: 1em;
+  border: none;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+  width: 8%;
+  margin: auto;
 }
 
 .save {
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
+  font-family: Montserrat;
+  white-space: nowrap;
+  background-color: hsl(227, 10%, 10%);
+  border-width: 1px;
+  color: lightgray;
+  padding: 12px 26px;
+  cursor: pointer;
+  animation: fadein 6s;
+  transition: 1.5s;
   text-align: center;
-  font-size: 1.3em;
-  color: white;
-  animation: fadein 3s;
-  font-weight: 100;
-  transition: 1s;
-  font-size: 1em;
+  border: none;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+  width: 16%;
+  margin: auto;
   margin-top: -5%;
 }
 
@@ -560,35 +574,6 @@ td {
   align-items: center;
 }
 
-.view-btn {
-  font-family: Montserrat;
-  height: 100%;
-  width: 100%;
-  background-color: hsl(227, 10%, 10%);
-  color: lightgray;
-  cursor: pointer;
-  animation: fadein 2s;
-  transition: 1.5s;
-}
-
-.del-btn {
-  font-family: Montserrat;
-  height: 100%;
-  width: 100%;
-  background-color: hsl(227, 10%, 10%);
-  color: lightcoral;
-  cursor: pointer;
-  animation: fadein 2s;
-  transition: 1.5s;
-}
-
-.view-btn:hover,
-.del-btn:hover {
-  background-color: rgb(75, 75, 75);
-  animation: fadein 2s;
-  transition: 1.5s;
-}
-
 .comp-table-heading {
   text-align: center;
   font-size: x-large;
@@ -612,6 +597,38 @@ td {
   box-shadow: 0 0 40px rgb(0 0 0 / 70%);
 }
 
+.comp-btn-view {
+  overflow: hidden;
+  font-family: Montserrat;
+  white-space: nowrap;
+  background-color: hsl(227, 10%, 10%);
+  border-width: 1px;
+  color: lightgray;
+  padding: 12px 26px;
+  cursor: pointer;
+  animation: fadein 6s;
+  transition: 1.5s;
+  text-align: center;
+  border: none;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+}
+
+.comp-btn-del {
+  overflow: hidden;
+  font-family: Montserrat;
+  white-space: nowrap;
+  background-color: hsl(227, 10%, 10%);
+  border-width: 1px;
+  color: lightcoral;
+  padding: 12px 26px;
+  cursor: pointer;
+  animation: fadein 6s;
+  transition: 1.5s;
+  text-align: center;
+  border: none;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+}
+
 .btn-box {
   display: flex;
   align-items: center;
@@ -620,6 +637,6 @@ td {
   margin-top: 2%;
 }
 
-.check{
+.check {
   accent-color: gray;
-} 
+}

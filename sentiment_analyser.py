@@ -12,6 +12,7 @@ from collections import OrderedDict
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
+
 """Regular expression patterns to be applied to text for sanitising"""
 emotes_punctuation = re.compile("["
                                 u"\U0001F600-\U0001F64F"  # emotes

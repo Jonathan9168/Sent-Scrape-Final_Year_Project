@@ -27,21 +27,18 @@ Platforms implemented, are typical sites we may use to find opinions on a produc
 
 ## Reddit 
 
-![image](https://user-images.githubusercontent.com/77795437/201761781-26d767ea-7156-410f-ac49-ce2fa3102be2.png)
+![image](https://user-images.githubusercontent.com/77795437/231742056-92d5028d-2eb2-472e-bca9-e6a842a9b71d.png)
 
-## YouTube
-
-![image](https://user-images.githubusercontent.com/77795437/201761977-de559c19-9985-42b1-bf6b-7a7b740a8fbe.png)
 
 # Assessment
 
 On completion of analysis, the user will receive an assessment based on the collected dataset which includes an interactable graph. The user may use the legends to enable/disable plotted lines and the graph will auto rescale
 
 ## VADER Assessment
-![image](https://user-images.githubusercontent.com/77795437/198414330-42e52491-8edd-4354-ac22-0e785f3572ac.png)
+![image](https://user-images.githubusercontent.com/77795437/231743024-057585f0-bdab-45be-a253-219981c883e6.png)
 
 ## ROBERT Assessment
-![image](https://user-images.githubusercontent.com/77795437/198414000-93e466b3-2a5f-48ee-ab18-f5efbc302573.png)
+![image](https://user-images.githubusercontent.com/77795437/231742803-1ad4215a-0369-4e19-a3b0-ec6a80483cfd.png)
 
 ## Example Data Set Snapshot
 
@@ -55,9 +52,7 @@ Post search, the collected data sets are reviewable and are displayed via a full
 
 Here, user's can review an identical summary page for past searches and view their collected data sets. An option to delete a past searches is also available 
 
-![image](https://user-images.githubusercontent.com/77795437/201176643-bfbea628-81d4-4a88-86d7-d541bd67659a.png)
-
-![image](https://user-images.githubusercontent.com/77795437/201763196-fc68879b-2747-4d8d-bf12-dd1fcca261cf.png)
+![image](https://user-images.githubusercontent.com/77795437/231743230-34ff185f-224a-46c9-a43a-b117cc231209.png)
 
 # Search Comparison
 
@@ -67,9 +62,9 @@ This in turn allows for the comparison of a single product on a paticular platfo
 
 ## Example VADER Comparisons
 
-### Line
+### Scatter
 
-![image](https://user-images.githubusercontent.com/77795437/198415764-b59b1672-4b97-4c6f-ba41-73fb69ae5bbc.png)
+![image](https://user-images.githubusercontent.com/77795437/231744381-3866c4dc-1912-487d-9977-833f0e6954e1.png)
 
 ### Radar
 
@@ -77,13 +72,13 @@ This in turn allows for the comparison of a single product on a paticular platfo
 
 ## Example ROBERT Comparisons
 
-### Line
+### Scatter
 
-![image](https://user-images.githubusercontent.com/77795437/198416024-40cf9486-f89b-4c7b-b37a-6f7c99f6f211.png)
+![image](https://user-images.githubusercontent.com/77795437/231744998-5b47425c-4957-484c-93d5-7f57cc5e5f84.png)
 
 ### Radar
 
-![image](https://user-images.githubusercontent.com/77795437/198905603-df38fc7d-533c-4202-ae2a-86c146441fdb.png)
+![image](https://user-images.githubusercontent.com/77795437/231745242-f7d753ad-f8da-438a-81e6-8a026dc855bb.png)
 
 # Requirements
 - Google Chrome

@@ -3,19 +3,18 @@
   <head>
     <link rel="stylesheet" href="Style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="/countUp.umd.js" type="module"></script>
+    <script src="/countUp.umd.js" type="module"></script>
     <script src="eel.js"></script>
   </head>
 
   <body onload="get_scores()">
     <a href="compare.html" id="back">➜</a>
-    <h1 id="summary-title">SUMMARY REVIEW</h1>
     <div>
       <canvas
         id="histogram"
         width="1000"
         height="600"
-        style="margin-left: auto; margin-right: auto; margin-top: 12%"
+        style="margin-left: auto; margin-right: auto; margin-top: 1%"
       ></canvas>
     </div>
     <div id="scores">
@@ -91,6 +90,7 @@
         },
         options: {
           responsive: false,
+          devicePixelRatio: 2,
           scales: {
             x: {
               type: "linear",
@@ -136,7 +136,7 @@
               color: "white",
               font: {
                 family: "Montserrat",
-                size: 30,
+                size: 20,
               },
             },
           },
@@ -173,28 +173,13 @@
 
       final = results[3];
       search_term = await eel.get_search_term_view()();
+      verdicts = await eel.generate_verdict_vad(final, search_term)();
 
       verdict_title = document.getElementById("recommendation_title");
       verdict_text = document.getElementById("recommendation_text");
 
-      if (final >= -0.1 && final <= 0.1) {
-        verdict_title.innerHTML = `Inconclusive - [${final}]`;
-        verdict_text.innerHTML = `The compound score doesnt overly sway toward one direction, perhaps try and see how the scoring of '${search_term}' fairs on the other platforms.`;
-      } else if (final >= -0.4 && final <= -0.1) {
-        verdict_title.innerHTML = `<span style="color: #f98686">Relatively Unpopular</span> - [${final}]`;
-        verdict_text.innerHTML =
-          "The compound score reflects noticable negativity.";
-      } else if (final >= -1 && final <= -0.4) {
-        verdict_title.innerHTML = `<span style="color: red">Highly Unpopular</span> - [${final}]`;
-        verdict_text.innerHTML = `The compound score reflects a very high amount of negativity around '${search_term}'.`;
-      } else if (final >= 0.1 && final <= 0.4) {
-        verdict_title.innerHTML = `<span style="color: lightgreen">Relatively Popular</span> - [${final}]`;
-        verdict_text.innerHTML =
-          "The compound score reflects noticable positivity.";
-      } else if (final >= 0.4 && final <= 1) {
-        verdict_title.innerHTML = `<span style="color: lightgreen">Highly Popular</span> - [${final}]`;
-        verdict_text.innerHTML = `The compound score reflects an overwhelming amount of positivity around '${search_term}'.`;
-      }
+      verdict_title.innerHTML = verdicts[0];
+      verdict_text.innerHTML = verdicts[1];
     }
   </script>
 </html>

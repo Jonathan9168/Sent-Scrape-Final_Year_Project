@@ -134,6 +134,7 @@ def get_columns_view():
 
 
 def generate_report(sentiment_mode, sent_dict, platform):
+    """Calls sentiment report generator depending on methodology selected by user"""
     global platform_name
     if sentiment_mode == "vader":
         sentiment_analyser.generate_sentiment_report_vader(sent_dict, platform)
@@ -181,7 +182,7 @@ def apply_view_data_rob(search, platform, date, time):
     search_term_view = search
     view_dataframe = pd.read_csv(
         f"CSVs/rob_searches/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv", index_col=0)
-    view_title = f'"{search.upper()}" on {platform} analyzed using roBERTa'
+    view_title = f'"{search.upper()}" {platform} data analyzed using RoBERTa'
 
 
 @eel.expose
@@ -190,7 +191,7 @@ def apply_view_data_vad(search, platform, date, time):
     search_term_view = search
     view_dataframe = pd.read_csv(
         f"CSVs/vad_searches/{search},{platform},{date.replace('/', '.')},{time.replace(':', '.')}.csv", index_col=0)
-    view_title = f"'{search.upper()}' on {platform} analyzed using NLTK's Vader"
+    view_title = f'"{search.upper()}" {platform} data analyzed using VADER'
 
 
 @eel.expose
@@ -273,7 +274,8 @@ def get_vader_dicts_view():
 def get_roberta_dicts_view():
     return json.dumps(view_dataframe["neg"].value_counts().sort_index().to_dict()), \
            json.dumps(view_dataframe["neu"].value_counts().sort_index().to_dict()), \
-           json.dumps(view_dataframe["pos"].value_counts().sort_index().to_dict())
+           json.dumps(view_dataframe["pos"].
+                      value_counts().sort_index().to_dict())
 
 
 @eel.expose
@@ -291,3 +293,33 @@ def save_to_csv():
             encoding='utf-8')
     except OSError:
         eel.update_text("INVALID CHARACTER IN FILENAME")
+
+
+@eel.expose
+def generate_verdict_rob(final: float, term: str):
+    """Returns a verdict for searches analysed using RoBERTa model"""
+    if -0.1 <= final <= 0.1:
+        return f"Inconclusive - [{final}]", f"A final score of {final}, indicates that the data doesn't seem to strongly favour one direction. You might want to consider checking how the scoring of <span style='color: lightblue'>'{term.upper()}'</span> fares on other platforms."
+    elif -0.4 <= final <= -0.1:
+        return f'<span style="color: #f98686">Relatively Unpopular</span> - [{final}]', f"A score of <span style='color: #f98686'>{final}</span> reflects a noticeable amount of negativity around <span style='color: #f98686'>'{term.upper()}'</span>, see if this trend follows on other platforms and take a look at the dataset snapshot to see what's being discussed."
+    elif -1 <= final <= -0.4:
+        return f'<span style="color: #f98686">Highly Unpopular</span> - [{final}]', f"A score of <span style='color: #f98686'>{final}</span> indicates a significant amount of negativity surrounding <span style='color: #f98686'>'{term.upper()}'</span>. Is there a specific event that might have caused this?"
+    elif 0.1 <= final <= 0.4:
+        return f'<span style="color: lightgreen">Relatively Popular</span> - [{final}]', f"A score of <span style='color: lightgreen'>{final}</span> suggests notable positivity. You may want to explore if this trend persists on other platforms. Click the button below to view talking points about <span style='color: lightgreen'>'{term.upper()}'</span>."
+    elif 0.4 <= final <= 1:
+        return f'<span style="color: lightgreen">Highly Popular</span> - [{final}]', f" A score of <span style='color: lightgreen'>{final}</span> reflects an overwhelming amount of positivity around <span style='color: lightgreen'>'{term.upper()}'</span>. Can you identify any specific factors or events that might have contributed to this positive sentiment?"
+
+
+@eel.expose
+def generate_verdict_vad(final: float, term: str):
+    """Returns a verdict for searches analysed using VADER model"""
+    if -0.1 <= final <= 0.1:
+        return f"Inconclusive - [{final}]", f"A final compound score of {final}, indicates that the data doesn't seem to strongly favour one direction. You might want to consider checking how the scoring of <span style='color: lightblue'>'{term.upper()}'</span> fares on other platforms."
+    elif -0.4 <= final <= -0.1:
+        return f'<span style="color: #f98686">Relatively Unpopular</span> - [{final}]', f"A compound score of <span style='color: #f98686'>{final}</span> reflects a noticeable amount of negativity around <span style='color: #f98686'>'{term.upper()}'</span>, see if this trend follows on other platforms and take a look at the dataset snapshot to see what's being discussed."
+    elif -1 <= final <= -0.4:
+        return f'<span style="color: #f98686">Highly Unpopular</span> - [{final}]', f"A compound score of <span style='color: #f98686'>{final}</span> indicates a significant amount of negativity surrounding <span style='color: #f98686'>'{term.upper()}'</span>. Is there a specific event that might have caused this?"
+    elif 0.1 <= final <= 0.4:
+        return f'<span style="color: lightgreen">Relatively Popular</span> - [{final}]', f"A compound score of <span style='color: lightgreen'>{final}</span> suggests notable positivity. You may want to explore if this trend persists on other platforms. Click the button below to view talking points about <span style='color: lightgreen'>'{term.upper()}'</span>."
+    elif 0.4 <= final <= 1:
+        return f'<span style="color: lightgreen">Highly Popular</span> - [{final}]', f"A compound score of <span style='color: lightgreen'>{final}</span> reflects an overwhelming amount of positivity around <span style='color: lightgreen'>'{term.upper()}'</span>. Can you identify any specific factors or events that might have contributed to this positive sentiment?"

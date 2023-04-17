@@ -147,7 +147,7 @@ def generate_sentiment_report_vader(sent_dict, platform_name):
     config.current_dataframe = df
 
     draw_df(df)
-    config.data_title = f"'{config.search_term.upper()}' on {platform_name} analyzed using NLTK's Vader"
+    config.data_title = f'"{config.search_term.upper()}" {platform_name} data analyzed using VADER'
 
 
 def generate_sentiment_report_roberta(sent_dict, platform_name):
@@ -159,7 +159,7 @@ def generate_sentiment_report_roberta(sent_dict, platform_name):
     config.current_dataframe = df
 
     draw_df(df)
-    config.data_title = f'"{config.search_term.upper()}" on {platform_name} analyzed using roBERTa'
+    config.data_title = f'"{config.search_term.upper()}" {platform_name} data analyzed using RoBERTa'
 
 
 def draw_df(df):

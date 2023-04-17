@@ -35,10 +35,10 @@ Platforms implemented, are typical sites we may use to find opinions on a produc
 On completion of analysis, the user will receive an assessment based on the collected dataset which includes an interactable graph. The user may use the legends to enable/disable plotted lines and the graph will auto rescale
 
 ## VADER Assessment
-![image](https://user-images.githubusercontent.com/77795437/231743024-057585f0-bdab-45be-a253-219981c883e6.png)
+![image](https://user-images.githubusercontent.com/77795437/232574473-efbc2fd5-5d4d-46c7-a67c-dccf9d46b213.png)
 
-## ROBERT Assessment
-![image](https://user-images.githubusercontent.com/77795437/231742803-1ad4215a-0369-4e19-a3b0-ec6a80483cfd.png)
+## RoBERTa Assessment
+![image](https://user-images.githubusercontent.com/77795437/232574144-9a71df9f-6f0e-4c89-89d4-994b87633b58.png)
 
 ## Example Data Set Snapshot
 
@@ -52,7 +52,7 @@ Post search, the collected data sets are reviewable and are displayed via a full
 
 Here, user's can review an identical summary page for past searches and view their collected data sets. An option to delete a past searches is also available 
 
-![image](https://user-images.githubusercontent.com/77795437/231743230-34ff185f-224a-46c9-a43a-b117cc231209.png)
+![image](https://user-images.githubusercontent.com/77795437/232573947-f960a17f-42e7-4fd3-ada7-7141ab4854c9.png)
 
 # Search Comparison
 

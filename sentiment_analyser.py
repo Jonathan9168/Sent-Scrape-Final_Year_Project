@@ -12,7 +12,6 @@ from collections import OrderedDict
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-
 """Regular expression patterns to be applied to text for sanitising"""
 emotes_punctuation = re.compile("["
                                 u"\U0001F600-\U0001F64F"  # emotes
@@ -49,17 +48,16 @@ emotes_punctuation = re.compile("["
 
 def pre_process(comment: str) -> str:
     """Text pre-processing for other platforms"""
-    comment = comment.lower()
+    comment = comment.lower()  # Change to lowercase
     comment = re.sub('https?://\S+|www\.\S+', ' ', comment)  # Remove links
     comment = re.sub('@[a-zA-Z0-9]+', ' ', comment)  # Remove @username
     comment = re.sub('#[a-zA-Z0-9]+', ' ', comment)  # Remove hashtag
     comment = comment.translate(str.maketrans('', '', string.punctuation))  # Remove Punctuation
-    comment = re.sub('\n +', ' ', comment)  # Remove new lines
-    comment = comment.replace("\n", " ")
-    comment = re.sub("\s +", "", comment)
-    comment = emotes_punctuation.sub('', comment)
-    comment = re.sub(' \s+', ' ', comment)
-    comment.strip()
+    comment = re.sub('\n +', ' ', comment)  # Remove new lines followed by spaces
+    comment = comment.replace("\n", " ")  # Replace new line with single space
+    comment = re.sub(" +", " ", comment)  # Replace more than one white space with a single white space
+    comment = emotes_punctuation.sub(' ', comment)  # Remove emojis and replace with space
+    comment = comment.strip()  # Remove leading and trailing space
     # stop_words = set(stopwords.words('english'))
     # tokenized = word_tokenize(comment)
     # comment = ' '.join(w for w in tokenized if w not in stop_words)

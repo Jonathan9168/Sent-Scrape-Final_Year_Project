@@ -5,8 +5,6 @@ import config
 import reddit_config
 import sentiment_analyser
 
-st = time.perf_counter()
-
 
 def get_comments(reddit):
     """Get comments from subreddits using PRAW"""
@@ -46,6 +44,7 @@ def handle_options(sanitised_comment):
 
 @eel.expose
 def run_reddit():
+    st = time.perf_counter()
     eel.update_text("INITIALISING PRAW")
     reddit = praw.Reddit(client_id="VNk6MDOOEJ1gn5S0qj1jcg", client_secret="_OGmDMGYoEnkBnV8EbjmcO_3QbmvXA",
                          user_agent="redditScrape")

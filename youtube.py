@@ -13,8 +13,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 """browser = threadBrowser = driver"""
 
-st = time.perf_counter()
-
 
 def accept_cookies(driver):
     """Clicking Accept cookies box on YouTube Page"""
@@ -149,6 +147,7 @@ def scrape_comments(link):
 @eel.expose
 def run_youtube():
     """Method that begins scraping process"""
+    st = time.perf_counter()
     global video_links, roberta
 
     roberta = []
@@ -176,11 +175,12 @@ def run_youtube():
     browser.quit()
     generate_threads()
 
+    print(f'Time Taken In Seconds: {str(round(time.perf_counter() - st, 2))}\n')
+
     if youtube_config.sentiment_mode == "roberta":
         sentiment_analyser.roberta_analyze_sentiment(roberta, config.sanitised_youtube)
 
     print(f'\nScraped {str(len(config.sanitised_youtube))}/{str(total_comments)} comments')
-    print(f'Time Taken In Seconds: {str(round(time.perf_counter() - st, 2))}\n')
 
     config.generate_report(youtube_config.sentiment_mode, config.sanitised_youtube, "Youtube")
 

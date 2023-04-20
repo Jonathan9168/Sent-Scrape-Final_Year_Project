@@ -12,7 +12,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-st = time.perf_counter()
 roberta = []
 query = f'{config.search_term} "{config.search_term}" until:2022-12-12 since:2016-01-01 lang:en -filter:links -filter:retweets'
 
@@ -98,6 +97,7 @@ def scroll(scrolls, driver):
 
 @eel.expose
 def run_twitter():
+    st = time.perf_counter()
     global query, roberta
     roberta = []
     eel.update_text("GENERATING DRIVER")
@@ -112,9 +112,9 @@ def run_twitter():
     query = f'{config.search_term} "{config.search_term}" until:2022-12-12 since:2016-01-01 lang:en -filter:links -filter:retweets'
     scroll(twitter_config.comment_depth, browser)
     browser.quit()
+    print(f'\nTime Taken In Seconds: {str(round(time.perf_counter() - st, 2))}\n')
 
     if twitter_config.sentiment_mode == "roberta":
         sentiment_analyser.roberta_analyze_sentiment(roberta, config.sanitised_twitter)
 
-    print(f'\nTime Taken In Seconds: {str(round(time.perf_counter() - st, 2))}\n')
     config.generate_report(twitter_config.sentiment_mode, config.sanitised_twitter, "Twitter")

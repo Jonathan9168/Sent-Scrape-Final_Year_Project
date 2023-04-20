@@ -137,7 +137,8 @@ def review_number_failsafe(review_numbers, product_links):
         driver = generate_driver()
         try:
             driver.get(link)
-            review_numbers.append(driver.find_element(By.ID, "acrCustomerReviewText").text.split(" ")[0].replace(",", ""))
+            review_numbers.append(
+                driver.find_element(By.ID, "acrCustomerReviewText").text.split(" ")[0].replace(",", ""))
             driver.quit()
         except (selenium.common.exceptions.InvalidArgumentException, selenium.common.exceptions.NoSuchElementException):
             eel.update_text("INVALID ITEM. PRESS F5 TO RETURN")
@@ -262,6 +263,7 @@ def scroll_bottom(driver):
 @eel.expose
 def run_amazon():
     """Method that begins scraping process"""
+    st = time.perf_counter()
     eel.update_text("GENERATING DRIVER")
     browser = generate_driver()
     browser.get("https://www.amazon.co.uk/")
@@ -278,6 +280,7 @@ def run_amazon():
         scrape_reviews(list(link_list.values())[0])  # Passes link of listing with most reviews for scraping
     except IndexError:
         eel.update_text("INVALID ITEM. PRESS F5 TO RETURN")
+    print(f'Time Taken In Seconds: {str(round(time.perf_counter() - st, 2))}\n')
 
     if amazon_config.sentiment_mode == "roberta":
         sentiment_analyser.roberta_analyze_sentiment(roberta, config.sanitised_amazon)

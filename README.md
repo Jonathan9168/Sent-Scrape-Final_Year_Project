@@ -52,7 +52,7 @@ Post search, the collected data sets are reviewable and are displayed via a full
 
 Here, user's can review an identical summary page for past searches and view their collected data sets. An option to delete a past searches is also available 
 
-![image](https://user-images.githubusercontent.com/77795437/232573947-f960a17f-42e7-4fd3-ada7-7141ab4854c9.png)
+![image](https://user-images.githubusercontent.com/77795437/233667794-9d471080-dad3-4880-8479-d25f776f1324.png)
 
 # Search Comparison
 

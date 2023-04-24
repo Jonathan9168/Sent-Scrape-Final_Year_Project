@@ -39,7 +39,9 @@ Platforms implemented, are popular sites we may use to find opinions on differen
 
 # Assessment
 ```
-On completion of analysis, the user will receive an assessment based on the collected dataset which includes an interactable graph. The user may use the legends to enable/disable plotted lines and the graph will auto rescale.
+On completion of analysis, the user will receive an assessment based on the collected dataset which includes an interactable graph. 
+
+The user may use the legends to enable/disable plotted lines and the graph will auto rescale.
 ```
 ## VADER Assessment
 ![image](https://user-images.githubusercontent.com/77795437/232574473-efbc2fd5-5d4d-46c7-a67c-dccf9d46b213.png)

@@ -3,7 +3,9 @@
 # Sent Scrape
 ```
 A tool made for primarily quantifying opinions on topics and products to provide insights.  
+
 Two Sentiment Analysis approaches are used (Lexicon-Based[VADER] And Pretrained Model[RoBERTa])  
+
 There are currently 4 platforms available each with their own tweakable parameters, data Is gathered using Webscraping and APIs  
 ```
 
@@ -62,7 +64,7 @@ Here, user's can review an identical summary page for past searches and view the
 # Search Comparison
 ```
 A user can compare the scoring of their searches by using available checkboxes for searches analysed using the same Sentiment Analysis methodology.  
-```
+
 This in turn allows for the comparison of a single search on a paticular platform overtime; cross platform comparisons of the same or different search term; or even a way to just individually see scoring for a search on seperate graphs.
 ```
 ## Example VADER Comparisons

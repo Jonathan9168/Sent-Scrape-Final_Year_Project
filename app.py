@@ -2,7 +2,7 @@ import eel
 
 eel.init('web')
 
-import twitter  # noqa
+import nitter  # noqa
 import reddit  # noqa
 import youtube  # noqa
 import amazon  # noqa

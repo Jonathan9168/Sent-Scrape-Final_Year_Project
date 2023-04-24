@@ -44,6 +44,7 @@ def handle_options(sanitised_comment):
 
 @eel.expose
 def run_reddit():
+    """Method that begins scraping process"""
     st = time.perf_counter()
     eel.update_text("INITIALISING PRAW")
     reddit = praw.Reddit(client_id="VNk6MDOOEJ1gn5S0qj1jcg", client_secret="_OGmDMGYoEnkBnV8EbjmcO_3QbmvXA",

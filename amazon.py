@@ -264,15 +264,22 @@ def scroll_bottom(driver):
 def run_amazon():
     """Method that begins scraping process"""
     st = time.perf_counter()
+
     eel.update_text("GENERATING DRIVER")
     browser = generate_driver()
+
     browser.get("https://www.amazon.co.uk/")
+
     eel.update_text("ACCEPTING COOKIES")
     accept_cookies(browser)
+
     eel.update_text(f"SEARCHING FOR '{config.search_term}' LISTINGS")
     search_item(browser)
+
+    # List of links product links in descending order of number of ratings
     link_list = get_product_info(browser)
     browser.quit()
+
     eel.update_text("SCRAPING REVIEWS")
 
     try:

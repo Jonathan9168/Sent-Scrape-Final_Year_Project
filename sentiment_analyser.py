@@ -167,3 +167,39 @@ def draw_df(df):
         print("\n")
         print(df)
         print(df.shape)
+
+
+@eel.expose
+def top_word_pairs():
+
+    """Returns top 15 word pairs in the data set"""
+    from nltk.tokenize import word_tokenize
+    from nltk.corpus import stopwords
+    from collections import Counter
+
+    # Load the search results into a pandas dataframe
+    df = config.view_dataframe
+
+    # Get the list of comments
+    comments = df.index.tolist()
+
+    # Tokenize the text of each comment
+    tokens = [word_tokenize(str(comment).lower()) for comment in comments]
+
+    # Remove stop words from the tokens
+    stop_words = set(stopwords.words('english'))
+    filtered_tokens = [[token for token in comment_tokens if token not in stop_words] for comment_tokens in tokens]
+
+    # Get consecutive word pairs
+    word_pairs = []
+    for comment_tokens in filtered_tokens:
+        for i in range(len(comment_tokens) - 1):
+            word_pair = (comment_tokens[i], comment_tokens[i + 1])
+            word_pairs.append(word_pair)
+
+    # Count the frequency of each word pair
+    keyword_counts = Counter(word_pairs)
+
+    sorted_keywords = sorted(keyword_counts.items(), key=lambda x: x[1], reverse=True)
+
+    return sorted_keywords[:15]

@@ -167,6 +167,7 @@ a {
 .btn-group button:hover,
 .comp-btn:hover,
 .comp-btn-del:hover,
+.comp-btn-pair:hover,
 .comp-btn-view:hover,
 .run:hover {
   background-color: rgb(36, 36, 36);
@@ -494,7 +495,7 @@ input::-webkit-inner-spin-button {
 #wrapper {
   overflow-y: scroll;
   height: 80%;
-  width: 80%;
+  width: 91%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5%;
@@ -613,6 +614,22 @@ td {
   box-shadow: 0 0 40px rgb(0 0 0 / 70%);
 }
 
+.comp-btn-pair {
+  overflow: hidden;
+  font-family: Montserrat;
+  white-space: nowrap;
+  background-color: hsl(227, 10%, 10%);
+  border-width: 1px;
+  color: #a876db;
+  padding: 12px 26px;
+  cursor: pointer;
+  animation: fadein 6s;
+  transition: 1.5s;
+  text-align: center;
+  border: none;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+}
+
 .comp-btn-del {
   overflow: hidden;
   font-family: Montserrat;
@@ -639,4 +656,15 @@ td {
 
 .check {
   accent-color: gray;
+}
+
+#wrapper-pair {
+  overflow-y: scroll;
+  height: 80%;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1%;
+  box-shadow: 0 0 40px rgb(0 0 0 / 70%);
+  animation: fadein 3s;
 }

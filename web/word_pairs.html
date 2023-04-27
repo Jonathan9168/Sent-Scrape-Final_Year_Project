@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html style="overflow: hidden !important" translate="no">
+  <head>
+    <script src="eel.js"></script>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+
+  <body onload="get_data()">
+    <div class="btn-group" style="margin-left: 7%">
+      <button onclick="location.href = 'compare.html';">
+        Search History And Comparisons
+      </button>
+    </div>
+    <a onclick="history.back()" id="back">➜</a>
+    <div id="wrapper-pair">
+      <table id="data-table" class="sortable">
+        <thead>
+          <tr id="table-header-row">
+            <th style="width: 50%">Word Pair</th>
+            <th style="color: #f98686; width: 50%">Frequency</th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+    </div>
+  </body>
+
+  <script>
+    async function get_data() {
+      data = await eel.top_word_pairs()();
+      console.log(data);
+      table_body = document.getElementById("data-body");
+
+      for (let i = 0; i < data.length; i++) {
+        row = document.createElement("tr");
+        pair = document.createElement("td");
+        frequency = document.createElement("td");
+        pair.innerHTML = `${data[i][0][0]} ${data[i][0][1]}`;
+        frequency.innerHTML = `${data[i][1]}`;
+        table_body.appendChild(row);
+        row.appendChild(pair);
+        row.appendChild(frequency);
+      }
+    }
+  </script>
+</html>

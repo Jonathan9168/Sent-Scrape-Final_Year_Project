@@ -18,6 +18,7 @@
             <th class="sorttable_ddmm">Date</th>
             <th class="sorttable_nosort">Time</th>
             <th class="sorttable_nosort">View Report</th>
+            <th class="sorttable_nosort">Word Pairs</th>
             <th class="sorttable_nosort">Delete Search</th>
             <th class="sorttable_nosort">Compare</th>
           </tr>
@@ -45,6 +46,7 @@
             <th class="sorttable_ddmm">Date</th>
             <th class="sorttable_nosort">Time</th>
             <th class="sorttable_nosort">View Report</th>
+            <th class="sorttable_nosort">Word Pairs</th>
             <th class="sorttable_nosort">Delete Search</th>
             <th class="sorttable_nosort">Compare</th>
           </tr>
@@ -74,18 +76,20 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length + 3; i++) {
+        for (let i = 0; i < file.length + 4; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
           } else if (i == 2) {
             info.innerHTML = `${file[i].replaceAll(".", "/")}`;
-          } else if (i == 6) {
+          } else if (i == 7) {
             info.innerHTML = `<input class="check" type="checkbox">`;
-          } else if (i == 5) {
+          } else if (i == 6) {
             info.innerHTML = `<button class = "comp-btn-del" onclick="delete_row_rob(this)">DELETE</button>`;
+          } else if (i == 5) {
+            info.innerHTML = `<button class = "comp-btn-pair" onclick="get_row_rob(this,2)">W₁,W₂</button>`;
           } else if (i == 4) {
-            info.innerHTML = `<button class = "comp-btn-view" onclick="get_row_rob(this)">VIEW</button>`;
+            info.innerHTML = `<button class = "comp-btn-view" onclick="get_row_rob(this,1)">VIEW</button>`;
           } else if (i == 1) {
             if (file[i] == "Youtube") {
               info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
@@ -113,7 +117,7 @@
       console.log("------------------");
       count = 0;
       for (const x of rows) {
-        if (x.cells[6].getElementsByTagName("input")[0].checked) {
+        if (x.cells[7].getElementsByTagName("input")[0].checked) {
           count++;
           datasets_to_fetch.push([
             x.cells[0].innerHTML,
@@ -138,7 +142,7 @@
       }
     }
 
-    async function get_row_rob(x) {
+    async function get_row_rob(x, identifier) {
       index = x.parentNode.parentNode.rowIndex;
       console.log(index);
       table = document.querySelectorAll('table[ind="1"]')[0];
@@ -150,7 +154,11 @@
         row.cells[2].innerHTML,
         row.cells[3].innerHTML
       )();
-      window.location.href = "roberta_summary_view.html";
+      if (identifier == 1) {
+        window.location.href = "roberta_summary_view.html";
+      } else if (identifier == 2) {
+        window.location.href = "word_pairs.html";
+      }
     }
 
     async function delete_row_rob(x) {
@@ -178,18 +186,20 @@
         row = document.createElement("tr");
         table_body.appendChild(row);
 
-        for (let i = 0; i < file.length + 3; i++) {
+        for (let i = 0; i < file.length + 4; i++) {
           info = document.createElement("td");
           if (i == 3) {
             info.innerHTML = `${file[i].slice(0, -4).replaceAll(".", ":")}`;
           } else if (i == 2) {
             info.innerHTML = `${file[i].replaceAll(".", "/")}`;
-          } else if (i == 6) {
+          } else if (i == 7) {
             info.innerHTML = `<input class="check" type="checkbox">`;
-          } else if (i == 5) {
+          } else if (i == 6) {
             info.innerHTML = `<button class = "comp-btn-del" onclick="delete_row_vad(this)">DELETE</button>`;
+          } else if (i == 5) {
+            info.innerHTML = `<button class = "comp-btn-pair" onclick="get_row_vad(this,2)">W₁,W₂</button>`;
           } else if (i == 4) {
-            info.innerHTML = `<button class = "comp-btn-view" onclick="get_row_vad(this)">VIEW</button>`;
+            info.innerHTML = `<button class = "comp-btn-view" onclick="get_row_vad(this,1)">VIEW</button>`;
           } else if (i == 1) {
             if (file[i] == "Youtube") {
               info.innerHTML = `<div class="s-logo-box"><img class="s-yt-logo" src="youtube.png" alt="" />${file[i]}</div>`;
@@ -216,7 +226,7 @@
       console.log("------------------");
       count = 0;
       for (const x of rows) {
-        if (x.cells[6].getElementsByTagName("input")[0].checked) {
+        if (x.cells[7].getElementsByTagName("input")[0].checked) {
           count++;
           datasets_to_fetch.push([
             x.cells[0].innerHTML,
@@ -246,7 +256,7 @@
       }
     }
 
-    async function get_row_vad(x) {
+    async function get_row_vad(x, identifier) {
       index = x.parentNode.parentNode.rowIndex;
       console.log(index);
       table = document.querySelectorAll('table[ind="2"]')[0];
@@ -264,7 +274,11 @@
         row.cells[2].innerHTML,
         row.cells[3].innerHTML
       )();
-      window.location.href = "vader_summary_view.html";
+      if (identifier == 1) {
+        window.location.href = "vader_summary_view.html";
+      } else if (identifier == 2) {
+        window.location.href = "word_pairs.html";
+      }
     }
 
     async function delete_row_vad(x) {

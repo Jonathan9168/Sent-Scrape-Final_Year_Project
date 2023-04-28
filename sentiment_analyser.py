@@ -184,7 +184,7 @@ def top_word_pairs():
     comments = df.index.tolist()
 
     # Tokenize the text of each comment
-    tokens = [word_tokenize(str(comment).lower()) for comment in comments]
+    tokens = [word_tokenize(str(comment).lower().strip()) for comment in comments]
 
     # Remove stop words from the tokens
     stop_words = set(stopwords.words('english'))

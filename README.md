@@ -49,7 +49,7 @@ The user may use the legends to enable/disable plotted lines and the graph will 
 ## RoBERTa Assessment
 ![image](https://user-images.githubusercontent.com/77795437/232574144-9a71df9f-6f0e-4c89-89d4-994b87633b58.png)
 
-## Example Data Set Snapshot
+## Example Data Set Snapshots
 ```
 After a search, the collected data sets are reviewable and are displayed via a fully ineractable table which allows sorting of comment scores based on column.
 ```
@@ -59,9 +59,11 @@ After a search, the collected data sets are reviewable and are displayed via a f
 
 # Search History 
 ```
-Here, user's can review an identical summary page for past searches and view their collected data sets. An option to delete a past searches is also available.
+Here, user's can view summary pages and datasets for past searches, view frequent word pairs, delete searches and compare searches.
+Additionaly the user can import searches into the localc directory and edit them.
 ```
-![image](https://user-images.githubusercontent.com/77795437/233667794-9d471080-dad3-4880-8479-d25f776f1324.png)
+![image](https://user-images.githubusercontent.com/77795437/235301306-ca15f75d-fd17-486b-8b52-9fc914ba998f.png)
+
 
 # Search Comparison
 ```
@@ -88,6 +90,14 @@ This in turn allows for the comparison of a single search on a paticular platfor
 ### Radar
 
 ![image](https://user-images.githubusercontent.com/77795437/231745242-f7d753ad-f8da-438a-81e6-8a026dc855bb.png)
+
+# Consecutive word pairs
+```
+This allows the user to view the top 15 frequent word pairs to gain a quick insight into the dataset.
+```
+
+![image](https://user-images.githubusercontent.com/77795437/235301413-3337adde-a70f-495d-a368-63d9a972acc2.png)
+
 
 # Requirements
 ```

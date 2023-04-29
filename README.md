@@ -36,7 +36,6 @@ Platforms implemented, are popular sites we may use to find opinions on differen
 
 ![image](https://user-images.githubusercontent.com/77795437/231742056-92d5028d-2eb2-472e-bca9-e6a842a9b71d.png)
 
-
 # Assessment
 ```
 On completion of analysis, the user will receive an assessment based on the collected dataset which includes an interactable graph. 
@@ -63,7 +62,6 @@ Here, user's can view summary pages and datasets for past searches, view frequen
 Additionaly the user can import searches into the localc directory and edit them.
 ```
 ![image](https://user-images.githubusercontent.com/77795437/235301306-ca15f75d-fd17-486b-8b52-9fc914ba998f.png)
-
 
 # Search Comparison
 ```
@@ -97,7 +95,6 @@ This allows the user to view the top 15 frequent word pairs to gain a quick insi
 ```
 
 ![image](https://user-images.githubusercontent.com/77795437/235301413-3337adde-a70f-495d-a368-63d9a972acc2.png)
-
 
 # Requirements
 ```

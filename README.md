@@ -94,7 +94,7 @@ This in turn allows for the comparison of a single search on a paticular platfor
 This allows the user to view the top 15 frequent word pairs to gain a quick insight into the dataset.
 ```
 
-![image](https://user-images.githubusercontent.com/77795437/235301413-3337adde-a70f-495d-a368-63d9a972acc2.png)
+![image](https://user-images.githubusercontent.com/77795437/235326595-3489fb10-9148-455c-a0ff-e02abc57576f.png)
 
 # Requirements
 ```

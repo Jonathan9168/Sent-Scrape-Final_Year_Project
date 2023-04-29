@@ -46,6 +46,7 @@ def generate_driver():
     chromeOption.add_argument("--log-level=3")
     chromeOption.add_argument("--silent")
     chromeOption.add_argument("--disable-blink-features=AutomationControlled")
+    chromeOption.add_argument("--user-agent")
     driver = webdriver.Chrome(options=chromeOption)
     return driver
 
@@ -133,7 +134,7 @@ def scrape_comments(link):
     New Chrome instance per thread --> Get relevant URL --> Concurrently scrape comments"""
     thread_browser = generate_driver()
     thread_browser.get(link)
-    time.sleep(1)
+    time.sleep(2)
     accept_cookies(thread_browser)
 
     scroll(youtube_config.comment_depth, thread_browser, link)

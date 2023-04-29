@@ -118,7 +118,3 @@ def run_twitter():
         sentiment_analyser.roberta_analyze_sentiment(roberta, config.sanitised_twitter)
 
     config.generate_report(twitter_config.sentiment_mode, config.sanitised_twitter, "Twitter")
-
-
-
-

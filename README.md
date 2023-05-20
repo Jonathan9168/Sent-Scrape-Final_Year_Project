@@ -92,7 +92,7 @@ This in turn allows for the comparison of a single search on a paticular platfor
 # Comparisons In Action 
 
 <p align="center">
-    <img src="https://github.com/Jonathan9168/Final-Year-Project/assets/77795437/bc2f5365-5802-4f29-9a6b-8de8cb40c232" width="100%">
+    <img src="https://user-images.githubusercontent.com/77795437/239709588-edda8efd-1535-4988-a9fd-771e77440924.gif" width="100%">
 </p>
 
 # Consecutive word pairs

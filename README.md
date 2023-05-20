@@ -89,6 +89,12 @@ This in turn allows for the comparison of a single search on a paticular platfor
 
 ![image](https://user-images.githubusercontent.com/77795437/231745242-f7d753ad-f8da-438a-81e6-8a026dc855bb.png)
 
+# Comparisons In Action 
+<p align="center">
+    <img src="Animation.gif", width="1940">
+</p>
+
+
 # Consecutive word pairs
 ```
 This allows the user to view the top 15 frequent word pairs to gain a quick insight into the dataset.

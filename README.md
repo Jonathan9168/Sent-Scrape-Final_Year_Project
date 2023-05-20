@@ -34,9 +34,7 @@ Platforms implemented, are popular sites we may use to find opinions on differen
 
 ## Reddit 
 
-<p align="center">
-    <img src="Form.gif", width="1940">
-</p>
+![Form](https://github.com/Jonathan9168/Final-Year-Project/assets/77795437/c51a81d1-0d2e-4a9c-9e1e-8a2bd6b1e36f)
 
 # Assessment
 ```
@@ -92,16 +90,15 @@ This in turn allows for the comparison of a single search on a paticular platfor
 ![image](https://user-images.githubusercontent.com/77795437/231745242-f7d753ad-f8da-438a-81e6-8a026dc855bb.png)
 
 # Comparisons In Action 
-<p align="center">
-    <img src="Animation.gif", width="1940">
-</p>
 
+<p align="center">
+    <img src="https://github.com/Jonathan9168/Final-Year-Project/assets/77795437/bc2f5365-5802-4f29-9a6b-8de8cb40c232" width="100%">
+</p>
 
 # Consecutive word pairs
 ```
 This allows the user to view the top 15 frequent word pairs to gain a quick insight into the dataset.
 ```
-
 ![image](https://user-images.githubusercontent.com/77795437/235326595-3489fb10-9148-455c-a0ff-e02abc57576f.png)
 
 # Requirements

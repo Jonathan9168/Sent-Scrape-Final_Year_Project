@@ -30,11 +30,13 @@ Platforms implemented, are popular sites we may use to find opinions on differen
 
 ![image](https://user-images.githubusercontent.com/77795437/201179855-24270606-0b0b-4776-ab38-edb85d51061c.png)
 
-# Form examples
+# Form example
 
 ## Reddit 
 
-![image](https://user-images.githubusercontent.com/77795437/231742056-92d5028d-2eb2-472e-bca9-e6a842a9b71d.png)
+<p align="center">
+    <img src="Form.gif", width="1940">
+</p>
 
 # Assessment
 ```
